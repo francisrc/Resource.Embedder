@@ -23,7 +23,8 @@ namespace WpfTest.ViewModels
 			// first argument is always exe name itself
 			if (args.Length > 1)
 			{
-				// any secondary argument is used for localization
+				// argument switched used by unit test EmbeddFilesTests.cs\TestEmbeddMultipleLocalizationsIntoWpfExe()
+				// any other secondary argument is used for localization
 				SwitchLocale(args[1]);
 			}
 		}

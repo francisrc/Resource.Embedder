@@ -1,6 +1,7 @@
 ﻿using System.Windows;
+using WpfTest.ViewModels;
 
-namespace WpfTest
+namespace WpfTest.Views
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -12,6 +13,7 @@ namespace WpfTest
 		public MainWindow()
 		{
 			InitializeComponent();
+			DataContext = new MainWindowViewModel();
 		}
 
 		#endregion Constructors

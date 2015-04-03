@@ -67,6 +67,7 @@
     <Compile Include="..\..\AssemblyInfo\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
+    <Compile Include="AssemblyHelper.cs" />
     <Compile Include="EmbeddFilesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,6 +82,10 @@
     <ProjectReference Include="..\..\TestHelper\TestHelper\TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
       <Name>TestHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WpfTest\WpfTest\WpfTest.csproj">
+      <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
+      <Name>WpfTest</Name>
     </ProjectReference>
     <ProjectReference Include="..\ResourceEmbedder\ResourceEmbedder.csproj">
       <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>

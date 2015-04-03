@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="ExpressionExtensions.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="ResourceLoader.cs" />
     <Compile Include="Resources\Translations.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
