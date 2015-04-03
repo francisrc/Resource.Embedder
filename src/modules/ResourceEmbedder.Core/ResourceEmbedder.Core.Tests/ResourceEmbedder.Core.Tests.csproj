@@ -78,7 +78,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
-      <Name>TestHelper</Name>
+      <Name>Modules.TestHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WpfTest\WpfTest\WpfTest.csproj">
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
@@ -86,7 +86,7 @@
     </ProjectReference>
     <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
       <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
-      <Name>ResourceEmbedder</Name>
+      <Name>ResourceEmbedder.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

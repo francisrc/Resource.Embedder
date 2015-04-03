@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.Build.Framework;
+﻿using Microsoft.Build.Framework;
+using System;
+using ILogger = ResourceEmbedder.Core.ILogger;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.MsBuild
 {
 	public class MSBuildBasedLogger : ILogger
 	{

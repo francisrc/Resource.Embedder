@@ -1,4 +1,6 @@
-﻿namespace ResourceEmbedder.Core
+﻿using ResourceEmbedder.Core;
+
+namespace ResourceEmbedder.MsBuild
 {
 	/// <summary>
 	/// Task to embed files into an existing .Net assembly.
