@@ -20,10 +20,11 @@
 		/// Call to embedd the provided set of resources into the specific assembly.
 		/// Uses the <see cref="Logger"/> to issue log messages.
 		/// </summary>
-		/// <param name="targetAssembly">The assembly where the resources should be embedded in.</param>
+		/// <param name="inputAssembly">The assembly where the resources should be embedded in.</param>
+		/// <param name="outputAssembly">The output path where the result should be stored. May be equal to <see cref="inputAssembly"/>.</param>
 		/// <param name="resourcesToEmbedd"></param>
 		/// <returns></returns>
-		bool EmbedResources(string targetAssembly, ResourceInfo[] resourcesToEmbedd);
+		bool EmbedResources(string inputAssembly, string outputAssembly, ResourceInfo[] resourcesToEmbedd);
 
 		#endregion Methods
 	}

@@ -17,8 +17,9 @@ namespace ResourceEmbedder.MsBuild
 
 			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
 			const string inputAssembly = @"TODO: load somehow";
+			const string outputAssembly = @"TODO: load somehow";
 			var assembliesToEmbedd = new ResourceInfo[0];
-			return embedder.EmbedResources(inputAssembly, assembliesToEmbedd);
+			return embedder.EmbedResources(inputAssembly, outputAssembly, assembliesToEmbedd);
 		}
 
 		#endregion Methods

@@ -1,10 +1,10 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Reflection;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Modules.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 namespace ResourceEmbedder.Core.Tests
 {
