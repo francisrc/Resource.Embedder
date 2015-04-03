@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace ResourceEmbedder.Tests
+namespace ResourceEmbedder.Core.Tests
 {
 	public class AssemblyHelper : IDisposable
 	{

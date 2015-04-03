@@ -1,8 +1,8 @@
-﻿using Mono.Cecil;
-using System;
+﻿using System;
 using System.IO;
+using Mono.Cecil;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedder.Core
 {
 	/// <summary>
 	/// Implementation that uses Cecil to embedd resources into .Net assemblies.

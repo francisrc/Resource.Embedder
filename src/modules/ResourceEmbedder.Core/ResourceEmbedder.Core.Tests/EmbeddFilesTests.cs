@@ -1,12 +1,12 @@
-﻿using FluentAssertions;
-using NSubstitute;
-using NUnit.Framework;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using TestHelper;
+using FluentAssertions;
+using Modules.TestHelper;
+using NSubstitute;
+using NUnit.Framework;
 
-namespace ResourceEmbedder.Tests
+namespace ResourceEmbedder.Core.Tests
 {
 	[TestFixture]
 	public class EmbeddFilesTests

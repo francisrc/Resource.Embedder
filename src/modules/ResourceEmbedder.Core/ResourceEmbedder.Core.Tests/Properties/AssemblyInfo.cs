@@ -20,10 +20,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ResourceEmbedder.Tests")]
+[assembly: AssemblyTitle("ResourceEmbedder.Core.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ResourceEmbedder.Tests")]
+[assembly: AssemblyProduct("ResourceEmbedder.Core.Tests")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

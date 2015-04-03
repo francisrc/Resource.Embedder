@@ -1,4 +1,4 @@
-﻿namespace ResourceEmbedder
+﻿namespace ResourceEmbedder.Core
 {
 	public interface ILogger
 	{

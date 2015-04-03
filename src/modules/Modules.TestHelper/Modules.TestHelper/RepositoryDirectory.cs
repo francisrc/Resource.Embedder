@@ -1,4 +1,4 @@
-﻿namespace TestHelper
+﻿namespace Modules.TestHelper
 {
 	#region Enumerations
 

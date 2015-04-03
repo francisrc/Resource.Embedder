@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedder.Core
 {
 	public static class AssemblyExtensions
 	{

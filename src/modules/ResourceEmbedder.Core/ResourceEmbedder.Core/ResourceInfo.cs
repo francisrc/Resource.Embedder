@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedder.Core
 {
 	/// <summary>
 	/// Holds information regarding a resource to be embedded.

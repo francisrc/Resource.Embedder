@@ -1,4 +1,4 @@
-﻿namespace ResourceEmbedder
+﻿namespace ResourceEmbedder.Core
 {
 	/// <summary>
 	/// Interface for a resource embedder.

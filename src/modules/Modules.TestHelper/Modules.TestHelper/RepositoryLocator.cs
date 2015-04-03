@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace TestHelper
+namespace Modules.TestHelper
 {
 	public class RepositoryLocator
 	{

@@ -6,8 +6,8 @@
     <ProjectGuid>{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResourceEmbedder.Tests</RootNamespace>
-    <AssemblyName>ResourceEmbedder.Tests</AssemblyName>
+    <RootNamespace>ResourceEmbedder.Core.Tests</RootNamespace>
+    <AssemblyName>ResourceEmbedder.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,26 +29,26 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\bin\Release\</OutputPath>
+    <OutputPath>..\..\..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
+      <HintPath>..\..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <HintPath>..\..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NSubstitute, Version=1.8.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\..\CompleteSolutions\packages\NSubstitute.1.8.1.0\lib\net45\NSubstitute.dll</HintPath>
+      <HintPath>..\..\..\CompleteSolutions\packages\NSubstitute.1.8.1.0\lib\net45\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\..\CompleteSolutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\CompleteSolutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,7 +64,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="..\..\AssemblyInfo\AssemblyInfoInc.cs">
+    <Compile Include="..\..\..\AssemblyInfo\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="AssemblyHelper.cs" />
@@ -72,14 +72,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\ConsoleTest\ConsoleTest\ConsoleTest.csproj">
       <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
       <Name>ConsoleTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TestHelper\TestHelper\TestHelper.csproj">
+    <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
       <Name>TestHelper</Name>
     </ProjectReference>
@@ -87,10 +84,13 @@
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
       <Name>WpfTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ResourceEmbedder\ResourceEmbedder.csproj">
+    <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
       <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
       <Name>ResourceEmbedder</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

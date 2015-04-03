@@ -20,10 +20,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestHelper")]
+[assembly: AssemblyTitle("Modules.TestHelper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("TestHelper")]
+[assembly: AssemblyProduct("Modules.TestHelper")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

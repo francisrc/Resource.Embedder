@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedder.Core
 {
 	public static class DictionaryExtensions
 	{
