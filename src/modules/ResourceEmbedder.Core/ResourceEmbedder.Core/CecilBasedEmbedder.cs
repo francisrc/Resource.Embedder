@@ -51,12 +51,12 @@ namespace ResourceEmbedder.Core
 				throw new ArgumentException("No resources to embed");
 			}
 			var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly);
-			Logger.LogInfo("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
+			Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
 			foreach (var res in resourcesToEmbedd)
 			{
 				if (!File.Exists(res.FullPathOfFileToEmbedd))
 				{
-					Logger.LogError("Could not locate file '{0}' for embedding.", res.FullPathOfFileToEmbedd);
+					Logger.Error("Could not locate file '{0}' for embedding.", res.FullPathOfFileToEmbedd);
 					return false;
 				}
 				try
@@ -66,11 +66,11 @@ namespace ResourceEmbedder.Core
 				}
 				catch (Exception ex)
 				{
-					Logger.LogError("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, outputAssembly, ex.Message);
+					Logger.Error("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, outputAssembly, ex.Message);
 					return false;
 				}
 			}
-			Logger.LogInfo("Finalizing output assembly {0}.", outputAssembly);
+			Logger.Info("Finalizing output assembly {0}.", outputAssembly);
 			assemblyDef.Write(outputAssembly);
 			return true;
 		}

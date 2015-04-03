@@ -81,9 +81,9 @@ namespace ResourceEmbedder.Core.Tests
 			File.Exists(file).Should().BeTrue("because we referenced it.");
 
 			var tempFile = Path.GetTempFileName();
-			File.Copy(file, tempFile, true);
+			File.Delete(tempFile);
 
-			embedder.EmbedResources(tempFile, resources).Should().BeTrue();
+			embedder.EmbedResources(file, tempFile, resources).Should().BeTrue();
 
 			var bytes = File.ReadAllBytes(tempFile);
 

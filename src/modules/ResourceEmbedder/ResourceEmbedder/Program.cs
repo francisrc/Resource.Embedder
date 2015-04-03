@@ -19,14 +19,14 @@ namespace ResourceEmbedder
 			var input = args[0];
 			if (!input.StartsWith("/input:"))
 			{
-				logger.LogError("First argument must be /input:<input_assembly>");
+				logger.Error("First argument must be /input:<input_assembly>");
 				return;
 			}
 			input = input.Substring("/input:".Length);
 			var output = args[1];
 			if (!output.StartsWith("/output:"))
 			{
-				logger.LogError("Second argument must be /output:<output_assembly>");
+				logger.Error("Second argument must be /output:<output_assembly>");
 				return;
 			}
 			output = output.Substring("/output:".Length);
@@ -38,7 +38,7 @@ namespace ResourceEmbedder
 				var data = args[i];
 				if (!data.Contains(">"))
 				{
-					logger.LogError("Resource file {0} did not contain required deliminator '>'.", i - resourceOffset);
+					logger.Error("Resource file {0} did not contain required deliminator '>'.", i - resourceOffset);
 					Environment.Exit(-1);
 				}
 				var idx = data.IndexOf('>');
@@ -46,7 +46,7 @@ namespace ResourceEmbedder
 				var embeddedName = data.Substring(idx + 1);
 				if (!File.Exists(inputResource))
 				{
-					logger.LogError("Input file: '{0}' not found.", inputResource);
+					logger.Error("Input file: '{0}' not found.", inputResource);
 					Environment.Exit(-1);
 				}
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
@@ -54,7 +54,7 @@ namespace ResourceEmbedder
 			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
 			if (!embedder.EmbedResources(input, output, resources.ToArray()))
 			{
-				logger.LogError("Failed to embed resources!");
+				logger.Error("Failed to embed resources!");
 			}
 		}
 

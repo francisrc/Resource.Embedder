@@ -4,11 +4,13 @@
 	{
 		#region Methods
 
-		void LogError(string message, params object[] args);
+		void Debug(string message, params object[] args);
 
-		void LogInfo(string message, params object[] args);
+		void Error(string message, params object[] args);
 
-		void LogWarning(string message, params object[] args);
+		void Info(string message, params object[] args);
+
+		void Warning(string message, params object[] args);
 
 		#endregion Methods
 	}

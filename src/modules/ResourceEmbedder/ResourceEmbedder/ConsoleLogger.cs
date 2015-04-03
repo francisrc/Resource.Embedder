@@ -7,19 +7,24 @@ namespace ResourceEmbedder
 	{
 		#region Methods
 
-		public void LogError(string message, params object[] args)
+		public void Debug(string message, params object[] args)
 		{
-			LogColored(string.Format(message, args), ConsoleColor.Red);
+			LogColored("Debug: " + string.Format(message, args), ConsoleColor.Blue);
 		}
 
-		public void LogInfo(string message, params object[] args)
+		public void Error(string message, params object[] args)
+		{
+			LogColored("Error: " + string.Format(message, args), ConsoleColor.Red);
+		}
+
+		public void Info(string message, params object[] args)
 		{
 			LogColored(string.Format(message, args));
 		}
 
-		public void LogWarning(string message, params object[] args)
+		public void Warning(string message, params object[] args)
 		{
-			LogColored(string.Format(message, args), ConsoleColor.Yellow);
+			LogColored("Warning: " + string.Format(message, args), ConsoleColor.Yellow);
 		}
 
 		/// <summary>

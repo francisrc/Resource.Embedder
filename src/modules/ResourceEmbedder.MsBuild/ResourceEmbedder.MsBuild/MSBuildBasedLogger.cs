@@ -35,17 +35,22 @@ namespace ResourceEmbedder.MsBuild
 
 		#region Methods
 
-		public void LogError(string message, params object[] args)
+		public void Debug(string message, params object[] args)
+		{
+			Info(message, args);
+		}
+
+		public void Error(string message, params object[] args)
 		{
 			_buildEngine.LogErrorEvent(new BuildErrorEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
 		}
 
-		public void LogInfo(string message, params object[] args)
+		public void Info(string message, params object[] args)
 		{
 			_buildEngine.LogMessageEvent(new BuildMessageEventArgs(string.Format(message, args), "", _sender, MessageImportance.Normal));
 		}
 
-		public void LogWarning(string message, params object[] args)
+		public void Warning(string message, params object[] args)
 		{
 			_buildEngine.LogWarningEvent(new BuildWarningEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
 		}
