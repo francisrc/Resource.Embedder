@@ -5,6 +5,8 @@ namespace ResourceEmbedder
 {
 	public static class DictionaryExtensions
 	{
+		#region Methods
+
 		/// <summary>
 		/// Returns a dictionary.
 		/// </summary>
@@ -30,5 +32,7 @@ namespace ResourceEmbedder
 			}
 			return dict;
 		}
+
+		#endregion Methods
 	}
 }

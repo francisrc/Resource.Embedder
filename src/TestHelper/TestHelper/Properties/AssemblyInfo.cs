@@ -20,10 +20,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ConsoleTest")]
+[assembly: AssemblyTitle("TestHelper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("ConsoleTest")]
+[assembly: AssemblyProduct("TestHelper")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("69fd8e16-9217-4b2c-a518-5accab8b66f0")]
+[assembly: Guid("fc21741c-25f8-4217-bc49-5c4b833e0ed7")]

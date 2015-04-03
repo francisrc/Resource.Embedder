@@ -7,8 +7,10 @@ namespace ResourceEmbedder
 	/// <summary>
 	/// Implementation that uses Cecil to embedd resources into .Net assemblies.
 	/// </summary>
-	public class CecilBasedEmbedder : IEmbeddFiles
+	public class CecilBasedEmbedder : IEmbedFiles
 	{
+		#region Constructors
+
 		public CecilBasedEmbedder(ILogger logger)
 		{
 			if (logger == null)
@@ -17,10 +19,18 @@ namespace ResourceEmbedder
 			Logger = logger;
 		}
 
+		#endregion Constructors
+
+		#region Properties
+
 		/// <summary>
 		/// The logger used during the embedding.
 		/// </summary>
 		public ILogger Logger { get; private set; }
+
+		#endregion Properties
+
+		#region Methods
 
 		/// <summary>
 		/// Call to embedd the provided set of resources into the specific assembly.
@@ -50,10 +60,12 @@ namespace ResourceEmbedder
 					Logger.LogError("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, targetAssembly, ex.Message);
 					return false;
 				}
-				Logger.LogInfo("Finalizing output assembly {0}.", targetAssembly);
-				assemblyDef.Write(targetAssembly);
 			}
+			Logger.LogInfo("Finalizing output assembly {0}.", targetAssembly);
+			assemblyDef.Write(targetAssembly);
 			return true;
 		}
+
+		#endregion Methods
 	}
 }

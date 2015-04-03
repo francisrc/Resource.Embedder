@@ -43,6 +43,10 @@
       <HintPath>..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NSubstitute, Version=1.8.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\..\CompleteSolutions\packages\NSubstitute.1.8.1.0\lib\net45\NSubstitute.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\CompleteSolutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -68,6 +72,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConsoleTest\ConsoleTest\ConsoleTest.csproj">
+      <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
+      <Name>ConsoleTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TestHelper\TestHelper\TestHelper.csproj">
+      <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
+      <Name>TestHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResourceEmbedder\ResourceEmbedder.csproj">
+      <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
+      <Name>ResourceEmbedder</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

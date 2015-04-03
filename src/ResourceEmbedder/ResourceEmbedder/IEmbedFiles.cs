@@ -3,12 +3,18 @@
 	/// <summary>
 	/// Interface for a resource embedder.
 	/// </summary>
-	public interface IEmbeddFiles
+	public interface IEmbedFiles
 	{
+		#region Properties
+
 		/// <summary>
 		/// The logger used during the embedding.
 		/// </summary>
 		ILogger Logger { get; }
+
+		#endregion Properties
+
+		#region Methods
 
 		/// <summary>
 		/// Call to embedd the provided set of resources into the specific assembly.
@@ -18,5 +24,7 @@
 		/// <param name="resourcesToEmbedd"></param>
 		/// <returns></returns>
 		bool EmbedResources(string targetAssembly, ResourceInfo[] resourcesToEmbedd);
+
+		#endregion Methods
 	}
 }

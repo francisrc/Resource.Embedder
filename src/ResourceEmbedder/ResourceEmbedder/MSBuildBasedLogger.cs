@@ -5,8 +5,14 @@ namespace ResourceEmbedder
 {
 	public class MSBuildBasedLogger : ILogger
 	{
+		#region Fields
+
 		private readonly IBuildEngine _buildEngine;
 		private readonly string _sender;
+
+		#endregion Fields
+
+		#region Constructors
 
 		/// <summary>
 		/// Creates a logger that uses the MS build engine to issue log statements.
@@ -24,6 +30,15 @@ namespace ResourceEmbedder
 			_sender = sender;
 		}
 
+		#endregion Constructors
+
+		#region Methods
+
+		public void LogError(string message, params object[] args)
+		{
+			_buildEngine.LogErrorEvent(new BuildErrorEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
+		}
+
 		public void LogInfo(string message, params object[] args)
 		{
 			_buildEngine.LogMessageEvent(new BuildMessageEventArgs(string.Format(message, args), "", _sender, MessageImportance.Normal));
@@ -34,9 +49,6 @@ namespace ResourceEmbedder
 			_buildEngine.LogWarningEvent(new BuildWarningEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
 		}
 
-		public void LogError(string message, params object[] args)
-		{
-			_buildEngine.LogErrorEvent(new BuildErrorEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
-		}
+		#endregion Methods
 	}
 }

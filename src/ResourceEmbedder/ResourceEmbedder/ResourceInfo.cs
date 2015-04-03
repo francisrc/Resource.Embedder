@@ -7,15 +7,7 @@ namespace ResourceEmbedder
 	/// </summary>
 	public class ResourceInfo
 	{
-		/// <summary>
-		/// The full path to the file that has to be embedded.
-		/// </summary>
-		public string FullPathOfFileToEmbedd { get; set; }
-
-		/// <summary>
-		/// The relative path in the target assembly.
-		/// </summary>
-		public string RelativePathInAssembly { get; set; }
+		#region Constructors
 
 		public ResourceInfo(string fileToEmbedd, string relativePathInTargetAssembly)
 		{
@@ -27,5 +19,21 @@ namespace ResourceEmbedder
 			FullPathOfFileToEmbedd = fileToEmbedd;
 			RelativePathInAssembly = relativePathInTargetAssembly;
 		}
+
+		#endregion Constructors
+
+		#region Properties
+
+		/// <summary>
+		/// The full path to the file that has to be embedded.
+		/// </summary>
+		public string FullPathOfFileToEmbedd { get; set; }
+
+		/// <summary>
+		/// The relative path in the target assembly.
+		/// </summary>
+		public string RelativePathInAssembly { get; set; }
+
+		#endregion Properties
 	}
 }
