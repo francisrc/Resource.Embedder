@@ -11,18 +11,28 @@ namespace ResourceEmbedder
 
 		static void Main(string[] args)
 		{
-			if (args.Length < 4)
+			if (args.Length < 3)
 			{
 				PrintUsageAndExit();
 			}
 			var logger = new ConsoleLogger();
-			var dir = new FileInfo(args[0]).DirectoryName;
-			Environment.CurrentDirectory = dir;
-			var input = args[1];
-			var output = args[2];
+			var input = args[0];
+			if (!input.StartsWith("/input:"))
+			{
+				logger.LogError("First argument must be /input:<input_assembly>");
+				return;
+			}
+			input = input.Substring("/input:".Length);
+			var output = args[1];
+			if (!output.StartsWith("/output:"))
+			{
+				logger.LogError("Second argument must be /output:<output_assembly>");
+				return;
+			}
+			output = output.Substring("/output:".Length);
 			// parse resources
 			var resources = new List<ResourceInfo>();
-			const int resourceOffset = 3;
+			const int resourceOffset = 2;
 			for (int i = resourceOffset; i < args.Length; i++)
 			{
 				var data = args[i];
@@ -42,8 +52,7 @@ namespace ResourceEmbedder
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
 			}
 			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
-			var assembliesToEmbedd = new ResourceInfo[0];
-			if (!embedder.EmbedResources(input, output, assembliesToEmbedd))
+			if (!embedder.EmbedResources(input, output, resources.ToArray()))
 			{
 				logger.LogError("Failed to embed resources!");
 			}

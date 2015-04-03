@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}</ProjectGuid>
+    <ProjectGuid>{C67A1956-3102-442E-A98E-167475D0F3E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResourceEmbedder.Core.Tests</RootNamespace>
-    <AssemblyName>ResourceEmbedder.Core.Tests</AssemblyName>
+    <RootNamespace>ResourceEmbedder.Tests</RootNamespace>
+    <AssemblyName>ResourceEmbedder.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -43,10 +43,6 @@
       <HintPath>..\..\..\CompleteSolutions\packages\FluentAssertions.3.3.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NSubstitute, Version=1.8.1.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\..\..\CompleteSolutions\packages\NSubstitute.1.8.1.0\lib\net45\NSubstitute.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\..\..\CompleteSolutions\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -67,26 +63,25 @@
     <Compile Include="..\..\..\AssemblyInfo\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
-    <Compile Include="AssemblyHelper.cs" />
-    <Compile Include="EmbeddFilesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestConsoleBasedEmbedder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\testmodules\ConsoleTest\ConsoleTest.csproj">
       <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
       <Name>ConsoleTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
-      <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
-      <Name>Modules.TestHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\testmodules\WpfTest\WpfTest.csproj">
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
       <Name>WpfTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
-      <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
-      <Name>ResourceEmbedder.Core</Name>
+    <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
+      <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
+      <Name>Modules.TestHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResourceEmbedder\ResourceEmbedder.csproj">
+      <Project>{291dc739-6e64-4488-983e-5f343955aeb6}</Project>
+      <Name>ResourceEmbedder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
