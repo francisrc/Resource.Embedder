@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ResourceEmbedder.MsBuild.Tests {
+namespace ResourceEmbedder.Core.Tests {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ResourceEmbedder.MsBuild.Tests {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ResourceEmbedder.MsBuild.Tests.Translation", typeof(Translation).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ResourceEmbedder.Core.Tests.Translation", typeof(Translation).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

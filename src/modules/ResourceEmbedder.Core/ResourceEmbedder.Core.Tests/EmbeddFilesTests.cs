@@ -18,19 +18,21 @@ namespace ResourceEmbedder.Core.Tests
 		{
 			var resources = new[]
 			{
-				new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.WpfTest.Resources.dll"),
-				new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.WpfTest.Resources.dll")
+				new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),
+				new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.resources.dll")
 			};
 			using (var asm = EmbedHelper("WpfTest.exe", resources))
 			{
 				asm.Assembly.GetManifestResourceNames().Should().Contain(new[]
 				{
-					"WpfTest.de.WpfTest.Resources.dll",
-					"WpfTest.fr.WpfTest.Resources.dll"
+					"WpfTest.de.resources.dll",
+					"WpfTest.fr.resources.dll"
 				});
 				// ensure localization still works
-				var info = new ProcessStartInfo("WpfTest.exe", "/throwOnMissingInlineLocalization");
+				var file = asm.AssemblyLocation;
+				var info = new ProcessStartInfo(file, "/throwOnMissingInlineLocalization");
 				var p = Process.Start(info);
+				p.Should().NotBeNull();
 				p.WaitForExit(10 * 1000).Should().BeTrue();
 				p.ExitCode.Should().Be(0, "because all localized files have been loaded");
 			}
@@ -82,16 +84,13 @@ namespace ResourceEmbedder.Core.Tests
 
 			var tempFile = Path.GetTempFileName();
 			File.Delete(tempFile);
-
+			tempFile += ".exe";
 			embedder.EmbedResources(file, tempFile, resources).Should().BeTrue();
 
 			var bytes = File.ReadAllBytes(tempFile);
 
 			var asm = Assembly.Load(bytes);
-			return new AssemblyHelper(asm, tempFile, () =>
-			{
-				File.Delete(tempFile);
-			});
+			return new AssemblyHelper(asm, tempFile, () => File.Delete(tempFile));
 		}
 
 		#endregion Methods

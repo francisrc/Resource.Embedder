@@ -13,11 +13,10 @@ namespace ResourceEmbedder.Core
 		/// <returns></returns>
 		public static string GetLocation(this Assembly asm)
 		{
-			// codebase can however resolve most pathes
+			// codebase can resolve most pathes
 			if (!string.IsNullOrEmpty(asm.CodeBase) && asm.CodeBase.StartsWith("file:///"))
 				return asm.CodeBase.Substring("file:///".Length).Replace("/", "\\");
 
-			// Fody.Costura embeds assemblies, which causes their location to be ""
 			if (!string.IsNullOrEmpty(asm.Location))
 				return asm.Location;
 			return "";

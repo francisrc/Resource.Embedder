@@ -15,6 +15,7 @@
 
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -34,3 +35,5 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c343b2c9-af73-4f79-81e7-12463ab50f42")]
+[assembly: InternalsVisibleTo("ResourceEmbedder.Core.Tests")]
+[assembly: InternalsVisibleTo("WpfTest")]

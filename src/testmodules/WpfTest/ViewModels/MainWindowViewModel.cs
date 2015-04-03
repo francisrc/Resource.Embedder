@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ResourceEmbedder.Core;
+using System;
 using System.Globalization;
 using System.Windows.Input;
 using WpfTest.Resources;
@@ -23,9 +24,27 @@ namespace WpfTest.ViewModels
 			// first argument is always exe name itself
 			if (args.Length > 1)
 			{
+				AppDomain.CurrentDomain.AssemblyResolve += InjectedResourceLoader.AssemblyResolve;
 				// argument switched used by unit test EmbeddFilesTests.cs\TestEmbeddMultipleLocalizationsIntoWpfExe()
-				// any other secondary argument is used for localization
-				SwitchLocale(args[1]);
+				if (args[1] == "/throwOnMissingInlineLocalization")
+				{
+					SwitchLocale("en");
+					if (Translations.Text != "Hello world!")
+					{
+						Environment.Exit(-1);
+					}
+					SwitchLocale("fr");
+					if (Translations.Text != "Bonjour le monde!")
+					{
+						Environment.Exit(-2);
+					}
+					SwitchLocale("de");
+					if (Translations.Text != "Hallo Welt!")
+					{
+						Environment.Exit(-3);
+					}
+					Environment.Exit(0);
+				}
 			}
 		}
 

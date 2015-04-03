@@ -45,7 +45,6 @@
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="EmbedderTask.cs" />
-    <Compile Include="InjectedResourceLoader.cs" />
     <Compile Include="MSBuildBasedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

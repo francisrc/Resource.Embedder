@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace ResourceEmbedder.MsBuild
+namespace ResourceEmbedder.Core
 {
 	/// <summary>
 	/// Code that is injected into target assemblies.
@@ -12,12 +12,25 @@ namespace ResourceEmbedder.MsBuild
 	{
 		#region Methods
 
+		/// <summary>
+		/// Call once to attach the assembly resolve event.
+		/// All embedded satellite assemblies will then be loaded.
+		/// The convention is that each assembly stores it's own satellite assemblies as embedded resources.
+		/// If the application name is WpfExe, then the resources are stored as WpfExe.de.resources.dll, WpfExe.fr.resources.dll, etc.
+		/// and will be loaded by this code.
+		/// </summary>
 		public static void Attach()
 		{
 			var currentDomain = AppDomain.CurrentDomain;
 			currentDomain.AssemblyResolve += AssemblyResolve;
 		}
 
+		/// <summary>
+		/// Attach to resolve satellite assemblies from embedded resources.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
 		internal static Assembly AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			var requestedAssemblyName = new AssemblyName(args.Name);
@@ -28,10 +41,25 @@ namespace ResourceEmbedder.MsBuild
 			return LoadFromResource(requestedAssemblyName, args.RequestingAssembly);
 		}
 
+		/// <summary>
+		/// Finds the main assembly for the specific resource.
+		/// This requires that the resources name ends with .resources.
+		/// </summary>
+		/// <param name="requestedAssemblyName"></param>
+		/// <returns></returns>
 		private static Assembly FindMainAssembly(AssemblyName requestedAssemblyName)
 		{
+			if (requestedAssemblyName == null)
+			{
+				throw new ArgumentNullException("requestedAssemblyName");
+			}
+			if (!requestedAssemblyName.Name.EndsWith(".resources", StringComparison.InvariantCultureIgnoreCase))
+			{
+				throw new ArgumentException("Not a resource assembly");
+			}
 			var mainName = requestedAssemblyName.Name;
 			mainName = mainName.Substring(0, mainName.Length - ".resources".Length);
+
 			return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == mainName);
 		}
 
@@ -56,7 +84,7 @@ namespace ResourceEmbedder.MsBuild
 		private static Assembly LoadFromResource(AssemblyName requestedAssemblyName, Assembly requestingAssembly)
 		{
 			// requesting name in format: %assemblyname%.resources
-			// rewrite to: %%assemblyname%.%culture%.resources.dll
+			// rewrite to: %assemblyName%.%assemblyName%.%culture%.resources.dll
 			//
 			var baseName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
 			var name = string.Format("{0}.{1}.resources.dll", baseName, requestedAssemblyName.CultureName);
