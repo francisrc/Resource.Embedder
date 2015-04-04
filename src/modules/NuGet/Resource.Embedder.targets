@@ -39,12 +39,10 @@
 		<EmbedderSignAssembly Condition="$(EmbedderSignAssembly) == '' Or $(EmbedderSignAssembly) == '*Undefined*'">$(SignAssembly)</EmbedderSignAssembly>
 		<EmbedderPath Condition="$(EmbedderPath) == '' Or $(EmbedderPath) == '*Undefined*'">$(MSBuildThisFileDirectory)..\</EmbedderPath>
 	</PropertyGroup>
-	<UsingTask
-		TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask"
-		AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
-	<Target AfterTargets="AfterCompile" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
-		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)"
-			KeyFilePath="$(EmbedderKeyFilePath)" ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
+	<UsingTask TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask" AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
+	<Target AfterTargets="AfterBuild" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
+		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
+																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
 	</Target>
 
 	<!--Support for ncrunch-->
