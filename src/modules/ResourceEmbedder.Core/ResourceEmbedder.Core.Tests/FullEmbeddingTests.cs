@@ -2,7 +2,7 @@
 using NSubstitute;
 using NUnit.Framework;
 using ResourceEmbedder.Core.Cecil;
-using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace ResourceEmbedder.Core.Tests
@@ -34,7 +34,14 @@ namespace ResourceEmbedder.Core.Tests
 			IInjectCode injector = new CecilBasedCodeInjector(logger);
 			injector.Inject(file, file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
 
-			throw new NotImplementedException("TODO: finish");
+			// assert that the resource is embedded and that it automatically localizes using the injected code
+			var info = new ProcessStartInfo(file, "/testFullyProcessed");
+			using (var p = Process.Start(info))
+			{
+				p.Should().NotBeNull();
+				p.WaitForExit(3 * 1000).Should().BeTrue();
+				p.ExitCode.Should().Be(0, "because all localized files have been loaded");
+			}
 			File.Delete(file);
 		}
 

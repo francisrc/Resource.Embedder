@@ -24,10 +24,17 @@ namespace WpfTest.ViewModels
 			// first argument is always exe name itself
 			if (args.Length > 1)
 			{
-				AppDomain.CurrentDomain.AssemblyResolve += InjectedResourceLoader.AssemblyResolve;
 				// argument switched used by unit test EmbeddFilesTests.cs\TestEmbeddMultipleLocalizationsIntoWpfExe()
-				if (args[1] == "/throwOnMissingInlineLocalization")
+				if (args[1] == "/throwOnMissingInlineLocalization" || args[1] == "/testFullyProcessed")
 				{
+					if (args[1] == "/throwOnMissingInlineLocalization")
+					{
+						// the unit test calling us with that switch does not do code injection, so hook it manually
+						AppDomain.CurrentDomain.AssemblyResolve += InjectedResourceLoader.AssemblyResolve;
+					}
+					// else - the other unit test does resource embedding + code injection, so do not hook the event again
+
+					// test localizations
 					SwitchLocale("en");
 					if (Translations.Text != "Hello world!")
 					{
