@@ -6,8 +6,8 @@
     <ProjectGuid>{DD84484B-4536-4181-BC70-8D6A24AD9532}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResourceEmbedder.MsBuild.Tests</RootNamespace>
-    <AssemblyName>ResourceEmbedder.MsBuild.Tests</AssemblyName>
+    <RootNamespace>SatelliteResourceEmbedder.MsBuild.Tests</RootNamespace>
+    <AssemblyName>SatelliteResourceEmbedder.MsBuild.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -69,7 +69,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj">
+    <ProjectReference Include="..\SatelliteResourceEmbedder.MsBuild\SatelliteResourceEmbedder.MsBuild.csproj">
       <Project>{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}</Project>
       <Name>ResourceEmbedder.MsBuild</Name>
     </ProjectReference>

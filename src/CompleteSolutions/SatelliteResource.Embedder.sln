@@ -26,11 +26,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandLine", "CommandLine"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSBuild Task", "MSBuild Task", "{47859C5F-EEFA-4E5E-ADDF-D0C47C15D72F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "..\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatelliteResourceEmbedder.MsBuild", "..\modules\SatelliteResourceEmbedder.MsBuild\SatelliteResourceEmbedder.MsBuild\SatelliteResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "..\modules\ResourceEmbedder\ResourceEmbedder\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Tests", "..\modules\ResourceEmbedder\ResourceEmbedder.Tests\ResourceEmbedder.Tests.csproj", "{C67A1956-3102-442E-A98E-167475D0F3E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatelliteResourceEmbedder.MsBuild.Tests", "..\modules\SatelliteResourceEmbedder.MsBuild\SatelliteResourceEmbedder.MsBuild.Tests\SatelliteResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{C67A1956-3102-442E-A98E-167475D0F3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67A1956-3102-442E-A98E-167475D0F3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C67A1956-3102-442E-A98E-167475D0F3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,5 +89,6 @@ Global
 		{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737} = {47859C5F-EEFA-4E5E-ADDF-D0C47C15D72F}
 		{291DC739-6E64-4488-983E-5F343955AEB6} = {8421B971-523E-4376-8146-2D4155671EAD}
 		{C67A1956-3102-442E-A98E-167475D0F3E5} = {8421B971-523E-4376-8146-2D4155671EAD}
+		{DD84484B-4536-4181-BC70-8D6A24AD9532} = {47859C5F-EEFA-4E5E-ADDF-D0C47C15D72F}
 	EndGlobalSection
 EndGlobal

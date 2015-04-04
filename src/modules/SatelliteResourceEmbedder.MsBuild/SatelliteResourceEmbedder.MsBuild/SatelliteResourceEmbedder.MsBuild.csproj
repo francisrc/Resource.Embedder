@@ -7,8 +7,8 @@
     <ProjectGuid>{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ResourceEmbedder.MsBuild</RootNamespace>
-    <AssemblyName>ResourceEmbedder.MsBuild</AssemblyName>
+    <RootNamespace>SatelliteResourceEmbedder.MsBuild</RootNamespace>
+    <AssemblyName>SatelliteResourceEmbedder.MsBuild</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>0a3d50fd</NuGetPackageImportStamp>

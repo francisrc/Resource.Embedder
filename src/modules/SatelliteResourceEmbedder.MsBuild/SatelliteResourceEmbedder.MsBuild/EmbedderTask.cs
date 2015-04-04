@@ -1,12 +1,12 @@
-﻿using Microsoft.Build.Framework;
-using ResourceEmbedder.Core;
-using ResourceEmbedder.Core.Cecil;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using Microsoft.Build.Framework;
+using ResourceEmbedder.Core;
+using ResourceEmbedder.Core.Cecil;
 
-namespace ResourceEmbedder.MsBuild
+namespace SatelliteResourceEmbedder.MsBuild
 {
 	/// <summary>
 	/// Task to embed files into an existing .Net assembly.
@@ -69,7 +69,7 @@ namespace ResourceEmbedder.MsBuild
 			return r;
 		}
 
-		private bool AssertSetup(Core.ILogger logger)
+		private bool AssertSetup(ResourceEmbedder.Core.ILogger logger)
 		{
 			if (!Directory.Exists(ProjectDirectory))
 			{
