@@ -16,6 +16,31 @@ namespace ResourceEmbedder.Core.Tests
 		#region Methods
 
 		[Test]
+		public void TestManualAssemblyResolve()
+		{
+			// the german translation dll has been manually embedded as "de.resources.dll" into the current assembly
+			// when embedding manually, the compiler always adds the namespace, so it should be available as a resource "ResourceEmbedder.Core.Tests.de.resources.dll" which is the name we look for
+			Translation.Language.Should().Be("English");
+			// make sure our localized file is deleted
+			File.Exists("de\\ResourceEmbedder.Core.Tests.resources.dll").Should().BeTrue("because .Net generates resource assemblies on each build. If this test fails here, rebuild this assembly and the test will work.");
+			const string temp = "de\\ResourceEmbedder.Core.Tests.resources.dll.temp";
+			if (File.Exists(temp))
+			{
+				File.Delete(temp);
+			}
+			File.Move("de\\ResourceEmbedder.Core.Tests.resources.dll", temp);
+
+			// now that we removed the (not yet loaded) German resource, hook into the resolver and ensure it does its job
+			// manually hook into the required event
+
+			AppDomain.CurrentDomain.AssemblyResolve += InjectedResourceLoader.AssemblyResolve;
+
+			Translation.Culture = new CultureInfo("de");
+			Translation.Language.Should().Be("Deutsch");
+			File.Move(temp, "de\\ResourceEmbedder.Core.Tests.resources.dll");
+		}
+
+		[Test]
 		public void TestEmbeddMultipleLocalizationsIntoWpfExe()
 		{
 			var resources = new[]
@@ -33,10 +58,12 @@ namespace ResourceEmbedder.Core.Tests
 				// ensure localization still works
 				var file = asm.AssemblyLocation;
 				var info = new ProcessStartInfo(file, "/throwOnMissingInlineLocalization");
-				var p = Process.Start(info);
-				p.Should().NotBeNull();
-				p.WaitForExit(3 * 1000).Should().BeTrue();
-				p.ExitCode.Should().Be(0, "because all localized files have been loaded");
+				using (var p = Process.Start(info))
+				{
+					p.Should().NotBeNull();
+					p.WaitForExit(3 * 1000).Should().BeTrue();
+					p.ExitCode.Should().Be(0, "because all localized files have been loaded");
+				}
 			}
 		}
 
@@ -67,30 +94,6 @@ namespace ResourceEmbedder.Core.Tests
 				File.ReadAllText(tempFile2).Should().Be("Hello world!");
 				File.Delete(tempFile2);
 			}
-		}
-
-		[Test]
-		public void TestManualAssemblyResolve()
-		{
-			// the german translation dll has been manually embedded as "de.resources.dll" into the current assembly
-			// when embedding manually, the compiler always adds the namespace, so it should be available as a resource "ResourceEmbedder.Core.Tests.de.resources.dll" which is the name we look for
-			Translation.Language.Should().Be("English");
-			// make sure our localized file is deleted
-			File.Exists("de\\ResourceEmbedder.Core.Tests.resources.dll").Should().BeTrue("because .Net generates resource assemblies on each build. If this test fails here, rebuild this assembly and the test will work.");
-			const string temp = "de\\ResourceEmbedder.Core.Tests.resources.dll.temp";
-			if (File.Exists(temp))
-			{
-				File.Delete(temp);
-			}
-			File.Move("de\\ResourceEmbedder.Core.Tests.resources.dll", temp);
-
-			// now that we removed the (not yet loaded) German resource, hook into the resolver and ensure it does its job
-			// manually hook into the required event
-			AppDomain.CurrentDomain.AssemblyResolve += InjectedResourceLoader.AssemblyResolve;
-			CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("de");
-
-			Translation.Language.Should().Be("Deutsch", "// TODO: I currently have no idea why this unit test fails when all tests are run, but succeeds when it runs by itself.");
-			File.Move(temp, "de\\ResourceEmbedder.Core.Tests.resources.dll");
 		}
 
 		/// <summary>
