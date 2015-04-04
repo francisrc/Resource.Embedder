@@ -24,6 +24,20 @@ namespace ResourceEmbedder.Core.Cecil
 			var type = typeof(InjectedResourceLoader);
 			var asm = Assembly.GetAssembly(type);
 			var module = ModuleDefinition.ReadModule(asm.GetLocation());
+			const string nameSpace = "ResourceEmbedderCompilerGenerated";
+			const string className = "ResourceEmbedderILInjected";
+			const string initMethod = "Attach";
+			var existingType = definition.MainModule.Types.FirstOrDefault(t => t.Namespace == nameSpace && t.Name == className);
+			if (existingType != null)
+			{
+				// type already injected
+				var existingMethod = existingType.Methods.FirstOrDefault(m => m.Name == initMethod);
+				if (existingMethod == null)
+				{
+					throw new MissingMethodException(string.Format("Found type {0}, but it does not have required method {1}. This indicates that you most likely created the method yourself. Please pick another class name.", className, initMethod));
+				}
+				return existingMethod;
+			}
 			var clonedType = new TypeCloner(module.GetType(type.FullName), definition.MainModule, new[]
 			{
 				"FindMainAssembly",
@@ -31,11 +45,11 @@ namespace ResourceEmbedder.Core.Cecil
 				"IsLocalizedAssembly",
 				"AssemblyResolve",
 				"Attach"
-			}, "ResourceEmbedderCompilerGenerated", "ResourceEmbedderILInjected").ClonedType;
+			}, "ResourceEmbedderCompilerGenerated", className).ClonedType;
 			// add the type to the assembly.
 			definition.MainModule.Types.Add(clonedType);
 			// return the method
-			return clonedType.Methods.First(m => m.Name == "Attach");
+			return clonedType.Methods.First(m => m.Name == initMethod);
 		}
 
 		#endregion Methods
