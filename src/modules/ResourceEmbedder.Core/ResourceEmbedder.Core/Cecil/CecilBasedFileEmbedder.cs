@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace ResourceEmbedder.Core.Cecil
 {
@@ -64,6 +65,12 @@ namespace ResourceEmbedder.Core.Cecil
 					try
 					{
 						var bytes = File.ReadAllBytes(res.FullPathOfFileToEmbedd);
+						var resource = assemblyDef.MainModule.Resources.FirstOrDefault(r => r.Name == res.RelativePathInAssembly);
+						if (resource != null)
+						{
+							// remove the old resource if there is any
+							assemblyDef.MainModule.Resources.Remove(resource);
+						}
 						assemblyDef.MainModule.Resources.Add(new EmbeddedResource(res.RelativePathInAssembly, ManifestResourceAttributes.Private, bytes));
 					}
 					catch (Exception ex)
