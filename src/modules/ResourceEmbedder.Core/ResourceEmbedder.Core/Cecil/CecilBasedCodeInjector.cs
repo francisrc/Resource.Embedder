@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Cecil.Pdb;
 using Mono.Cecil.Rocks;
 using System;
 using System.IO;
@@ -44,6 +45,11 @@ namespace ResourceEmbedder.Core.Cecil
 			{
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
 				var asm = AssemblyDefinition.ReadAssembly(inputAssembly);
+				var parameters = new WriterParameters
+				{
+					WriteSymbols = true,
+					SymbolWriterProvider = new PdbWriterProvider()
+				};
 				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
 				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
@@ -61,7 +67,7 @@ namespace ResourceEmbedder.Core.Cecil
 					body.Instructions.Insert(idx, Instruction.Create(OpCodes.Call, m));
 				}
 				body.OptimizeMacros();
-				asm.Write(outputAssembly);
+				asm.Write(outputAssembly, parameters);
 			}
 			catch (Exception ex)
 			{
