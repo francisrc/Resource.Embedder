@@ -23,6 +23,7 @@
     <None Include="packages.config" />
     <None Include="Resource.Embedder.nuspec" />
     <None Include="Resource.Embedder.targets" />
+    <None Include="uninstall.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj">
@@ -40,6 +41,7 @@
     <Copy SourceFiles="$(ProjectDir)Resource.Embedder.nuspec" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
     <Copy SourceFiles="$(ProjectDir)Resource.Embedder.targets" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\build" />
     <Copy SourceFiles="$(ProjectDir)install.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
+    <Copy SourceFiles="$(ProjectDir)uninstall.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
     <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
     <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
     <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
