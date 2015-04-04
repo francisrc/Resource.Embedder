@@ -1,6 +1,6 @@
-﻿using System;
+﻿using ILogger = ResourceEmbedder.Core.ILogger;
 using Microsoft.Build.Framework;
-using ILogger = ResourceEmbedder.Core.ILogger;
+using System;
 
 namespace SatelliteResourceEmbedder.MsBuild
 {

@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Build.Framework;
+using ResourceEmbedder.Core;
+using ResourceEmbedder.Core.Cecil;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using Microsoft.Build.Framework;
-using ResourceEmbedder.Core;
-using ResourceEmbedder.Core.Cecil;
 
 namespace SatelliteResourceEmbedder.MsBuild
 {
 	/// <summary>
-	/// Task to embed files into an existing .Net assembly.
+	/// Task to embed satellite assemblies into an existing .Net assembly.
+	/// Will also add code to the module initializer that will hook into AssemblyResolve event to load from emvbedded resources.
 	/// </summary>
-	public class EmbedderTask : Microsoft.Build.Utilities.Task
+	public class SatelliteEmbedderTask : Microsoft.Build.Utilities.Task
 	{
 		#region Properties
 
@@ -43,6 +44,7 @@ namespace SatelliteResourceEmbedder.MsBuild
 				return false;
 			}
 			var sw = new Stopwatch();
+			sw.Start();
 			logger.Info("Beginning resource embedding.");
 
 			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
@@ -63,10 +65,22 @@ namespace SatelliteResourceEmbedder.MsBuild
 					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.resources.dll", ci)));
 				}
 			}
-			var r = embedder.EmbedResources(inputAssembly, outputAssembly, assembliesToEmbed.ToArray());
+			if (!embedder.EmbedResources(inputAssembly, outputAssembly, assembliesToEmbed.ToArray()))
+			{
+				sw.Stop();
+				logger.Error("Failed to embed resources into assembly: " + outputAssembly);
+				return false;
+			}
+			IInjectCode injector = new CecilBasedCodeInjector(logger);
+			if (!injector.Inject(inputAssembly, outputAssembly, CecilHelpers.InjectEmbeddedResourceLoader))
+			{
+				sw.Stop();
+				logger.Error("Failed to inject required code into assembly: " + outputAssembly);
+				return false;
+			}
 			sw.Stop();
 			logger.Info("Finished embedding in {0}ms", sw.ElapsedMilliseconds);
-			return r;
+			return true;
 		}
 
 		private bool AssertSetup(ResourceEmbedder.Core.ILogger logger)
