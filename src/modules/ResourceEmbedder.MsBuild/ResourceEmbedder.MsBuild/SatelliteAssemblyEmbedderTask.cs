@@ -67,7 +67,7 @@ namespace ResourceEmbedder.MsBuild
 				if (File.Exists(ciPath))
 				{
 					logger.Debug("Embedding culture: {0}", ci);
-					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.resources.dll", ci)));
+					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.{1}.resources.dll", inputAssemblyName, ci)));
 				}
 			}
 			if (assembliesToEmbed.Count == 0)
