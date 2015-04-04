@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace ResourceEmbedder.Core
 {
-	public class CecilHelper
+	public class CecilHelpers
 	{
 		#region Methods
 
@@ -14,35 +14,28 @@ namespace ResourceEmbedder.Core
 		/// Then returns the <see cref="InjectedResourceLoader.Attach"/> method.
 		/// </summary>
 		/// <param name="definition">The assembly where the type should be added to.</param>
-		/// <returns>A public, static method with no arguments.</returns>
+		/// <returns>A public, static method with no arguments that was added to the assembly.</returns>
 		public static MethodDefinition InjectEmbeddedResourceLoader(AssemblyDefinition definition)
 		{
 			if (definition == null)
 			{
 				throw new ArgumentNullException("definition");
 			}
-			var clone = typeof(InjectedResourceLoader);
-			var asm = Assembly.GetAssembly(clone);
+			var type = typeof(InjectedResourceLoader);
+			var asm = Assembly.GetAssembly(type);
 			var module = ModuleDefinition.ReadModule(asm.GetLocation());
-
-			var clonedType = CloneType(module.GetType(clone.FullName));
-
+			var clonedType = new TypeCloner(module.GetType(type.FullName), definition.MainModule, new[]
+			{
+				"FindMainAssembly",
+				"LoadFromResource",
+				"IsLocalizedAssembly",
+				"AssemblyResolve",
+				"Attach"
+			}, "ResourceEmbedderCompilerGenerated", "ResourceEmbedderILInjected").ClonedType;
+			// add the type to the assembly.
 			definition.MainModule.Types.Add(clonedType);
-
 			// return the method
 			return clonedType.Methods.First(m => m.Name == "Attach");
-		}
-
-		/// <summary>
-		/// This method could certainly be extended.
-		/// Take a look at https://github.com/gluck/il-repack for how to copy full types.
-		/// For now only what was necessary has been added.
-		/// </summary>
-		/// <param name="typeToClone"></param>
-		/// <returns></returns>
-		private static TypeDefinition CloneType(TypeDefinition typeToClone)
-		{
-			throw new NotImplementedException("TODO: figure out how to clone a type");
 		}
 
 		#endregion Methods

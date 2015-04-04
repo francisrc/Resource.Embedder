@@ -35,15 +35,17 @@ namespace ResourceEmbedder.Core
 			{
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
 				var asm = AssemblyDefinition.ReadAssembly(targetAssembly);
-				var def = FindOrCreateCctor(asm.MainModule.Types.FirstOrDefault(t => t.Name == "<Module>"));
-				var body = def.Body;
+				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
+				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
-				// don't fully replace the code, always possible that user already uses code in here (e.g. when using Fody/Costura)
+
+				// don't fully replace the code, always possible that user already uses code in here (e.g. when using Fody/Costura in conjunction with our code)
 				// instead, inject our invoke before every return statement
 				var returnPoints = body.Instructions.Where(i => i.OpCode == OpCodes.Ret).ToList();
 				foreach (var returnPoint in returnPoints)
 				{
 					var idx = body.Instructions.IndexOf(returnPoint);
+
 					var m = methodToCall(asm);
 					AssertElligibilityForModuleInitializer(m);
 
@@ -83,13 +85,19 @@ namespace ResourceEmbedder.Core
 		/// <summary>
 		/// Creates a new module initializer if none exists, else returns the existing.
 		/// </summary>
-		/// <param name="targetType"></param>
+		/// <param name="module"></param>
 		/// <returns></returns>
-		private static MethodDefinition FindOrCreateCctor(TypeDefinition targetType)
+		private static MethodDefinition FindOrCreateCctor(ModuleDefinition module)
 		{
+			var targetType = module.Types.FirstOrDefault(t => t.Name == "<Module>");
+			if (targetType == null)
+			{
+				throw new MissingFieldException("missing required type <Module> in assembly!");
+			}
 			var cctor = targetType.Methods.FirstOrDefault(x => x.Name == ".cctor");
 			if (cctor == null)
 			{
+				// create new
 				const MethodAttributes attributes = MethodAttributes.Private
 													| MethodAttributes.HideBySig
 													| MethodAttributes.Static

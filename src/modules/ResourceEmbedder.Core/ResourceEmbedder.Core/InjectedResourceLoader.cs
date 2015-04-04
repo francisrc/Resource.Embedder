@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 
 namespace ResourceEmbedder.Core
@@ -57,10 +56,20 @@ namespace ResourceEmbedder.Core
 			{
 				throw new ArgumentException("Not a resource assembly");
 			}
-			var mainName = requestedAssemblyName.Name;
-			mainName = mainName.Substring(0, mainName.Length - ".resources".Length);
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-			return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == mainName);
+			// I'd love to use linq here, but Cecil starts fucking up when I do (null reference exception on assembly.Write)
+			// without a Linq query it works fine, though
+
+			// ReSharper disable once LoopCanBeConvertedToQuery
+			foreach (var assembly in assemblies)
+			{
+				if (requestedAssemblyName.Name.StartsWith(assembly.GetName().Name))
+				{
+					return assembly;
+				}
+			}
+			return null;
 		}
 
 		/// <summary>

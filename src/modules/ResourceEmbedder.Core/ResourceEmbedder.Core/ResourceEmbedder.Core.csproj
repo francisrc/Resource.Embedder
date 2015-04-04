@@ -61,7 +61,7 @@
     <Compile Include="AssemblyExtensions.cs" />
     <Compile Include="CecilBasedCodeInjector.cs" />
     <Compile Include="CecilBasedEmbedder.cs" />
-    <Compile Include="CecilHelper.cs" />
+    <Compile Include="CecilHelpers.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IEmbedFiles.cs" />
     <Compile Include="IInjectCode.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="InjectedResourceLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceInfo.cs" />
+    <Compile Include="TypeCloner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
