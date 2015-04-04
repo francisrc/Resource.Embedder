@@ -12,7 +12,7 @@ namespace ResourceEmbedder.MsBuild
 	/// Task to embed satellite assemblies into an existing .Net assembly.
 	/// Will also add code to the module initializer that will hook into AssemblyResolve event to load from emvbedded resources.
 	/// </summary>
-	public class SatelliteEmbedderTask : Microsoft.Build.Utilities.Task
+	public class SatelliteAssemblyEmbedderTask : Microsoft.Build.Utilities.Task
 	{
 		#region Properties
 

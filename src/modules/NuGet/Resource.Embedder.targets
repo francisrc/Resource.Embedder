@@ -40,10 +40,10 @@
 		<EmbedderPath Condition="$(EmbedderPath) == '' Or $(EmbedderPath) == '*Undefined*'">$(MSBuildThisFileDirectory)..\</EmbedderPath>
 	</PropertyGroup>
 	<UsingTask
-		TaskName="ResourceEmbedder.MsBuild.SatelliteEmbedderTask"
+		TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask"
 		AssemblyFile="$(EmbedderPath)\lib\net45\ResourceEmbedder.MsBuild.dll" />
 	<Target AfterTargets="AfterCompile" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
-		<ResourceEmbedder.MsBuild.SatelliteEmbedderTask AssemblyPath="@(IntermediateAssembly)"
+		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)"
 			KeyFilePath="$(EmbedderKeyFilePath)" ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
 	</Target>
 
