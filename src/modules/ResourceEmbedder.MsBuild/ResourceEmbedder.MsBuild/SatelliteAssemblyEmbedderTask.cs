@@ -93,7 +93,7 @@ namespace ResourceEmbedder.MsBuild
 			return true;
 		}
 
-		private bool AssertSetup(ResourceEmbedder.Core.ILogger logger)
+		private bool AssertSetup(Core.ILogger logger)
 		{
 			if (!Directory.Exists(ProjectDirectory))
 			{

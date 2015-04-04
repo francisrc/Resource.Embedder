@@ -76,7 +76,7 @@ namespace ResourceEmbedder.Core
 
 			_targetType = new TypeDefinition(nameSpace ?? _sourceType.Namespace, className ?? _sourceType.Name, _sourceType.Attributes, Resolve(_sourceType.BaseType));
 
-			IAssemblyResolver assemblyResolver = new DefaultAssemblyResolver();
+			IAssemblyResolver assemblyResolver = targetModule.AssemblyResolver;
 			var msCoreLibDefinition = assemblyResolver.Resolve("mscorlib");
 			var msCoreTypes = msCoreLibDefinition.MainModule.Types;
 			var compilerGeneratedAttribute = msCoreTypes.First(x => x.Name == "CompilerGeneratedAttribute");

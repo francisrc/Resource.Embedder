@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ResourcesForTest", "Resourc
 		..\..\_TestFiles\test.txt = ..\..\_TestFiles\test.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "..\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "..\modules\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.TestHelper", "..\modules\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
@@ -25,8 +27,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandLine", "CommandLine", "{8421B971-523E-4376-8146-2D4155671EAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSBuild", "MSBuild", "{47859C5F-EEFA-4E5E-ADDF-D0C47C15D72F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "..\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "..\modules\ResourceEmbedder\ResourceEmbedder\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
