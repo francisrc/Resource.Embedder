@@ -23,7 +23,7 @@ namespace ResourceEmbedder.Core.Tests
 			File.Copy("WpfTest.exe", file);
 
 			var logger = Substitute.For<ILogger>();
-			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
+			IEmbedFiles embedder = new CecilBasedFileEmbedder(logger);
 			var resources = new[]
 			{
 				new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),

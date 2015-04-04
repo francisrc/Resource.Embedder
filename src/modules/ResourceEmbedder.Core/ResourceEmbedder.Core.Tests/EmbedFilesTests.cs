@@ -106,7 +106,7 @@ namespace ResourceEmbedder.Core.Tests
 		private static AssemblyHelper EmbedHelper(string exeName, ResourceInfo[] resources)
 		{
 			var logger = Substitute.For<ILogger>();
-			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
+			IEmbedFiles embedder = new CecilBasedFileEmbedder(logger);
 			var dir = new FileInfo(Assembly.GetExecutingAssembly().GetLocation()).DirectoryName;
 			var file = Path.Combine(dir, exeName);
 

@@ -48,7 +48,7 @@ namespace ResourceEmbedder.MsBuild
 			var sw = new Stopwatch();
 			sw.Start();
 			logger.Info("Beginning resource embedding.");
-			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
+			IEmbedFiles embedder = new CecilBasedFileEmbedder(logger);
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;
 			logger.Info("WorkingDir (used for localization detection): " + workingDir);

@@ -7,11 +7,11 @@ namespace ResourceEmbedder.Core.Cecil
 	/// <summary>
 	/// Implementation that uses Cecil to embedd resources into .Net assemblies.
 	/// </summary>
-	public class CecilBasedEmbedder : IEmbedFiles
+	public class CecilBasedFileEmbedder : IEmbedFiles
 	{
 		#region Constructors
 
-		public CecilBasedEmbedder(ILogger logger)
+		public CecilBasedFileEmbedder(ILogger logger)
 		{
 			if (logger == null)
 				throw new ArgumentNullException("logger");

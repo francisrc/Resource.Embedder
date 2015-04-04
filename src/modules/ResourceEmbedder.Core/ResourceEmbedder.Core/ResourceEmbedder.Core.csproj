@@ -60,7 +60,7 @@
     </Compile>
     <Compile Include="AssemblyExtensions.cs" />
     <Compile Include="Cecil\CecilBasedCodeInjector.cs" />
-    <Compile Include="Cecil\CecilBasedEmbedder.cs" />
+    <Compile Include="Cecil\CecilBasedFileEmbedder.cs" />
     <Compile Include="Cecil\CecilHelpers.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IEmbedFiles.cs" />
