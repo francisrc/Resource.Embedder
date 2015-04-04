@@ -20,12 +20,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SatelliteResourceEmbedder.MsBuild.Tests")]
+[assembly: AssemblyTitle("ResourceEmbedder.MsBuild")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("SatelliteResourceEmbedder.MsBuild.Tests")]
+[assembly: AssemblyProduct("ResourceEmbedder.MsBuild")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("en")]
+[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("723bdaf1-3493-4d9d-91df-4f9c0816f45e")]
+[assembly: Guid("88d098c4-72e2-4860-b169-f284fd84e9af")]

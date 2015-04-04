@@ -2,7 +2,7 @@
 using Microsoft.Build.Framework;
 using System;
 
-namespace SatelliteResourceEmbedder.MsBuild
+namespace ResourceEmbedder.MsBuild
 {
 	public class MSBuildBasedLogger : ILogger
 	{

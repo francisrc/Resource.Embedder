@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
-namespace SatelliteResourceEmbedder.MsBuild
+namespace ResourceEmbedder.MsBuild
 {
 	/// <summary>
 	/// Task to embed satellite assemblies into an existing .Net assembly.
