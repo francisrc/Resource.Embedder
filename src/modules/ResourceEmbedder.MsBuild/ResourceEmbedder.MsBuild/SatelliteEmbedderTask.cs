@@ -26,6 +26,8 @@ namespace ResourceEmbedder.MsBuild
 
 		public bool SignAssembly { get; set; }
 
+		public string TargetPath { get; set; }
+
 		#endregion Properties
 
 		#region Methods
@@ -46,24 +48,32 @@ namespace ResourceEmbedder.MsBuild
 			var sw = new Stopwatch();
 			sw.Start();
 			logger.Info("Beginning resource embedding.");
-
 			IEmbedFiles embedder = new CecilBasedEmbedder(logger);
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
+			var workingDir = new FileInfo(inputAssembly).DirectoryName;
+			logger.Info("WorkingDir (used for localization detection): " + workingDir);
+			logger.Info("Input assembly: {0}", inputAssembly);
 			string outputAssembly = inputAssembly;
 			var assembliesToEmbed = new List<ResourceInfo>();
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 			var inputAssemblyName = new FileInfo(inputAssembly).Name;
+
 			// remove extension (.exe, .dll)
 			inputAssemblyName = inputAssemblyName.Substring(0, inputAssemblyName.LastIndexOf('.'));
 			foreach (var ci in cultures)
 			{
 				// check if culture satellite assembly exists, if so embed
-				var ciPath = Path.Combine(ProjectDirectory, ci.TwoLetterISOLanguageName, string.Format("{0}.resources.dll", inputAssemblyName));
+				var ciPath = Path.Combine(workingDir, ci.ToString(), string.Format("{0}.resources.dll", inputAssemblyName));
 				if (File.Exists(ciPath))
 				{
-					logger.Debug("Embedding culture: {0}", ci.TwoLetterISOLanguageName);
+					logger.Debug("Embedding culture: {0}", ci);
 					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.resources.dll", ci)));
 				}
+			}
+			if (assembliesToEmbed.Count == 0)
+			{
+				logger.Info("Nothing to embed! Skipping {0}", inputAssembly);
+				return true;
 			}
 			if (!embedder.EmbedResources(inputAssembly, outputAssembly, assembliesToEmbed.ToArray()))
 			{
