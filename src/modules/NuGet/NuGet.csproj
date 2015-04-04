@@ -42,14 +42,14 @@
     <Copy SourceFiles="$(ProjectDir)Resource.Embedder.targets" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\build" />
     <Copy SourceFiles="$(ProjectDir)install.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
     <Copy SourceFiles="$(ProjectDir)uninstall.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Mdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Pdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Rocks.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\lib\net45" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Mdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Pdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Rocks.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)..\..\bin\NuGet" MetadataAssembly="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" />
     <Copy SourceFiles="$(SolutionDir)..\modules\NuGet\Resource.Embedder.targets" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\build" />
   </Target>

@@ -41,7 +41,7 @@
 	</PropertyGroup>
 	<UsingTask
 		TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask"
-		AssemblyFile="$(EmbedderPath)\lib\net45\ResourceEmbedder.MsBuild.dll" />
+		AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
 	<Target AfterTargets="AfterCompile" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
 		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)"
 			KeyFilePath="$(EmbedderKeyFilePath)" ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
