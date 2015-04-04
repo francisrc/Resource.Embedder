@@ -10,10 +10,10 @@
 		<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
 		<projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<iconUrl>https://raw.githubusercontent.com/MarcStan/ResourceEmbedder/master/ico/package.png</iconUrl>
+		<iconUrl>https://raw.githubusercontent.com/MarcStan/Resource.Embedder/master/ico/package.png</iconUrl>
 		<description>Tool for automatic satellite assembly embedding (as resources).</description>
 		<language>en-US</language>
-		<tags>Embed, Resource, Satellite assemblies, Localization, Fody, Cecil</tags>
+		<tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>
 		<dependencies></dependencies>
 	</metadata>
 </package>
