@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.Cecil
 {
 	public class CecilHelpers
 	{

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.Cecil
 {
 	/// <summary>
 	/// Implementation that uses Cecil to embedd resources into .Net assemblies.
@@ -50,28 +50,36 @@ namespace ResourceEmbedder.Core
 			{
 				throw new ArgumentException("No resources to embed");
 			}
-			var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly);
-			Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
-			foreach (var res in resourcesToEmbedd)
+			try
 			{
-				if (!File.Exists(res.FullPathOfFileToEmbedd))
+				var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly);
+				Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
+				foreach (var res in resourcesToEmbedd)
 				{
-					Logger.Error("Could not locate file '{0}' for embedding.", res.FullPathOfFileToEmbedd);
-					return false;
+					if (!File.Exists(res.FullPathOfFileToEmbedd))
+					{
+						Logger.Error("Could not locate file '{0}' for embedding.", res.FullPathOfFileToEmbedd);
+						return false;
+					}
+					try
+					{
+						var bytes = File.ReadAllBytes(res.FullPathOfFileToEmbedd);
+						assemblyDef.MainModule.Resources.Add(new EmbeddedResource(res.RelativePathInAssembly, ManifestResourceAttributes.Private, bytes));
+					}
+					catch (Exception ex)
+					{
+						Logger.Error("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, outputAssembly, ex.Message);
+						return false;
+					}
 				}
-				try
-				{
-					var bytes = File.ReadAllBytes(res.FullPathOfFileToEmbedd);
-					assemblyDef.MainModule.Resources.Add(new EmbeddedResource(res.RelativePathInAssembly, ManifestResourceAttributes.Private, bytes));
-				}
-				catch (Exception ex)
-				{
-					Logger.Error("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, outputAssembly, ex.Message);
-					return false;
-				}
+				Logger.Info("Finalizing output assembly {0}.", outputAssembly);
+				assemblyDef.Write(outputAssembly);
 			}
-			Logger.Info("Finalizing output assembly {0}.", outputAssembly);
-			assemblyDef.Write(outputAssembly);
+			catch (Exception ex)
+			{
+				Logger.Error(ex.Message);
+				return false;
+			}
 			return true;
 		}
 

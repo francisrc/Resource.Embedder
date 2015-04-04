@@ -59,9 +59,9 @@
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="AssemblyExtensions.cs" />
-    <Compile Include="CecilBasedCodeInjector.cs" />
-    <Compile Include="CecilBasedEmbedder.cs" />
-    <Compile Include="CecilHelpers.cs" />
+    <Compile Include="Cecil\CecilBasedCodeInjector.cs" />
+    <Compile Include="Cecil\CecilBasedEmbedder.cs" />
+    <Compile Include="Cecil\CecilHelpers.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="IEmbedFiles.cs" />
     <Compile Include="IInjectCode.cs" />

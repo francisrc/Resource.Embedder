@@ -2,9 +2,10 @@
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using System;
+using System.IO;
 using System.Linq;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.Cecil
 {
 	public class CecilBasedCodeInjector : IInjectCode
 	{
@@ -29,12 +30,20 @@ namespace ResourceEmbedder.Core
 		#region Methods
 
 		/// <see cref="IInjectCode.Inject"/>
-		public bool Inject(string targetAssembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
+		public bool Inject(string inputAssembly, string outputAssembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
 		{
+			if (string.IsNullOrEmpty(inputAssembly) || string.IsNullOrEmpty(outputAssembly) || methodToCall == null)
+			{
+				throw new ArgumentNullException();
+			}
+			if (!File.Exists(inputAssembly))
+			{
+				throw new FileNotFoundException(inputAssembly);
+			}
 			try
 			{
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
-				var asm = AssemblyDefinition.ReadAssembly(targetAssembly);
+				var asm = AssemblyDefinition.ReadAssembly(inputAssembly);
 				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
 				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
@@ -52,7 +61,7 @@ namespace ResourceEmbedder.Core
 					body.Instructions.Insert(idx, Instruction.Create(OpCodes.Call, m));
 				}
 				body.OptimizeMacros();
-				asm.Write(targetAssembly);
+				asm.Write(outputAssembly);
 			}
 			catch (Exception ex)
 			{

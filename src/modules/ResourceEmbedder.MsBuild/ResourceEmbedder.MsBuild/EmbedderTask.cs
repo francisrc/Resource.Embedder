@@ -1,5 +1,6 @@
 ﻿using Microsoft.Build.Framework;
 using ResourceEmbedder.Core;
+using ResourceEmbedder.Core.Cecil;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;

@@ -20,10 +20,11 @@ namespace ResourceEmbedder.Core
 		/// Your method must be: static, public and have no arguments.
 		/// It will be the first to run when a module is loaded.
 		/// </summary>
-		/// <param name="targetAssembly"></param>
+		/// <param name="inputAssembly">Path to the assembly that should be injected.</param>
+		/// <param name="outputAssembly">Path where the rewritten assembly should be saved to. May be the same as <see cref="inputAssembly"/>.</param>
 		/// <param name="methodToCall"></param>
 		/// <returns></returns>
-		bool Inject(string targetAssembly, Func<AssemblyDefinition, MethodDefinition> methodToCall);
+		bool Inject(string inputAssembly, string outputAssembly, Func<AssemblyDefinition, MethodDefinition> methodToCall);
 
 		#endregion Methods
 	}

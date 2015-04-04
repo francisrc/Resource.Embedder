@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using ResourceEmbedder.Core.Cecil;
 using System;
 using System.IO;
 
@@ -31,7 +32,7 @@ namespace ResourceEmbedder.Core.Tests
 			embedder.EmbedResources(file, file, resources).Should().BeTrue();
 
 			IInjectCode injector = new CecilBasedCodeInjector(logger);
-			injector.Inject(file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+			injector.Inject(file, file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
 
 			throw new NotImplementedException("TODO: finish");
 			File.Delete(file);

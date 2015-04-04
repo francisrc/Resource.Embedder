@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
+using ResourceEmbedder.Core.Cecil;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +25,7 @@ namespace ResourceEmbedder.Core.Tests
 
 			// inject the localization assembly loader hooks
 			IInjectCode injector = new CecilBasedCodeInjector(Substitute.For<ILogger>());
-			injector.Inject(file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+			injector.Inject(file, file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
 
 			// now check that assembly has actually embedded that code by using reflection to access it
 			var asm = Assembly.LoadFrom(file);

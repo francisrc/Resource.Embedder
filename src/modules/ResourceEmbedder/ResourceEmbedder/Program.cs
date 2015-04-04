@@ -1,4 +1,5 @@
 ﻿using ResourceEmbedder.Core;
+using ResourceEmbedder.Core.Cecil;
 using System;
 using System.Collections.Generic;
 using System.IO;
