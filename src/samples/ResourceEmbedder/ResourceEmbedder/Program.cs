@@ -61,6 +61,7 @@ namespace ResourceEmbedder
 
 		private static void PrintUsageAndExit()
 		{
+			Console.WriteLine("Tool that allows embedding of resources into existing assemblies.");
 			Console.WriteLine("Usage:");
 			Console.WriteLine("exe \"/input:input_assembly\" [\"/output:output_assembly\"] [\"resource_file_to_embed>path_in_assembly\"]*");
 			Console.WriteLine("\tinput_assembly:\t\tFull or relative path to the assembly where the resources should be embedded");
