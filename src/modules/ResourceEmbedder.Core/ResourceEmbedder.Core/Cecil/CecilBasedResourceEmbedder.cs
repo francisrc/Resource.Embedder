@@ -53,7 +53,8 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 			try
 			{
-				var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly);
+				var readSymbols = File.Exists(Path.ChangeExtension(inputAssembly, "pdb"));
+				var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = readSymbols });
 				Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
 				foreach (var res in resourcesToEmbedd)
 				{
@@ -80,7 +81,7 @@ namespace ResourceEmbedder.Core.Cecil
 					}
 				}
 				Logger.Info("Finalizing output assembly {0}.", outputAssembly);
-				assemblyDef.Write(outputAssembly);
+				assemblyDef.Write(outputAssembly, new WriterParameters { WriteSymbols = readSymbols });
 			}
 			catch (Exception ex)
 			{

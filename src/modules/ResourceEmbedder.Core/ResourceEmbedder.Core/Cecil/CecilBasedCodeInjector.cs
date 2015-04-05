@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Cecil.Pdb;
 using Mono.Cecil.Rocks;
 using System;
 using System.IO;
@@ -42,10 +43,10 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 			try
 			{
+				var symbolPath = Path.ChangeExtension(inputAssembly, "pdb");
+				var symbolsAreBeingRead = File.Exists(symbolPath);
+				var asm = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = symbolsAreBeingRead });
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
-				bool readSymbols;
-
-				var asm = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = true });
 				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
 				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
@@ -63,7 +64,19 @@ namespace ResourceEmbedder.Core.Cecil
 					body.Instructions.Insert(idx, Instruction.Create(OpCodes.Call, m));
 				}
 				body.OptimizeMacros();
-				asm.Write(outputAssembly, new WriterParameters { WriteSymbols = true });
+				var pdb = Path.ChangeExtension(outputAssembly, "pdb");
+				if (File.Exists(pdb))
+				{
+					Logger.Info("Rewritting pdb");
+					// delete it just in case, as there have been issues before
+					// (e.g. a file lock by ms build that Cecil silently smallows leaving us with the old pdb, thus non-debuggable ode)
+					File.Delete(pdb);
+				}
+				asm.Write(outputAssembly, new WriterParameters
+				{
+					WriteSymbols = symbolsAreBeingRead,
+					SymbolWriterProvider = new PdbWriterProvider()
+				});
 			}
 			catch (Exception ex)
 			{
