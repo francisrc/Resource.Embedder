@@ -1,6 +1,5 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Pdb;
 using Mono.Cecil.Rocks;
 using System;
 using System.IO;
@@ -45,7 +44,8 @@ namespace ResourceEmbedder.Core.Cecil
 			{
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
 				bool readSymbols;
-				var asm = ReadAssembly(inputAssembly, out readSymbols);
+
+				var asm = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = true });
 				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
 				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
@@ -63,8 +63,7 @@ namespace ResourceEmbedder.Core.Cecil
 					body.Instructions.Insert(idx, Instruction.Create(OpCodes.Call, m));
 				}
 				body.OptimizeMacros();
-				var parameters = GetWriterParameters(readSymbols);
-				asm.Write(outputAssembly, parameters);
+				asm.Write(outputAssembly, new WriterParameters { WriteSymbols = true });
 			}
 			catch (Exception ex)
 			{
@@ -122,48 +121,6 @@ namespace ResourceEmbedder.Core.Cecil
 				cctor.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
 			}
 			return cctor;
-		}
-
-		private WriterParameters GetWriterParameters(bool writeSymbols)
-		{
-			Logger.Info(writeSymbols ? "Writting output pdb." : "No pdb will be written.");
-			return new WriterParameters
-			{
-				WriteSymbols = writeSymbols,
-				SymbolWriterProvider = new PdbWriterProvider()
-			};
-		}
-
-		private AssemblyDefinition ReadAssembly(string inputAssembly, out bool readSymbols)
-		{
-			var assemblyResolver = new DefaultAssemblyResolver();
-			var fullAsm = Path.GetFullPath(inputAssembly);
-			var assemblyLocation = Path.GetDirectoryName(fullAsm);
-			assemblyResolver.AddSearchDirectory(assemblyLocation);
-
-			var readerParameters = new ReaderParameters
-			{
-				AssemblyResolver = assemblyResolver,
-				ReadSymbols = false
-			};
-			var pdbFile = Path.ChangeExtension(inputAssembly, ".pdb");
-			if (File.Exists(pdbFile))
-			{
-				Logger.Info("Pdb found, loading symbols from: {0}", pdbFile);
-				readerParameters.SymbolReaderProvider = new PdbReaderProvider();
-				readerParameters.ReadingMode = ReadingMode.Immediate;
-				readerParameters.ReadSymbols = true;
-				using (var stream = File.OpenRead(pdbFile))
-				{
-					readerParameters.SymbolStream = stream;
-					readSymbols = true;
-					return AssemblyDefinition.ReadAssembly(inputAssembly, readerParameters);
-				}
-			}
-
-			Logger.Info("No pdb found for assembly: {0}", fullAsm);
-			readSymbols = false;
-			return AssemblyDefinition.ReadAssembly(inputAssembly, readerParameters);
 		}
 
 		#endregion Methods
