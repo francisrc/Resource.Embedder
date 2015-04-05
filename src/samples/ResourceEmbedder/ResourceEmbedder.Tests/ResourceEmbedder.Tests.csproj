@@ -75,7 +75,7 @@
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
       <Name>WpfTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
+    <ProjectReference Include="..\..\..\modules\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
       <Name>Modules.TestHelper</Name>
     </ProjectReference>

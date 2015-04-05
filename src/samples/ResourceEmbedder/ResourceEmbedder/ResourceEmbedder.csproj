@@ -51,7 +51,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
+    <ProjectReference Include="..\..\..\modules\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
       <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
       <Name>ResourceEmbedder.Core</Name>
     </ProjectReference>
