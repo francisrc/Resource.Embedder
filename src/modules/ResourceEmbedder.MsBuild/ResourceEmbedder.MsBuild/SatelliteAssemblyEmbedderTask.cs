@@ -49,11 +49,13 @@ namespace ResourceEmbedder.MsBuild
 			sw.Start();
 			logger.Info("Beginning resource embedding.");
 			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
-			string inputAssembly = TargetPath;
+
+			// run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
+			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;
 			logger.Info("WorkingDir (used for localization detection): " + workingDir);
 			logger.Info("Input assembly: {0}", inputAssembly);
-			string outputAssembly = inputAssembly;
+
 			var assembliesToEmbed = new List<ResourceInfo>();
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 			var inputAssemblyName = new FileInfo(inputAssembly).Name;
@@ -75,17 +77,17 @@ namespace ResourceEmbedder.MsBuild
 				logger.Info("Nothing to embed! Skipping {0}", inputAssembly);
 				return true;
 			}
-			if (!embedder.EmbedResources(inputAssembly, outputAssembly, assembliesToEmbed.ToArray()))
+			if (!embedder.EmbedResources(inputAssembly, inputAssembly, assembliesToEmbed.ToArray()))
 			{
 				sw.Stop();
-				logger.Error("Failed to embed resources into assembly: " + outputAssembly);
+				logger.Error("Failed to embed resources into assembly: " + inputAssembly);
 				return false;
 			}
 			IInjectCode injector = new CecilBasedCodeInjector(logger);
-			if (!injector.Inject(inputAssembly, outputAssembly, CecilHelpers.InjectEmbeddedResourceLoader))
+			if (!injector.Inject(inputAssembly, inputAssembly, CecilHelpers.InjectEmbeddedResourceLoader))
 			{
 				sw.Stop();
-				logger.Error("Failed to inject required code into assembly: " + outputAssembly);
+				logger.Error("Failed to inject required code into assembly: " + inputAssembly);
 				return false;
 			}
 			sw.Stop();
