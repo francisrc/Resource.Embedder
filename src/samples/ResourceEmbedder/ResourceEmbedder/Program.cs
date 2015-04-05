@@ -53,9 +53,15 @@ namespace ResourceEmbedder
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
 			}
 			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
-			if (!embedder.EmbedResources(input, output, resources.ToArray()))
+			var intermediateOutput = input;
+			if (!embedder.EmbedResources(input, intermediateOutput, resources.ToArray()))
 			{
 				logger.Error("Failed to embed resources!");
+			}
+			IInjectCode injector = new CecilBasedCodeInjector(logger);
+			if (!injector.Inject(intermediateOutput, output, CecilHelpers.InjectEmbeddedResourceLoader))
+			{
+				logger.Error("Failed to inject code!");
 			}
 		}
 
