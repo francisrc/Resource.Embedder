@@ -1,50 +1,12 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
-using Mono.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.Cecil
 {
-	public static class Extensions
-	{
-		#region Methods
-
-		public static Collection<TypeReference> GetGenericInstanceArguments(this TypeReference type)
-		{
-			return ((GenericInstanceType)type).GenericArguments;
-		}
-
-		public static MethodReference MakeHostInstanceGeneric(this MethodReference self, params TypeReference[] args)
-		{
-			var reference = new MethodReference(
-				self.Name,
-				self.ReturnType,
-				self.DeclaringType.MakeGenericInstanceType(args))
-			{
-				HasThis = self.HasThis,
-				ExplicitThis = self.ExplicitThis,
-				CallingConvention = self.CallingConvention
-			};
-
-			foreach (var parameter in self.Parameters)
-			{
-				reference.Parameters.Add(new ParameterDefinition(parameter.ParameterType));
-			}
-
-			foreach (var genericParam in self.GenericParameters)
-			{
-				reference.GenericParameters.Add(new GenericParameter(genericParam.Name, reference));
-			}
-
-			return reference;
-		}
-
-		#endregion Methods
-	}
-
 	/// <summary>
 	/// Helper class to clone one type into a new module.
 	/// </summary>
@@ -66,7 +28,7 @@ namespace ResourceEmbedder.Core
 		/// <param name="sourceType"></param>
 		/// <param name="targetModule"></param>
 		/// <param name="methodCloneOrder">Cecil crashes when methods are added in wrong order. You must manually sort your methods in their reverse execution order.</param>
-		/// <param name="nameSpace"></param>
+		/// <param name="nameSpace"></param>S
 		/// <param name="className"></param>
 		public TypeCloner(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
 		{
