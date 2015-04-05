@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Interface for a resource embedder.
 	/// </summary>
-	public interface IEmbedFiles
+	public interface IEmbedResources
 	{
 		#region Properties
 

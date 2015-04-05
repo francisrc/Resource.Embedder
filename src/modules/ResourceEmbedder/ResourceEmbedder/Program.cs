@@ -52,7 +52,7 @@ namespace ResourceEmbedder
 				}
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
 			}
-			IEmbedFiles embedder = new CecilBasedFileEmbedder(logger);
+			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
 			if (!embedder.EmbedResources(input, output, resources.ToArray()))
 			{
 				logger.Error("Failed to embed resources!");
