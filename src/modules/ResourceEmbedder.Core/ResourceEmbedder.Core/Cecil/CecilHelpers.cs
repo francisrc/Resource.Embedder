@@ -27,7 +27,7 @@ namespace ResourceEmbedder.Core.Cecil
 			const string nameSpace = "ResourceEmbedderCompilerGenerated";
 			const string className = "ResourceEmbedderILInjected";
 			const string initMethod = "Attach";
-			var existingType = definition.MainModule.Types.FirstOrDefault(t => t.Namespace == nameSpace && t.Name == className);
+			var existingType = definition.MainModule.GetTypes().FirstOrDefault(t => t.Namespace == nameSpace && t.Name == className);
 			if (existingType != null)
 			{
 				// type already injected
