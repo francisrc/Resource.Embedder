@@ -1,4 +1,4 @@
-## Embedds satellite assemblies into the main assemblies.
+## Embeds satellite assemblies into the main assemblies.
 
 If you use [Fody.Costura](https://github.com/Fody/Costura) this tool probably comes in handy as well.
 Fody.Costura cannot embed localization resources (*.resources.dll) as Costura runs before MS Build can generate them.
@@ -27,9 +27,9 @@ The NuGet package works similar to [Costura](https://github.com/Fody/Costura) an
 
 By embedding it is possible to create "zero dependency" executables that can simply be deployed and "just run"**™**.
 
-Costura does exactly the same, except that it [cannot embedd satellite assemblies](https://github.com/Fody/Costura/issues/61) due to the way it's integrated into the build process (it runs before they are generated).
+Costura does exactly the same, except that it [cannot embed satellite assemblies](https://github.com/Fody/Costura/issues/61) due to the way it's integrated into the build process (it runs before they are generated).
 
-This tool on the contrary runs after build and is thus able to embedd. It is also (obviously) compatible with Costura, meaning by adding both to your project all your references and satellite assemblies will be embedded).
+This tool on the contrary runs after build and is thus able to embed. It is also (obviously) compatible with Costura, meaning by adding both to your project all your references and satellite assemblies will be embedded).
 
 ### Details
 
@@ -47,11 +47,11 @@ If the application is called Wpf.exe and has "de" (German), and "fr" (French) sa
 ### Try it yourself
 
 * Download the repository and open the solution (src\CompleteSolutions\Resource.Embedder.sln).
-* Add the nuget package "Resource.Embedder" to it and compile it.
+* Add the nuget package "Resource.Embedder" to the project "WPFTest" and compile it.
 * Output will be "WpfTest.exe" in the bin\Debug or bin\Release folder in the root.
 * Copy it somewhere or delete the localization folders (Visual Studio will always copy them on build)
 * Run the app and type "de" or "fr" into the textbox.
-* Observe that the "Hello world" text is properly localized even without resource assembly directories 
+* Observe that the "Hello world" text is properly localized when pressing the button to change locale even without resource assembly directories being present
 
 ### Configuration
 
