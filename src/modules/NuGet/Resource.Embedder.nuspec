@@ -11,7 +11,12 @@
 		<projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<iconUrl>https://raw.githubusercontent.com/MarcStan/Resource.Embedder/master/ico/package.png</iconUrl>
-		<description>Tool for automatic satellite assembly embedding (as resources).</description>
+		<description>
+			Tool for automatic satellite assembly embedding (as resources).
+			If you use Fody.Costura this may interest you as well (or vica versa).
+
+			Sourcecode here: https://github.com/MarcStan/Resource.Embedder/
+		</description>
 		<language>en-US</language>
 		<tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>
 		<dependencies></dependencies>
