@@ -94,6 +94,14 @@ namespace ResourceEmbedder.Core.Tests
 			// assert that German is now loaded
 			Translation.Culture = new CultureInfo("de");
 			Translation.Language.Should().Be("Deutsch");
+
+			// test fallback route as well
+			Translation.Culture = new CultureInfo("de-DE");
+			Translation.Language.Should().Be("Deutsch");
+
+			// we didn't translate to russian so this will falback from: ru-RU -> ru -> en
+			Translation.Culture = new CultureInfo("ru-RU");
+			Translation.Language.Should().Be("English");
 			File.Move(temp, "de\\ResourceEmbedder.Core.Tests.resources.dll");
 		}
 

@@ -80,6 +80,12 @@ namespace PluginLoaderConsole
 				{
 					Environment.Exit(-5);
 				}
+				// also test fallback route de-DE doesn't exist, so it should load "de" and not "en"
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+				if (p.HeaderLocalizedByThread != "Hallo Welt!")
+				{
+					Environment.Exit(-5);
+				}
 
 				Environment.Exit(0);
 			}

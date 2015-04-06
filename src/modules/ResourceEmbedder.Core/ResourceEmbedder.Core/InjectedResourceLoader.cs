@@ -82,7 +82,8 @@ namespace ResourceEmbedder.Core
 			// only *.resources.dll files are satellite assemblies
 			if (requestedAssemblyName.Name.EndsWith(".resources", StringComparison.InvariantCultureIgnoreCase))
 			{
-				if (requestedAssemblyName.CultureName != "neutral")
+				if (!string.IsNullOrEmpty(requestedAssemblyName.CultureName) &&
+					requestedAssemblyName.CultureName != "neutral")
 				{
 					return true;
 				}
@@ -92,29 +93,46 @@ namespace ResourceEmbedder.Core
 
 		private static Assembly LoadFromResource(AssemblyName requestedAssemblyName, Assembly requestingAssembly)
 		{
-			// requesting name in format: %assemblyname%.resources
-			// rewrite to: %assemblyName%.%assemblyName%.%culture%.resources.dll
-			//
-			var baseName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
-			var name = string.Format("{0}.{1}.resources.dll", baseName, requestedAssemblyName.CultureName);
+			// I haven't figured out how to add recursion to cecil (method cloner must know about the method itself already when copying it's instrutions)
+			// so instead this is a loop with two possible exit points: localization found, or fallback route is depleted and we return null to let .Net locate the neutral resource
+			while (true)
+			{
+				// requesting name in format: %assemblyname%.resources
+				// rewrite to: %assemblyName%.%assemblyName%.%culture%.resources.dll
+				//
+				var baseName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
+				var name = string.Format("{0}.{1}.resources.dll", baseName, requestedAssemblyName.CultureName);
 
-			// by default for resources the requestingAssembly will be null
-			var asm = requestingAssembly ?? FindMainAssembly(requestedAssemblyName);
-			if (asm == null)
-			{
-				// cannot find assembly from which to load
-				return null;
-			}
-			using (var stream = asm.GetManifestResourceStream(name))
-			{
-				if (stream == null)
+				// by default for resources the requestingAssembly will be null
+				var asm = requestingAssembly ?? FindMainAssembly(requestedAssemblyName);
+				if (asm == null)
 				{
-					// not found
+					// cannot find assembly from which to load
 					return null;
 				}
-				var bytes = new byte[stream.Length];
-				stream.Read(bytes, 0, bytes.Length);
-				return Assembly.Load(bytes);
+				using (var stream = asm.GetManifestResourceStream(name))
+				{
+					if (stream != null)
+					{
+						var bytes = new byte[stream.Length];
+						stream.Read(bytes, 0, bytes.Length);
+						return Assembly.Load(bytes);
+					}
+				}
+				// did not find the specific resource yet
+				// attempt to use the parent culture, this follows the .Net resource fallback system
+				// e.g. if sub resource de-DE is not found, then .Parent will be "de", if that is not found parent will probably be default resource
+				var fallback = requestedAssemblyName.CultureInfo.Parent.Name;
+				if (string.IsNullOrEmpty(fallback))
+				{
+					// is empty if no longer a parent
+					// return null so .Net can load the default resource
+					return null;
+				}
+				var alteredAssemblyName = requestedAssemblyName.FullName;
+				alteredAssemblyName = alteredAssemblyName.Replace(string.Format("Culture={0}", requestedAssemblyName.CultureName), string.Format("Culture={0}", fallback));
+
+				requestedAssemblyName = new AssemblyName(alteredAssemblyName);
 			}
 		}
 
