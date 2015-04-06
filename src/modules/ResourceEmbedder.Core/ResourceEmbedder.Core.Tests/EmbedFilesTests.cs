@@ -113,17 +113,17 @@ namespace ResourceEmbedder.Core.Tests
 		/// <returns></returns>
 		private static AssemblyHelper EmbedHelper(string exeName, ResourceInfo[] resources)
 		{
-			var logger = Substitute.For<ILogger>();
-			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
 			var dir = new FileInfo(Assembly.GetExecutingAssembly().GetLocation()).DirectoryName;
 			var file = Path.Combine(dir, exeName);
-
 			File.Exists(file).Should().BeTrue("because we referenced it.");
 
 			var tempFile = Path.GetTempFileName();
 			File.Delete(tempFile);
 			tempFile += ".exe";
-			embedder.EmbedResources(file, tempFile, resources).Should().BeTrue();
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(Substitute.For<ILogger>(), file, tempFile))
+			{
+				modifer.EmbedResources(resources).Should().BeTrue();
+			}
 
 			var bytes = File.ReadAllBytes(tempFile);
 

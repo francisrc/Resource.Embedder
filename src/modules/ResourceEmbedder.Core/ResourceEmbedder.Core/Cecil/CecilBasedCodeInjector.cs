@@ -1,9 +1,7 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
-using Mono.Cecil.Pdb;
 using Mono.Cecil.Rocks;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace ResourceEmbedder.Core.Cecil
@@ -31,52 +29,32 @@ namespace ResourceEmbedder.Core.Cecil
 		#region Methods
 
 		/// <see cref="IInjectCode.Inject"/>
-		public bool Inject(string inputAssembly, string outputAssembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
+		public bool Inject(AssemblyDefinition assembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
 		{
-			if (string.IsNullOrEmpty(inputAssembly) || string.IsNullOrEmpty(outputAssembly) || methodToCall == null)
+			if (assembly == null || methodToCall == null)
 			{
 				throw new ArgumentNullException();
 			}
-			if (!File.Exists(inputAssembly))
-			{
-				throw new FileNotFoundException(inputAssembly);
-			}
 			try
 			{
-				var symbolPath = Path.ChangeExtension(inputAssembly, "pdb");
-				var symbolsAreBeingRead = File.Exists(symbolPath);
-				var asm = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = symbolsAreBeingRead });
 				// first create a .cctor in the default module this is called before any other code. http://einaregilsson.com/module-initializers-in-csharp/
-				var moduleInitializerMethod = FindOrCreateCctor(asm.MainModule);
+				var moduleInitializerMethod = FindOrCreateCctor(assembly.MainModule);
 				var body = moduleInitializerMethod.Body;
 				body.SimplifyMacros();
 
 				// don't fully replace the code, always possible that user already uses code in here (e.g. when using Fody/Costura in conjunction with our code)
 				// instead, inject our invoke before every return statement
 				var returnPoints = body.Instructions.Where(i => i.OpCode == OpCodes.Ret).ToList();
+				var m = methodToCall(assembly);
 				foreach (var returnPoint in returnPoints)
 				{
 					var idx = body.Instructions.IndexOf(returnPoint);
 
-					var m = methodToCall(asm);
 					AssertElligibilityForModuleInitializer(m);
 
 					body.Instructions.Insert(idx, Instruction.Create(OpCodes.Call, m));
 				}
 				body.OptimizeMacros();
-				var pdb = Path.ChangeExtension(outputAssembly, "pdb");
-				if (File.Exists(pdb))
-				{
-					Logger.Info("Rewritting pdb");
-					// delete it just in case, as there have been issues before
-					// (e.g. a file lock by ms build that Cecil silently smallows leaving us with the old pdb, thus non-debuggable ode)
-					File.Delete(pdb);
-				}
-				asm.Write(outputAssembly, new WriterParameters
-				{
-					WriteSymbols = symbolsAreBeingRead,
-					SymbolWriterProvider = new PdbWriterProvider()
-				});
 			}
 			catch (Exception ex)
 			{

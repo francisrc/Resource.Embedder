@@ -45,11 +45,10 @@ namespace ResourceEmbedder.MsBuild
 			{
 				return false;
 			}
-			var sw = new Stopwatch();
-			sw.Start();
-			logger.Info("Beginning resource embedding.");
-			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
 
+			var watch = new Stopwatch();
+			watch.Start();
+			logger.Info("Beginning resource embedding.");
 			// run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;
@@ -65,7 +64,7 @@ namespace ResourceEmbedder.MsBuild
 			foreach (var ci in cultures)
 			{
 				// check if culture satellite assembly exists, if so embed
-				var ciPath = Path.Combine(workingDir, ci.ToString(), string.Format("{0}.resources.dll", inputAssemblyName));
+				var ciPath = Path.Combine(workingDir, ci.Name, string.Format("{0}.resources.dll", inputAssemblyName));
 				if (File.Exists(ciPath))
 				{
 					logger.Debug("Embedding culture: {0}", ci);
@@ -77,21 +76,22 @@ namespace ResourceEmbedder.MsBuild
 				logger.Info("Nothing to embed! Skipping {0}", inputAssembly);
 				return true;
 			}
-			if (!embedder.EmbedResources(inputAssembly, inputAssembly, assembliesToEmbed.ToArray()))
+
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly))
 			{
-				sw.Stop();
-				logger.Error("Failed to embed resources into assembly: " + inputAssembly);
-				return false;
+				if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
+				{
+					logger.Error("Failed to embed resources into assembly: " + inputAssembly);
+					return false;
+				}
+				if (!modifer.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader))
+				{
+					logger.Error("Failed to inject required code into assembly: " + inputAssembly);
+					return false;
+				}
 			}
-			IInjectCode injector = new CecilBasedCodeInjector(logger);
-			if (!injector.Inject(inputAssembly, inputAssembly, CecilHelpers.InjectEmbeddedResourceLoader))
-			{
-				sw.Stop();
-				logger.Error("Failed to inject required code into assembly: " + inputAssembly);
-				return false;
-			}
-			sw.Stop();
-			logger.Info("Finished embedding in {0}ms", sw.ElapsedMilliseconds);
+			watch.Stop();
+			logger.Info("Finished embedding in {0}ms", watch.ElapsedMilliseconds);
 			return true;
 		}
 

@@ -52,17 +52,20 @@ namespace ResourceEmbedder
 				}
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
 			}
-			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
-			var intermediateOutput = input;
-			if (!embedder.EmbedResources(input, intermediateOutput, resources.ToArray()))
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, input, output))
 			{
-				logger.Error("Failed to embed resources!");
+				if (!modifer.EmbedResources(resources.ToArray()))
+				{
+					logger.Error("Failed to embed resources!");
+					return;
+				}
+				if (!modifer.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader))
+				{
+					logger.Error("Failed to inject code!");
+					return;
+				}
 			}
-			IInjectCode injector = new CecilBasedCodeInjector(logger);
-			if (!injector.Inject(intermediateOutput, output, CecilHelpers.InjectEmbeddedResourceLoader))
-			{
-				logger.Error("Failed to inject code!");
-			}
+			Console.WriteLine("Successfully added resources and code!");
 		}
 
 		private static void PrintUsageAndExit()

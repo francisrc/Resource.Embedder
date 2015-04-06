@@ -23,16 +23,17 @@ namespace ResourceEmbedder.Core.Tests
 			File.Copy("WpfTest.exe", file);
 
 			var logger = Substitute.For<ILogger>();
-			IEmbedResources embedder = new CecilBasedResourceEmbedder(logger);
-			var resources = new[]
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, file, file))
 			{
-				new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),
-				new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.resources.dll")
-			};
-			embedder.EmbedResources(file, file, resources).Should().BeTrue();
+				var resources = new[]
+				{
+					new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),
+					new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.resources.dll")
+				};
+				modifer.EmbedResources(resources).Should().BeTrue();
 
-			IInjectCode injector = new CecilBasedCodeInjector(logger);
-			injector.Inject(file, file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+				modifer.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+			}
 
 			// assert that the resource is embedded and that it automatically localizes using the injected code
 			var info = new ProcessStartInfo(file, "/testFullyProcessed");

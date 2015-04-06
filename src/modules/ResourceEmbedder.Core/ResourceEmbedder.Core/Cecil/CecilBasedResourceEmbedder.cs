@@ -37,13 +37,12 @@ namespace ResourceEmbedder.Core.Cecil
 		/// Call to embedd the provided set of resources into the specific assembly.
 		/// Uses the <see cref="Logger"/> to issue log messages.
 		/// </summary>
-		/// <param name="inputAssembly">The assembly where the resources should be embedded in.</param>
-		/// <param name="outputAssembly">The output path where the result should be stored. May be equal to <see cref="inputAssembly"/>.</param>
+		/// <param name="assembly"></param>
 		/// <param name="resourcesToEmbedd"></param>
 		/// <returns></returns>
-		public bool EmbedResources(string inputAssembly, string outputAssembly, ResourceInfo[] resourcesToEmbedd)
+		public bool EmbedResources(AssemblyDefinition assembly, ResourceInfo[] resourcesToEmbedd)
 		{
-			if (string.IsNullOrEmpty(inputAssembly) || string.IsNullOrEmpty(outputAssembly) || resourcesToEmbedd == null)
+			if (assembly == null || resourcesToEmbedd == null)
 			{
 				throw new ArgumentException();
 			}
@@ -53,9 +52,7 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 			try
 			{
-				var readSymbols = File.Exists(Path.ChangeExtension(inputAssembly, "pdb"));
-				var assemblyDef = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = readSymbols });
-				Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, outputAssembly);
+				Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, assembly.Name);
 				foreach (var res in resourcesToEmbedd)
 				{
 					if (!File.Exists(res.FullPathOfFileToEmbedd))
@@ -66,22 +63,20 @@ namespace ResourceEmbedder.Core.Cecil
 					try
 					{
 						var bytes = File.ReadAllBytes(res.FullPathOfFileToEmbedd);
-						var resource = assemblyDef.MainModule.Resources.FirstOrDefault(r => r.Name == res.RelativePathInAssembly);
+						var resource = assembly.MainModule.Resources.FirstOrDefault(r => r.Name == res.RelativePathInAssembly);
 						if (resource != null)
 						{
 							// remove the old resource if there is any
-							assemblyDef.MainModule.Resources.Remove(resource);
+							assembly.MainModule.Resources.Remove(resource);
 						}
-						assemblyDef.MainModule.Resources.Add(new EmbeddedResource(res.RelativePathInAssembly, ManifestResourceAttributes.Private, bytes));
+						assembly.MainModule.Resources.Add(new EmbeddedResource(res.RelativePathInAssembly, ManifestResourceAttributes.Private, bytes));
 					}
 					catch (Exception ex)
 					{
-						Logger.Error("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, outputAssembly, ex.Message);
+						Logger.Error("Embedding task failed for resource {0}. Could not embedd into {1}. {2}", res.FullPathOfFileToEmbedd, assembly.Name, ex.Message);
 						return false;
 					}
 				}
-				Logger.Info("Finalizing output assembly {0}.", outputAssembly);
-				assemblyDef.Write(outputAssembly, new WriterParameters { WriteSymbols = readSymbols });
 			}
 			catch (Exception ex)
 			{

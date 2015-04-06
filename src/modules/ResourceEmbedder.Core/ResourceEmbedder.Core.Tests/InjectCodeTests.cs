@@ -23,9 +23,11 @@ namespace ResourceEmbedder.Core.Tests
 			}
 			File.Copy("WpfTest.exe", file);
 
-			// inject the localization assembly loader hooks
-			IInjectCode injector = new CecilBasedCodeInjector(Substitute.For<ILogger>());
-			injector.Inject(file, file, CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(Substitute.For<ILogger>(), file, file))
+			{
+				// inject the localization assembly loader hooks
+				modifer.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader).Should().BeTrue();
+			}
 
 			// now check that assembly has actually embedded that code by using reflection to access it
 			var asm = Assembly.LoadFrom(file);
