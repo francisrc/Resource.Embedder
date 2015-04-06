@@ -1,4 +1,4 @@
-﻿using ResourceEmbedder.Core;
+﻿using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Globalization;
 using System.Windows.Input;

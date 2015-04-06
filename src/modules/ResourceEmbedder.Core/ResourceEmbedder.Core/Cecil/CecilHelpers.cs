@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Linq;
 using System.Reflection;

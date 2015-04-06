@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.GeneratedCode
 {
 	/// <summary>
 	/// Code that is injected into target assemblies.

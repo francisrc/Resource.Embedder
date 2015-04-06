@@ -3,6 +3,7 @@ using Modules.TestHelper;
 using NSubstitute;
 using NUnit.Framework;
 using ResourceEmbedder.Core.Cecil;
+using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Diagnostics;
 using System.Globalization;
