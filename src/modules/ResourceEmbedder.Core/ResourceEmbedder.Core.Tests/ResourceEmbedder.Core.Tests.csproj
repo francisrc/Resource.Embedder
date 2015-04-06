@@ -87,6 +87,7 @@
     <Compile Include="EmbedFilesTests.cs" />
     <Compile Include="FullEmbeddingTests.cs" />
     <Compile Include="InjectCodeTests.cs" />
+    <Compile Include="PluginTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Translation.Designer.cs">
       <DependentUpon>Translation.resx</DependentUpon>
@@ -98,6 +99,14 @@
     <ProjectReference Include="..\..\..\testmodules\ConsoleTest\ConsoleTest.csproj">
       <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
       <Name>ConsoleTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\testmodules\LocalizedPlugin\LocalizedPlugin.csproj">
+      <Project>{ed32b259-39eb-41ab-99eb-1b92e1508109}</Project>
+      <Name>LocalizedPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj">
+      <Project>{3e7c0205-de08-445b-a1ea-ae2e0efac39c}</Project>
+      <Name>PluginLoaderConsole</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
