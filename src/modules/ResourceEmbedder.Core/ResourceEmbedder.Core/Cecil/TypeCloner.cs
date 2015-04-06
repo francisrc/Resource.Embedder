@@ -22,17 +22,8 @@ namespace ResourceEmbedder.Core.Cecil
 
 		#region Constructors
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="sourceType"></param>
-		/// <param name="targetModule"></param>
-		/// <param name="methodCloneOrder">Cecil crashes when methods are added in wrong order. You must manually sort your methods in their reverse execution order.</param>
-		/// <param name="nameSpace"></param>S
-		/// <param name="className"></param>
-		public TypeCloner(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
+		private TypeCloner(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
 		{
-			// TODO: refactor into static
 			_targetModule = targetModule;
 			_sourceType = sourceType;
 
@@ -69,6 +60,20 @@ namespace ResourceEmbedder.Core.Cecil
 		#endregion Properties
 
 		#region Methods
+
+		/// <summary>
+		/// Clones the provided type definition from one assembly to the other.
+		/// </summary>
+		/// <param name="sourceType">The type to clone.</param>
+		/// <param name="targetModule">The module where the type should be added to.</param>
+		/// <param name="methodCloneOrder">Cecil crashes when methods are added in wrong order. You must manually sort your methods in their reverse execution order if they depend on each other. I'm sure that this problem can be solved, but for now this implementation is "good enough" for me.</param>
+		/// <param name="nameSpace">The namespace to use. Leave null to use same namespace as in <see cref="sourceType"/></param>
+		/// <param name="className">The classname to use. Leave null to use same classname as in <see cref="sourceType"/></param>
+		/// <returns>The cloned type, already added to the targetModule.</returns>
+		public static TypeDefinition CloneTo(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
+		{
+			return new TypeCloner(sourceType, targetModule, methodCloneOrder, nameSpace, className).ClonedType;
+		}
 
 		private Instruction CloneInstruction(Instruction instruction, string fullyQualifiedPath)
 		{

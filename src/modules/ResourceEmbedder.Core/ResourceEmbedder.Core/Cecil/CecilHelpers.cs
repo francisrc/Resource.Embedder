@@ -38,14 +38,14 @@ namespace ResourceEmbedder.Core.Cecil
 				}
 				return existingMethod;
 			}
-			var clonedType = new TypeCloner(module.GetType(type.FullName), definition.MainModule, new[]
+			var clonedType = TypeCloner.CloneTo(module.GetType(type.FullName), definition.MainModule, new[]
 			{
 				"FindMainAssembly",
 				"LoadFromResource",
 				"IsLocalizedAssembly",
 				"AssemblyResolve",
 				"Attach"
-			}, "ResourceEmbedderCompilerGenerated", className).ClonedType;
+			}, "ResourceEmbedderCompilerGenerated", className);
 			// add the type to the assembly.
 			definition.MainModule.Types.Add(clonedType);
 			// return the method
