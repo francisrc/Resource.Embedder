@@ -19,6 +19,11 @@ namespace LocalizedPlugin
 
 		public CultureInfo CurrentLocale { get; set; }
 
+		public string HeaderLocalizedByThread
+		{
+			get { return Translations.Header; }
+		}
+
 		public string LocalizedDescription
 		{
 			get { return Translations.ResourceManager.GetString("Description", CurrentLocale); }

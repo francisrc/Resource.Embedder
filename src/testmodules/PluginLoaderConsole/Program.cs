@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace PluginLoaderConsole
 {
@@ -14,7 +15,7 @@ namespace PluginLoaderConsole
 		private static void LoadAssemblies()
 		{
 			// LocalizedPlugin assembly is never referenced, so forceload it manually
-			Assembly.Load("LocalizedPlugin");
+			Assembly.LoadFrom("LocalizedPlugin.dll");
 		}
 
 		private static IEnumerable<ILocalizedPlugin> LoadPlugins()
@@ -51,18 +52,35 @@ namespace PluginLoaderConsole
 				}
 				var p = plugins[0];
 				// assert localization works
-				SetLocale("en");
+				p.CurrentLocale = new CultureInfo("en");
 				if (p.LocalizedHeader != "Hello world!" ||
 					p.LocalizedDescription != "This is a localized description of the plugin.")
 				{
 					Environment.Exit(-3);
 				}
-				SetLocale("de");
+				p.CurrentLocale = new CultureInfo("de");
 				if (p.LocalizedHeader != "Hallo Welt!" ||
 					p.LocalizedDescription != "Das ist eine übersetze Beschreibung des Plugins.")
 				{
 					Environment.Exit(-3);
 				}
+
+				// ensure that the HeaderLocalizedByThread is actually not affected by the property
+				p.CurrentLocale = new CultureInfo("de");
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+				if (p.LocalizedHeader != "Hallo Welt!" ||
+					p.HeaderLocalizedByThread != "Hello world!" ||
+					p.LocalizedDescription != "Das ist eine übersetze Beschreibung des Plugins.")
+				{
+					Environment.Exit(-4);
+				}
+				// but instead only by the thread's culture
+				Thread.CurrentThread.CurrentUICulture = new CultureInfo("de");
+				if (p.HeaderLocalizedByThread != "Hallo Welt!")
+				{
+					Environment.Exit(-5);
+				}
+
 				Environment.Exit(0);
 			}
 			else
@@ -87,9 +105,13 @@ namespace PluginLoaderConsole
 			}
 		}
 
-		private static void SetLocale(string ci)
+		private static void SetLocale(string culture)
 		{
-			CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(ci);
+			var ci = new CultureInfo(culture);
+			Thread.CurrentThread.CurrentCulture = ci;
+			Thread.CurrentThread.CurrentUICulture = ci;
+			CultureInfo.DefaultThreadCurrentCulture = ci;
+			CultureInfo.DefaultThreadCurrentUICulture = ci;
 		}
 
 		#endregion Methods

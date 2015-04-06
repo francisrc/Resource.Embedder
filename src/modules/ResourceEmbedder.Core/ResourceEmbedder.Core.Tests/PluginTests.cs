@@ -8,6 +8,8 @@ namespace ResourceEmbedder.Core.Tests
 	[TestFixture]
 	public class PluginTests
 	{
+		#region Methods
+
 		[Test]
 		public void TestLoadingPluginWorksAsWell()
 		{
@@ -26,8 +28,10 @@ namespace ResourceEmbedder.Core.Tests
 			File.Exists(loc).Should().BeFalse();
 
 			var p = Process.Start(exe, "/fulltest");
-			p.WaitForExit(2000);
+			p.WaitForExit(2000).Should().BeTrue();
 			p.ExitCode.Should().Be(0);
 		}
+
+		#endregion Methods
 	}
 }
