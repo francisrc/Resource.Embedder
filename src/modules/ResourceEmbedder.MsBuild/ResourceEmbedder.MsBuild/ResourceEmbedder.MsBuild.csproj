@@ -66,6 +66,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\testmodules\WpfTest\WpfTest.csproj">
+      <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
+      <Name>WpfTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj">
       <Project>{61353C81-2537-47AF-855B-21BBDDD2EEC2}</Project>
       <Name>ResourceEmbedder.Core</Name>
