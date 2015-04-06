@@ -58,13 +58,15 @@ namespace ResourceEmbedder.Core
 			}
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
+			// resources have the same name as their belonging assembly, so find by name
+			var parentName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
 			// I'd love to use linq here, but Cecil starts fucking up when I do (null reference exception on assembly.Write)
 			// without a Linq query it works fine, though
 
 			// ReSharper disable once LoopCanBeConvertedToQuery
 			foreach (var assembly in assemblies)
 			{
-				if (requestedAssemblyName.Name.StartsWith(assembly.GetName().Name))
+				if (assembly.GetName().Name == parentName)
 				{
 					return assembly;
 				}
@@ -130,7 +132,7 @@ namespace ResourceEmbedder.Core
 					return null;
 				}
 				var alteredAssemblyName = requestedAssemblyName.FullName;
-				alteredAssemblyName = alteredAssemblyName.Replace(string.Format("Culture={0}", requestedAssemblyName.CultureName), string.Format("Culture={0}", fallback));
+				alteredAssemblyName = alteredAssemblyName.Replace(string.Format("Culture={0}", requestedAssemblyName.CultureInfo.Name), string.Format("Culture={0}", fallback));
 
 				requestedAssemblyName = new AssemblyName(alteredAssemblyName);
 			}
