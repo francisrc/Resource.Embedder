@@ -49,6 +49,7 @@ namespace ResourceEmbedder.MsBuild
 			var watch = new Stopwatch();
 			watch.Start();
 			logger.Info("Beginning resource embedding.");
+			logger.Indent(1);
 			// run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;

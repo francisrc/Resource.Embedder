@@ -5,7 +5,14 @@ namespace ResourceEmbedder
 {
 	public class ConsoleLogger : ILogger
 	{
+		private int _indent;
+
 		#region Methods
+
+		public void Indent(int level)
+		{
+			_indent = level;
+		}
 
 		public void Debug(string message, params object[] args)
 		{
@@ -33,7 +40,7 @@ namespace ResourceEmbedder
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="color">The color to use for printing. After printing the color will revert back to the previous one automatically.</param>
-		private static void LogColored(string message, ConsoleColor? color = null)
+		private void LogColored(string message, ConsoleColor? color = null)
 		{
 			// swap to new color, then revert back to old after printing message
 			var old = Console.ForegroundColor;
@@ -41,7 +48,7 @@ namespace ResourceEmbedder
 			{
 				Console.ForegroundColor = color.Value;
 			}
-			Console.WriteLine(message);
+			Console.WriteLine(new string('\t', _indent) + message);
 			Console.ForegroundColor = old;
 		}
 

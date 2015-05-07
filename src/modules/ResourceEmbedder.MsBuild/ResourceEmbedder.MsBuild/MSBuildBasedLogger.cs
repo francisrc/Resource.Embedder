@@ -1,6 +1,6 @@
-﻿using ILogger = ResourceEmbedder.Core.ILogger;
-using Microsoft.Build.Framework;
+﻿using Microsoft.Build.Framework;
 using System;
+using ILogger = ResourceEmbedder.Core.ILogger;
 
 namespace ResourceEmbedder.MsBuild
 {
@@ -10,6 +10,7 @@ namespace ResourceEmbedder.MsBuild
 
 		private readonly IBuildEngine _buildEngine;
 		private readonly string _sender;
+		private int _indentLevel;
 
 		#endregion Fields
 
@@ -42,19 +43,33 @@ namespace ResourceEmbedder.MsBuild
 
 		public void Error(string message, params object[] args)
 		{
-			_buildEngine.LogErrorEvent(new BuildErrorEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
+			_buildEngine.LogErrorEvent(new BuildErrorEventArgs("", "", "", 0, 0, 0, 0, Format(message, args), "", _sender));
+		}
+
+		private string Format(string message, object[] args)
+		{
+			return new string('\t', _indentLevel) + string.Format(message, args);
 		}
 
 		public void Info(string message, params object[] args)
 		{
-			_buildEngine.LogMessageEvent(new BuildMessageEventArgs(string.Format(message, args), "", _sender, MessageImportance.Normal));
+			_buildEngine.LogMessageEvent(new BuildMessageEventArgs(Format(message, args), "", _sender, MessageImportance.High));
 		}
 
 		public void Warning(string message, params object[] args)
 		{
-			_buildEngine.LogWarningEvent(new BuildWarningEventArgs("", "", "", 0, 0, 0, 0, string.Format(message, args), "", _sender));
+			_buildEngine.LogWarningEvent(new BuildWarningEventArgs("", "", "", 0, 0, 0, 0, Format(message, args), "", _sender));
 		}
 
 		#endregion Methods
+
+		public void Indent(int level)
+		{
+			if (level < 0)
+			{
+				throw new ArgumentOutOfRangeException("level");
+			}
+			_indentLevel = level;
+		}
 	}
 }
