@@ -40,14 +40,15 @@
 		<EmbedderPath Condition="$(EmbedderPath) == '' Or $(EmbedderPath) == '*Undefined*'">$(MSBuildThisFileDirectory)..\</EmbedderPath>
 	</PropertyGroup>
 	<UsingTask TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask" AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
+	<UsingTask TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask" AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
 	<!-- We want to run as soon as the satellite assemblies are generated -->
 	<Target AfterTargets="GenerateSatelliteAssemblies" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
 		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
 																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
 	</Target>
 	<!--Cleanup after generating -->
-	<Target AfterTargets="AfterBuild" Name="CleanReferenceCopyLocalPaths">
-		<ResourceEmbedder.MSBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
+	<Target AfterTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
+		<ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
 																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
 	</Target>
 	<!--Support for ncrunch-->

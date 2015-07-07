@@ -36,7 +36,7 @@ namespace ResourceEmbedder.MsBuild
 			logger.Indent(1);
 
 			string outputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
-			var workingDir = new FileInfo(outputAssembly).DirectoryName;
+			var workingDir = new FileInfo(TargetPath).DirectoryName;
 			logger.Info("WorkingDir (used for cleanup of resources): " + workingDir);
 			logger.Info("Scanning output assembly '{0}' for embedded localizations", outputAssembly);
 
