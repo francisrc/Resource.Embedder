@@ -41,10 +41,8 @@ namespace ResourceEmbedder.MsBuild
 
 			var assembliesToEmbed = new List<ResourceInfo>();
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-			var inputAssemblyName = new FileInfo(inputAssembly).Name;
+			var inputAssemblyName = Path.GetFileNameWithoutExtension(inputAssembly);
 
-			// remove extension (.exe, .dll)
-			inputAssemblyName = inputAssemblyName.Substring(0, inputAssemblyName.LastIndexOf('.'));
 			foreach (var ci in cultures)
 			{
 				// check if culture satellite assembly exists, if so embed
