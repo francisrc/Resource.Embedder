@@ -31,33 +31,33 @@
       <Name>ResourceEmbedder.MsBuild</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\CompleteSolutions\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets" Condition="Exists('..\..\CompleteSolutions\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" />
+  <Import Project="..\..\..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets" Condition="Exists('..\..\..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" />
   <Target Name="Clean">
     <RemoveDir Directories="$(SolutionDir)NuGetBuild" />
   </Target>
   <Target Name="Build" DependsOnTargets="NuGetBuild" />
   <Target Name="ReBuild" DependsOnTargets="NuGetBuild" />
   <Target Name="NuGetBuild" DependsOnTargets="Clean">
-    <Copy SourceFiles="$(ProjectDir)Resource.Embedder.nuspec" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(ProjectDir)Resource.Embedder.targets" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\build" />
-    <Copy SourceFiles="$(ProjectDir)install.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
-    <Copy SourceFiles="$(ProjectDir)uninstall.ps1" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\Tools" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.Core.pdb" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Mdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Pdb.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <Copy SourceFiles="$(SolutionDir)..\..\bin\$(ConfigurationName)\Mono.Cecil.Rocks.dll" DestinationFolder="$(SolutionDir)..\..\bin\NuGet" />
-    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)..\..\bin\NuGet" MetadataAssembly="$(SolutionDir)..\..\bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" />
-    <Copy SourceFiles="$(SolutionDir)..\modules\NuGet\Resource.Embedder.targets" DestinationFolder="$(SolutionDir)..\..\bin\NuGet\build" />
+    <Copy SourceFiles="$(ProjectDir)Resource.Embedder.nuspec" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(ProjectDir)Resource.Embedder.targets" DestinationFolder="$(SolutionDir)bin\NuGet\build" />
+    <Copy SourceFiles="$(ProjectDir)install.ps1" DestinationFolder="$(SolutionDir)bin\NuGet\Tools" />
+    <Copy SourceFiles="$(ProjectDir)uninstall.ps1" DestinationFolder="$(SolutionDir)bin\NuGet\Tools" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.pdb" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ResourceEmbedder.Core.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ResourceEmbedder.Core.pdb" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\Mono.Cecil.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\Mono.Cecil.Mdb.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\Mono.Cecil.Pdb.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\Mono.Cecil.Rocks.dll" DestinationFolder="$(SolutionDir)bin\NuGet" />
+    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)bin\NuGet" MetadataAssembly="$(SolutionDir)bin\$(ConfigurationName)\ResourceEmbedder.MsBuild.dll" />
+    <Copy SourceFiles="$(SolutionDir)src\modules\NuGet\Resource.Embedder.targets" DestinationFolder="$(SolutionDir)bin\NuGet\build" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\CompleteSolutions\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\CompleteSolutions\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
