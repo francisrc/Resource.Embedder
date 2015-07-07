@@ -99,6 +99,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Translations.de.resx" />
+    <EmbeddedResource Include="Resources\Translations.de-DE.resx" />
     <EmbeddedResource Include="Resources\Translations.fr.resx" />
     <EmbeddedResource Include="Resources\Translations.resx">
       <Generator>ResXFileCodeGenerator</Generator>

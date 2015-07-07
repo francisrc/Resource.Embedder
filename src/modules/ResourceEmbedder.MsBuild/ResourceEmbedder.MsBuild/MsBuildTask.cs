@@ -21,6 +21,8 @@ namespace ResourceEmbedder.MsBuild
 
 		#endregion Properties
 
+		#region Methods
+
 		protected bool AssertSetup(Core.ILogger logger)
 		{
 			if (!Directory.Exists(ProjectDirectory))
@@ -36,5 +38,7 @@ namespace ResourceEmbedder.MsBuild
 			}
 			return true;
 		}
+
+		#endregion Methods
 	}
 }
