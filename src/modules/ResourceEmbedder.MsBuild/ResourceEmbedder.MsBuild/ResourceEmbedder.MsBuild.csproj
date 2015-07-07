@@ -61,6 +61,8 @@
     <Compile Include="..\..\..\AssemblyInfo\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
+    <Compile Include="MsBuildTask.cs" />
+    <Compile Include="SatelliteAssemblyCleanupTask.cs" />
     <Compile Include="SatelliteAssemblyEmbedderTask.cs" />
     <Compile Include="MSBuildBasedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -45,7 +45,11 @@
 		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
 																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
 	</Target>
-
+	<!--Cleanup after generating -->
+	<Target AfterTargets="AfterBuild" Name="CleanReferenceCopyLocalPaths">
+		<ResourceEmbedder.MSBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
+																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
+	</Target>
 	<!--Support for ncrunch-->
 	<ItemGroup  Condition="'$(NCrunch)' == '1'">
 		<None Include="$(EmbedderPath)\*.*" />

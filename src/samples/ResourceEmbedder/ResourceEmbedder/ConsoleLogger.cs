@@ -5,14 +5,13 @@ namespace ResourceEmbedder
 {
 	public class ConsoleLogger : ILogger
 	{
+		#region Fields
+
 		private int _indent;
 
-		#region Methods
+		#endregion Fields
 
-		public void Indent(int level)
-		{
-			_indent = level;
-		}
+		#region Methods
 
 		public void Debug(string message, params object[] args)
 		{
@@ -22,6 +21,11 @@ namespace ResourceEmbedder
 		public void Error(string message, params object[] args)
 		{
 			LogColored("Error: " + string.Format(message, args), ConsoleColor.Red);
+		}
+
+		public void Indent(int level)
+		{
+			_indent = level;
 		}
 
 		public void Info(string message, params object[] args)

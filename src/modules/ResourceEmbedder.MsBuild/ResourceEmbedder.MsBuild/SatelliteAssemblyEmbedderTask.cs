@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Framework;
-using ResourceEmbedder.Core;
+﻿using ResourceEmbedder.Core;
 using ResourceEmbedder.Core.Cecil;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,24 +11,8 @@ namespace ResourceEmbedder.MsBuild
 	/// Task to embed satellite assemblies into an existing .Net assembly.
 	/// Will also add code to the module initializer that will hook into AssemblyResolve event to load from emvbedded resources.
 	/// </summary>
-	public class SatelliteAssemblyEmbedderTask : Microsoft.Build.Utilities.Task
+	public class SatelliteAssemblyEmbedderTask : MsBuildTask
 	{
-		#region Properties
-
-		[Required]
-		public string AssemblyPath { set; get; }
-
-		public string KeyFilePath { get; set; }
-
-		[Required]
-		public string ProjectDirectory { get; set; }
-
-		public bool SignAssembly { get; set; }
-
-		public string TargetPath { get; set; }
-
-		#endregion Properties
-
 		#region Methods
 
 		public override bool Execute()
@@ -93,22 +76,6 @@ namespace ResourceEmbedder.MsBuild
 			}
 			watch.Stop();
 			logger.Info("Finished embedding in {0}ms", watch.ElapsedMilliseconds);
-			return true;
-		}
-
-		private bool AssertSetup(Core.ILogger logger)
-		{
-			if (!Directory.Exists(ProjectDirectory))
-			{
-				logger.Error("Project directory '{0}' does not exist.", ProjectDirectory);
-				return false;
-			}
-			var asm = Path.Combine(ProjectDirectory, AssemblyPath);
-			if (!File.Exists(asm))
-			{
-				logger.Error("Assembly '{0}' not found", asm);
-				return false;
-			}
 			return true;
 		}
 
