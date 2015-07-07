@@ -5,20 +5,20 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_ResourcesUsedForTests", "_ResourcesUsedForTests", "{1C691DB0-AEF0-4E76-8E01-C501D6C06F54}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\_TestFiles\test.txt = ..\..\_TestFiles\test.txt
+		_TestFiles\test.txt = _TestFiles\test.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "..\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "src\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "..\modules\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "src\modules\ResourceEmbedder.Core\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.TestHelper", "..\modules\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.TestHelper", "src\modules\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core.Tests", "..\modules\ResourceEmbedder.Core\ResourceEmbedder.Core.Tests\ResourceEmbedder.Core.Tests.csproj", "{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core.Tests", "src\modules\ResourceEmbedder.Core\ResourceEmbedder.Core.Tests\ResourceEmbedder.Core.Tests.csproj", "{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "..\testmodules\ConsoleTest\ConsoleTest.csproj", "{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "src\testmodules\ConsoleTest\ConsoleTest.csproj", "{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "..\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "src\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_AssembliesUsedForTests", "_AssembliesUsedForTests", "{AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}"
 EndProject
@@ -28,19 +28,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8421
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSBuild", "MSBuild", "{47859C5F-EEFA-4E5E-ADDF-D0C47C15D72F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild.Tests", "..\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild.Tests", "src\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet", "..\modules\NuGet\NuGet.csproj", "{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet", "src\modules\NuGet\NuGet.csproj", "{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "..\samples\ResourceEmbedder\ResourceEmbedder\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "src\samples\ResourceEmbedder\ResourceEmbedder\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Tests", "..\samples\ResourceEmbedder\ResourceEmbedder.Tests\ResourceEmbedder.Tests.csproj", "{C67A1956-3102-442E-A98E-167475D0F3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Tests", "src\samples\ResourceEmbedder\ResourceEmbedder.Tests\ResourceEmbedder.Tests.csproj", "{C67A1956-3102-442E-A98E-167475D0F3E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizedPlugin", "..\testmodules\LocalizedPlugin\LocalizedPlugin.csproj", "{ED32B259-39EB-41AB-99EB-1B92E1508109}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizedPlugin", "src\testmodules\LocalizedPlugin\LocalizedPlugin.csproj", "{ED32B259-39EB-41AB-99EB-1B92E1508109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLoaderConsole", "..\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj", "{3E7C0205-DE08-445B-A1EA-AE2E0EFAC39C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLoaderConsole", "src\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj", "{3E7C0205-DE08-445B-A1EA-AE2E0EFAC39C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCore", "..\testmodules\PluginCore\PluginCore.csproj", "{D7EC42BF-4662-460F-8166-6E424E1B0D93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCore", "src\testmodules\PluginCore\PluginCore.csproj", "{D7EC42BF-4662-460F-8166-6E424E1B0D93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
