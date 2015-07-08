@@ -116,6 +116,11 @@ namespace ResourceEmbedder.MsBuild
 			// the simplest solution was to save a temp file from which the other task can read
 			// to get a unique name we use the hash of the assembly
 			var tempFile = FileHelper.GetUniqueTempFileName(outputAssembly);
+			if (!File.Exists(tempFile))
+			{
+                // e.g. if processed assembly doesn't have localization
+                return new string[0];
+			}
 			var cultures = File.ReadAllText(tempFile);
 			File.Delete(tempFile);
 			return cultures.Contains(";") ? cultures.Split(';') : new[] { cultures };
