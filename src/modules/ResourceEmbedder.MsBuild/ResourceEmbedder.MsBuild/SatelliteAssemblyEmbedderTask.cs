@@ -36,8 +36,8 @@ namespace ResourceEmbedder.MsBuild
 			// run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;
-			logger.Info("WorkingDir (used for localization detection): " + workingDir);
-			logger.Info("Input assembly: {0}", inputAssembly);
+			//logger.Debug("WorkingDir (used for localization detection): " + workingDir);
+			//logger.Debug("Input assembly: {0}", inputAssembly);
 
 			var assembliesToEmbed = new List<ResourceInfo>();
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
@@ -50,7 +50,7 @@ namespace ResourceEmbedder.MsBuild
 				var ciPath = Path.Combine(workingDir, ci.Name, string.Format("{0}.resources.dll", inputAssemblyName));
 				if (File.Exists(ciPath))
 				{
-					logger.Debug("Embedding culture: {0}", ci);
+					//logger.Debug("Embedding culture: {0}", ci);
 					usedCultures.Add(ci.Name);
 					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.{1}.resources.dll", inputAssemblyName, ci)));
 				}
@@ -77,7 +77,7 @@ namespace ResourceEmbedder.MsBuild
 			watch.Stop();
 			var tempFile = FileHelper.GetUniqueTempFileName(inputAssembly);
 			File.WriteAllText(tempFile, string.Join(";", usedCultures));
-			logger.Info("Finished embedding in {0}ms", watch.ElapsedMilliseconds);
+			logger.Info("Finished embedding cultures: {0} in {1}ms", string.Join(", ", usedCultures), watch.ElapsedMilliseconds);
 			return true;
 		}
 

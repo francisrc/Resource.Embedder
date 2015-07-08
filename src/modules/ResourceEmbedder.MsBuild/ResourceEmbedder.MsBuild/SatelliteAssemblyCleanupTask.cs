@@ -36,8 +36,8 @@ namespace ResourceEmbedder.MsBuild
 
 			string outputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(TargetPath).DirectoryName;
-			logger.Info("WorkingDir (used for cleanup of resources): " + workingDir);
-			logger.Info("Scanning output assembly '{0}' for embedded localizations", outputAssembly);
+			//logger.Debug("WorkingDir (used for cleanup of resources): " + workingDir);
+			//logger.Debug("Scanning output assembly '{0}' for embedded localizations", outputAssembly);
 
 			// detect which cultures have been embedded
 			var embeddedCultures = GetEmbeddedCultures(outputAssembly).ToList();
@@ -45,13 +45,15 @@ namespace ResourceEmbedder.MsBuild
 			// we need only the name for -> %name%.resources.dll
 			var resourceName = Path.GetFileNameWithoutExtension(outputAssembly) + ".resources.dll";
 
+			var embeddedResources = new List<string>();
+			var emptyDirectories = new List<string>();
 			foreach (var ci in embeddedCultures)
 			{
 				var resourceFile = Path.Combine(workingDir, ci.Name, resourceName);
 				if (File.Exists(resourceFile))
 				{
+					embeddedResources.Add(ci.Name);
 					File.Delete(resourceFile);
-					logger.Info("Deleted resource file '{0}' as it was embedded into the target.", Path.Combine(ci.Name, resourceName));
 					// check whether that was the last file of the specific language, if so -> delete the directory
 					var dir = new FileInfo(resourceFile).DirectoryName;
 					if (Directory.GetFileSystemEntries(dir).Length == 0)
@@ -60,7 +62,7 @@ namespace ResourceEmbedder.MsBuild
 						try
 						{
 							Directory.Delete(dir);
-							logger.Info("Deleted resource directory '{0}' as it is empty.", ci.Name);
+							emptyDirectories.Add(ci.Name);
 						}
 						catch (Exception ex)
 						{
@@ -68,13 +70,34 @@ namespace ResourceEmbedder.MsBuild
 							logger.Warning("Failed to delete resource directory '{0}': {1}", ci.Name, ex.Message);
 						}
 					}
-					else
-					{
-						logger.Info("Resource directory '{0}' is not empty, thus will be kept.", ci.Name);
-					}
 				}
 			}
 
+			if (embeddedResources.Count == 1)
+			{
+				logger.Info("Deleted resource file '{0}' as it was embedded into the target.", embeddedResources[0]);
+			}
+			else if (embeddedResources.Count > 1)
+			{
+				logger.Info("Deleted resource files '{0}' as they where embedded into the target.", string.Join(", ", embeddedResources));
+			}
+			if (emptyDirectories.Count == 1)
+			{
+				logger.Info("Deleted resource directory '{0}' as it are empty.", emptyDirectories[0]);
+			}
+			else if (emptyDirectories.Count > 1)
+			{
+				logger.Info("Deleted resource directories '{0}' as they are empty.", string.Join(", ", emptyDirectories));
+			}
+			var notEmptyDirectories = embeddedResources.Except(emptyDirectories).ToList();
+			if (notEmptyDirectories.Count == 1)
+			{
+				logger.Info("Resource directory '{0}' is not empty, thus will be kept.", notEmptyDirectories[0]);
+			}
+			else if (notEmptyDirectories.Count > 1)
+			{
+				logger.Info("Resource directories '{0}' are not empty, thus will be kept.", string.Join(", ", notEmptyDirectories));
+			}
 			watch.Stop();
 			logger.Info("Finished cleanup in {0}ms", watch.ElapsedMilliseconds);
 			return true;
