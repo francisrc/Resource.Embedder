@@ -83,7 +83,7 @@ namespace ResourceEmbedder.MsBuild
 			}
 			if (emptyDirectories.Count == 1)
 			{
-				logger.Info("Deleted resource directory '{0}' as it are empty.", emptyDirectories[0]);
+				logger.Info("Deleted resource directory '{0}' as it is empty.", emptyDirectories[0]);
 			}
 			else if (emptyDirectories.Count > 1)
 			{
