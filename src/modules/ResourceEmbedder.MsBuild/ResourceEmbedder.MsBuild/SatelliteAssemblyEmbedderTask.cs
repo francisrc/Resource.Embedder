@@ -43,6 +43,7 @@ namespace ResourceEmbedder.MsBuild
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 			var inputAssemblyName = Path.GetFileNameWithoutExtension(inputAssembly);
 
+			var usedCultures = new List<string>();
 			foreach (var ci in cultures)
 			{
 				// check if culture satellite assembly exists, if so embed
@@ -50,6 +51,7 @@ namespace ResourceEmbedder.MsBuild
 				if (File.Exists(ciPath))
 				{
 					logger.Debug("Embedding culture: {0}", ci);
+					usedCultures.Add(ci.Name);
 					assembliesToEmbed.Add(new ResourceInfo(ciPath, string.Format("{0}.{1}.resources.dll", inputAssemblyName, ci)));
 				}
 			}
@@ -73,6 +75,8 @@ namespace ResourceEmbedder.MsBuild
 				}
 			}
 			watch.Stop();
+			var tempFile = FileHelper.GetUniqueTempFileName(inputAssembly);
+			File.WriteAllText(tempFile, string.Join(";", usedCultures));
 			logger.Info("Finished embedding in {0}ms", watch.ElapsedMilliseconds);
 			return true;
 		}

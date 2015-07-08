@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 namespace ResourceEmbedder.MsBuild
 {
@@ -18,7 +17,7 @@ namespace ResourceEmbedder.MsBuild
 
 		public override bool Execute()
 		{
-			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder");
+			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder.Cleanup");
 			if (SignAssembly)
 			{
 				// TODO: check required steps to add this feature
@@ -52,15 +51,27 @@ namespace ResourceEmbedder.MsBuild
 				if (File.Exists(resourceFile))
 				{
 					File.Delete(resourceFile);
+					logger.Info("Deleted resource file '{0}' as it was embedded into the target.", Path.Combine(ci.Name, resourceName));
 					// check whether that was the last file of the specific language, if so -> delete the directory
 					var dir = new FileInfo(resourceFile).DirectoryName;
 					if (Directory.GetFileSystemEntries(dir).Length == 0)
 					{
 						// empty dir -> we just deleted the last resource from it, so delete it as well
-						Directory.Delete(dir);
+						try
+						{
+							Directory.Delete(dir);
+							logger.Info("Deleted resource directory '{0}' as it is empty.", ci.Name);
+						}
+						catch (Exception ex)
+						{
+							// happens e.g. if user has directory locked via another application without any files in the directory
+							logger.Warning("Failed to delete resource directory '{0}': {1}", ci.Name, ex.Message);
+						}
 					}
-					var message = string.Format("Deleted resource file '{0}' as it was embedded into the target.", Path.Combine(ci.Name, resourceName));
-					logger.Info(message);
+					else
+					{
+						logger.Info("Resource directory '{0}' is not empty, thus will be kept.", ci.Name);
+					}
 				}
 			}
 
@@ -70,27 +81,38 @@ namespace ResourceEmbedder.MsBuild
 		}
 
 		/// <summary>
+		/// Returns the list of culture names that have been embedded into the assembly by <see cref="SatelliteAssemblyEmbedderTask"/>.
+		/// </summary>
+		/// <param name="outputAssembly"></param>
+		/// <returns></returns>
+		private static string[] GetEmbeddedCultureNames(string outputAssembly)
+		{
+			// fix for issue#2
+			// since we cannot pass parameters between tasks in MsBuild I originally loaded the assembly into appdomain to read all its resources
+			// I also tried with a different appdomain but didn't get it to work
+			// the simplest solution was to save a temp file from which the other task can read
+			// to get a unique name we use the hash of the assembly
+			var tempFile = FileHelper.GetUniqueTempFileName(outputAssembly);
+			var cultures = File.ReadAllText(tempFile);
+			File.Delete(tempFile);
+			return cultures.Contains(";") ? cultures.Split(';') : new[] { cultures };
+		}
+
+		/// <summary>
 		/// For a given input file will find all embedded resources that have been embedded by <see cref="SatelliteAssemblyEmbedderTask"/>.
 		/// </summary>
 		/// <param name="outputAssembly"></param>
 		/// <returns></returns>
 		private static IEnumerable<CultureInfo> GetEmbeddedCultures(string outputAssembly)
 		{
-			var asm = Assembly.ReflectionOnlyLoadFrom(outputAssembly);
-			var names = asm.GetManifestResourceNames();
-			var fileName = Path.GetFileNameWithoutExtension(outputAssembly);
-			// looking for %fileNamr%.%culture%.resources.dll
-			var search = fileName + ".";
-			const string end = ".resources.dll";
-			var potentialCultures = names.Where(n => n.StartsWith(fileName) && n.EndsWith(end));
-			foreach (var ci in potentialCultures)
+			var names = GetEmbeddedCultureNames(outputAssembly);
+
+			foreach (var ci in names)
 			{
-				var cultureName = ci.Substring(search.Length);
-				cultureName = cultureName.Substring(0, cultureName.Length - end.Length);
 				CultureInfo culture;
 				try
 				{
-					culture = CultureInfo.GetCultureInfo(cultureName);
+					culture = CultureInfo.GetCultureInfo(ci);
 				}
 				catch (Exception)
 				{

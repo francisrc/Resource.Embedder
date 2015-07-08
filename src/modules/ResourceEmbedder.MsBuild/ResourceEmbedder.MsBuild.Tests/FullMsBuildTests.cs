@@ -29,7 +29,7 @@ namespace ResourceEmbedder.MsBuild.Tests
 			{
 				ProjectDirectory = ".",
 				AssemblyPath = msBuild,
-				TargetPath = Path.GetFullPath("."),
+				TargetPath = Path.GetFullPath(msBuild),
 				BuildEngine = fakeEngine
 			};
 			task.Execute().Should().BeTrue();
@@ -63,7 +63,7 @@ namespace ResourceEmbedder.MsBuild.Tests
 			{
 				ProjectDirectory = ".",
 				AssemblyPath = msBuild,
-				TargetPath = Path.GetFullPath("."),
+				TargetPath = Path.GetFullPath(msBuild),
 				BuildEngine = fakeEngine
 			};
 			task.Execute().Should().BeTrue();
@@ -75,7 +75,7 @@ namespace ResourceEmbedder.MsBuild.Tests
 			{
 				ProjectDirectory = ".",
 				AssemblyPath = msBuild,
-				TargetPath = Path.GetFullPath("."),
+				TargetPath = Path.GetFullPath(msBuild),
 				BuildEngine = fakeEngine
 			};
 			cleanupTask.Execute().Should().BeTrue();
@@ -89,6 +89,11 @@ namespace ResourceEmbedder.MsBuild.Tests
 			File.Delete(de);
 			File.Delete(deDe);
 			File.Delete(fr);
+
+			// assert we no longer have file lock issue
+			File.Exists(msBuild).Should().BeTrue();
+			File.Delete(msBuild);
+			File.Exists(msBuild).Should().BeFalse();
 		}
 
 		#endregion Methods
