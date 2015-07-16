@@ -5,6 +5,8 @@ namespace EnglishOnly
 {
 	class Program
 	{
+		#region Methods
+
 		static void Main(string[] args)
 		{
 			Localize.SwitchLocale("en");
@@ -20,5 +22,7 @@ namespace EnglishOnly
 			}
 			Environment.Exit(0);
 		}
+
+		#endregion Methods
 	}
 }

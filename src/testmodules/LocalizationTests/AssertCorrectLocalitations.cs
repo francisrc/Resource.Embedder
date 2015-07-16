@@ -8,37 +8,7 @@ namespace LocalizationTests
 	[TestFixture]
 	public class AssertCorrectLocalitations
 	{
-		[Test]
-		public void AssertEnglishOnlyWorks()
-		{
-			var p = Process.Start("EnglishOnly.exe");
-
-			p.WaitForExit(2000).Should().Be(true);
-			p.ExitCode.Should().Be(0);
-			Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
-		}
-
-		[Test]
-		public void AssertEnglishGermanPolishWorks()
-		{
-			var p = Process.Start("EnglishGermanPolish.exe");
-
-			p.WaitForExit(2000).Should().Be(true);
-			p.ExitCode.Should().Be(0);
-			Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
-			Directory.Exists("de").Should().BeFalse("because we embedded the culture and deleted the directory.");
-			Directory.Exists("pl").Should().BeFalse("because we embedded the culture and deleted the directory.");
-		}
-
-		[Test]
-		public void AssertNoLocalizationWorks()
-		{
-			var p = Process.Start("NoLocalization.exe");
-
-			p.WaitForExit(2000).Should().Be(true);
-			p.ExitCode.Should().Be(0);
-			Directory.Exists("en").Should().BeFalse("because there are no localizations.");
-		}
+		#region Methods
 
 		[Test]
 		public void AssertDeEnEsJaPlRupt()
@@ -55,5 +25,39 @@ namespace LocalizationTests
 			Directory.Exists("ru").Should().BeFalse("because we embedded the culture and deleted the directory.");
 			Directory.Exists("up-BR").Should().BeFalse("because we embedded the culture and deleted the directory.");
 		}
+
+		[Test]
+		public void AssertEnglishGermanPolishWorks()
+		{
+			var p = Process.Start("EnglishGermanPolish.exe");
+
+			p.WaitForExit(2000).Should().Be(true);
+			p.ExitCode.Should().Be(0);
+			Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
+			Directory.Exists("de").Should().BeFalse("because we embedded the culture and deleted the directory.");
+			Directory.Exists("pl").Should().BeFalse("because we embedded the culture and deleted the directory.");
+		}
+
+		[Test]
+		public void AssertEnglishOnlyWorks()
+		{
+			var p = Process.Start("EnglishOnly.exe");
+
+			p.WaitForExit(2000).Should().Be(true);
+			p.ExitCode.Should().Be(0);
+			Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
+		}
+
+		[Test]
+		public void AssertNoLocalizationWorks()
+		{
+			var p = Process.Start("NoLocalization.exe");
+
+			p.WaitForExit(2000).Should().Be(true);
+			p.ExitCode.Should().Be(0);
+			Directory.Exists("en").Should().BeFalse("because there are no localizations.");
+		}
+
+		#endregion Methods
 	}
 }

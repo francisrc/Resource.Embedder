@@ -5,6 +5,8 @@ namespace DeEnEsJaPlRupt
 {
 	class Program
 	{
+		#region Methods
+
 		static void Main(string[] args)
 		{
 			Localize.SwitchLocale("en");
@@ -44,5 +46,7 @@ namespace DeEnEsJaPlRupt
 			}
 			Environment.Exit(0);
 		}
+
+		#endregion Methods
 	}
 }
