@@ -118,8 +118,8 @@ namespace ResourceEmbedder.MsBuild
 			var tempFile = FileHelper.GetUniqueTempFileName(outputAssembly);
 			if (!File.Exists(tempFile))
 			{
-                // e.g. if processed assembly doesn't have localization
-                return new string[0];
+				// e.g. if processed assembly doesn't have localization
+				return new string[0];
 			}
 			var cultures = File.ReadAllText(tempFile);
 			File.Delete(tempFile);

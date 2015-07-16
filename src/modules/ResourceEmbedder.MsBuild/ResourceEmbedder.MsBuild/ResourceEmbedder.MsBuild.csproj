@@ -67,6 +67,7 @@
     <Compile Include="SatelliteAssemblyEmbedderTask.cs" />
     <Compile Include="MSBuildBasedLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsSdkHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\testmodules\WpfTest\WpfTest.csproj">
