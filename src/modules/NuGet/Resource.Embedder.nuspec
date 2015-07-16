@@ -14,7 +14,9 @@
 		<description>
 			Tool for automatic satellite assembly embedding (as resources).
 			If you use Fody.Costura this may interest you as well (or vica versa).
-
+            
+			Requires .Net 4 or above
+            
 			Sourcecode here: https://github.com/MarcStan/Resource.Embedder/
 		</description>
 		<language>en-US</language>

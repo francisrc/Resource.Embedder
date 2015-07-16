@@ -7,6 +7,9 @@ This tool will embed the localization assemblies. Works just as easy as Costura:
 
 Many thanks to Simon for the excellent [Fody](https://github.com/Fody/Fody) and [Fody.Costura](https://github.com/Fody/Costura) which this tool is heavily inspired from.
 
+* compatible with .Net 4 and above
+* currently no support for signed assemblies
+
 ## Available on NuGet  [![NuGet Status](http://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
 
 https://nuget.org/packages/Resource.Embedder/
@@ -15,6 +18,7 @@ https://nuget.org/packages/Resource.Embedder/
    
 By adding the NuGet package to an assembly all it's satellite assemblies will automatically be embedded as resources and loaded from there.
 No more need for deploying the satellite assembly folders.
+
 
 ### How it works
 
