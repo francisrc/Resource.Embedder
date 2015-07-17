@@ -82,19 +82,14 @@ namespace ResourceEmbedder.Core.GeneratedCode
 		private static bool IsLocalizedAssembly(AssemblyName requestedAssemblyName)
 		{
 			// only *.resources.dll files are satellite assemblies
-			if (requestedAssemblyName.Name.EndsWith(".resources", StringComparison.InvariantCultureIgnoreCase))
-			{
-				if (!string.IsNullOrEmpty(requestedAssemblyName.CultureName) &&
-					requestedAssemblyName.CultureName != "neutral")
-				{
-					return true;
-				}
-			}
-			return false;
+			return requestedAssemblyName.Name.EndsWith(".resources", StringComparison.InvariantCultureIgnoreCase);
 		}
 
 		private static Assembly LoadFromResource(AssemblyName requestedAssemblyName, Assembly requestingAssembly)
 		{
+			if (requestedAssemblyName == null || requestedAssemblyName.CultureInfo == null)
+				return null; // without a concrete culture we cannot load a resource assembly
+
 			// I haven't figured out how to add recursion to cecil (method cloner must know about the method itself already when copying it's instrutions)
 			// so instead this is a loop with two possible exit points: localization found, or fallback route is depleted and we return null to let .Net locate the neutral resource
 			while (true)
@@ -103,7 +98,7 @@ namespace ResourceEmbedder.Core.GeneratedCode
 				// rewrite to: %assemblyName%.%assemblyName%.%culture%.resources.dll
 				//
 				var baseName = requestedAssemblyName.Name.Substring(0, requestedAssemblyName.Name.Length - ".resources".Length);
-				var name = string.Format("{0}.{1}.resources.dll", baseName, requestedAssemblyName.CultureName);
+				var name = string.Format("{0}.{1}.resources.dll", baseName, requestedAssemblyName.CultureInfo.Name);
 
 				// by default for resources the requestingAssembly will be null
 				var asm = requestingAssembly ?? FindMainAssembly(requestedAssemblyName);
