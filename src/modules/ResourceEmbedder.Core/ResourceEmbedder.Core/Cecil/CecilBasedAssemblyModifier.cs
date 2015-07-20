@@ -40,7 +40,16 @@ namespace ResourceEmbedder.Core.Cecil
 
 			var symbolPath = Path.ChangeExtension(inputAssembly, "pdb");
 			_symbolsAreBeingRead = File.Exists(symbolPath);
-			_assemblyDefinition = AssemblyDefinition.ReadAssembly(inputAssembly, new ReaderParameters { ReadSymbols = _symbolsAreBeingRead });
+
+			var resolver = new DefaultAssemblyResolver();
+			resolver.AddSearchDirectory(new FileInfo(inputAssembly).DirectoryName);
+			var rp = new ReaderParameters
+			{
+				ReadSymbols = _symbolsAreBeingRead,
+				AssemblyResolver = resolver
+			};
+
+			_assemblyDefinition = AssemblyDefinition.ReadAssembly(inputAssembly, rp);
 			_resourceEmbedder = new CecilBasedResourceEmbedder(logger);
 			_codeInjector = new CecilBasedCodeInjector(logger);
 		}
