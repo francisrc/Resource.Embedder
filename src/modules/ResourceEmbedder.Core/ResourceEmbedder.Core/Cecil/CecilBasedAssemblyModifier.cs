@@ -19,7 +19,7 @@ namespace ResourceEmbedder.Core.Cecil
 
 		#region Constructors
 
-		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly)
+		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null)
 		{
 			if (logger == null)
 			{
@@ -43,6 +43,11 @@ namespace ResourceEmbedder.Core.Cecil
 
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(new FileInfo(inputAssembly).DirectoryName);
+
+			if (searchDirectories != null)
+				foreach (var dir in searchDirectories)
+					resolver.AddSearchDirectory(dir);
+
 			var rp = new ReaderParameters
 			{
 				ReadSymbols = _symbolsAreBeingRead,

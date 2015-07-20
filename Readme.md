@@ -75,6 +75,10 @@ You can either manually delete them or simply not reference them in your further
 
 # Changelog
 
+**v1.0.11**
+
+* added search directory for embedding, necessary for some setups (esp. plugins compiling to other directories than reference assemblies)
+
 **v1.0.9**
 
 * Fixed bug that would cause crash for applications running on .Net 4 on a maschine with only .Net 4 (not updated to .Net 4.5) due to usage of property only available in .Net 4.5 and above

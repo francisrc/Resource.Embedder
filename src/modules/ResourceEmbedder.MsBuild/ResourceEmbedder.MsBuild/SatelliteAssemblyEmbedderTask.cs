@@ -70,7 +70,9 @@ namespace ResourceEmbedder.MsBuild
 				return true;
 			}
 
-			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly))
+			// add target directory where the assembly is compiled to to search path for reference assemblies
+			var searchDirs = new[] { new FileInfo(TargetPath).DirectoryName };
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs))
 			{
 				if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
 				{
