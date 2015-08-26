@@ -25,7 +25,7 @@ No more need for deploying the satellite assembly folders.
 The NuGet package works similar to [Costura](https://github.com/Fody/Costura) and injects a .targets file into the project it is added to, thus allowing for two things during build:
 
 * Embedding the satellite assemblies into the assembly as resources [as per Jeffrey Richters example](http://blogs.msdn.com/b/microsoft_press/archive/2010/02/03/jeffrey-richter-excerpt-2-from-clr-via-c-third-edition.aspx).
-* Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/InjectedResourceLoader.cs)
+* Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs)
 
 ## Why?
 
@@ -65,7 +65,9 @@ Currently nothing can be configured and it "just works" out of the box.
 
 Note that the satellite assemblies are always copied to the output directory by Visual Studio.
 
-You can either manually delete them or simply not reference them in your further build.
+After the build finishes the Resource.Embedder will delete all resource files it has embedded, leaving only the resource files that have not been embedded (if any).
+
+If there are no resource files left for a specific language (empty localization directory) the directory is deleted as well.
 
 
 # Roadmap
