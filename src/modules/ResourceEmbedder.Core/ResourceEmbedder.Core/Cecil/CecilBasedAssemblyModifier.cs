@@ -23,7 +23,7 @@ namespace ResourceEmbedder.Core.Cecil
 		{
 			if (logger == null)
 			{
-				throw new ArgumentNullException("logger");
+				logger = new DummyLogger();
 			}
 			if (!File.Exists(inputAssembly))
 			{

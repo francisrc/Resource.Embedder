@@ -65,6 +65,7 @@
     <Compile Include="Cecil\CecilHelpers.cs" />
     <Compile Include="Cecil\CecilExtensions.cs" />
     <Compile Include="DictionaryExtensions.cs" />
+    <Compile Include="DummyLogger.cs" />
     <Compile Include="IEmbedResources.cs" />
     <Compile Include="IInjectCode.cs" />
     <Compile Include="ILogger.cs" />
