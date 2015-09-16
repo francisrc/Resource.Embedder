@@ -20,6 +20,18 @@ By adding the NuGet package to an assembly all it's satellite assemblies will au
 No more need for deploying the satellite assembly folders.
 
 
+___
+## Available on NuGet  [![NuGet Status](http://img.shields.io/nuget/v/Resource.Embedder.Core.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder.Core/)
+
+https://nuget.org/packages/Resource.Embedder.Core/
+
+    PM> Install-Package Resource.Embedder.Core
+   
+By adding the NuGet package to an assembly it is possible to manually inject resources and code into other assemblies.
+
+See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/InjectCodeTests.cs).
+___
+
 ### How it works
 
 The NuGet package works similar to [Costura](https://github.com/Fody/Costura) and injects a .targets file into the project it is added to, thus allowing for two things during build:
@@ -76,6 +88,10 @@ If there are no resource files left for a specific language (empty localization 
 * Delete satellite assemblies from output once merged
 
 # Changelog
+
+**v1.1.0**
+
+* Added second Nuget package that directly references ResourceEmbedder.Core and allows you to inject code/resources into other assemblies by yourself.
 
 **v1.0.11**
 
