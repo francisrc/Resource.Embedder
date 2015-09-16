@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-	<metadata minClientVersion="2.8">
-		<id>Resource.Embedder</id>
+	<metadata>
+		<id>Resource.Embedder.Core</id>
 		<version>$version$</version>
-		<title>Resource.Embedder</title>
-		<developmentDependency>true</developmentDependency>
 		<authors>Marc Stanglmayr</authors>
 		<owners>Marc Stanglmayr</owners>
 		<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
@@ -12,15 +10,18 @@
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<iconUrl>https://raw.githubusercontent.com/MarcStan/Resource.Embedder/master/ico/package.png</iconUrl>
 		<description>
-			Tool for automatic satellite assembly embedding (as resources).
-			If you use Fody.Costura this may interest you as well (or vica versa).
-            Any project this is added to will have it's satellite assemblies embedded as resources into the dll/exe itself.
-            During runtime the injected code will auto. resolve them so everything works the same as always, except you don't have to deploy all those "language code" folders anymore.
-            
-			Requires .Net 4 or above.
+			Code that is used by Resource.Embedder as well. You can use this to:
+				* Embedd any resources into existing assemblies
+				* Inject module initializer code into assemblies (code is executed when the assembly is first loaded)
+			
+			Requires .Net 4 or above
 		</description>
 		<language>en-US</language>
 		<tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>
-		<dependencies></dependencies>
+		<dependencies>
+			<group>
+				<dependency id="Mono.Cecil" version="0.9.6.1" />
+			</group>
+		</dependencies>
 	</metadata>
 </package>
