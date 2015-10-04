@@ -29,7 +29,7 @@ https://nuget.org/packages/Resource.Embedder.Core/
    
 By adding the NuGet package to an assembly it is possible to manually inject resources and code into other assemblies.
 
-See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/InjectCodeTests.cs).
+See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs#L124) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/InjectCodeTests.cs#L26).
 ___
 
 ### How it works
