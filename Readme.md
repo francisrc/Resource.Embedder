@@ -51,9 +51,9 @@ This tool on the contrary runs after build and is thus able to embed. It is also
 
 All culture files for the current assembly will be added as resources to the assembly.
 
-[This code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/InjectedResourceLoader.cs) will then be injected into the assembly and called via the module initializer.
+[This code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs) will then be injected into the assembly and called via the module initializer.
 
-The injected code will then hook into the AppDomain.CurrentDomain.AssemblyResolve event as soon as the assembly is loaded and load the resources during runtime whenever the language change requests a assembly load.
+The injected code will then hook into the AppDomain.CurrentDomain.AssemblyResolve event as soon as the assembly is loaded and load the resources during runtime whenever the language change requests an assembly load.
 
 
 **Example:**
@@ -63,11 +63,12 @@ If the application is called Wpf.exe and has "de" (German), and "fr" (French) sa
 ### Try it yourself
 
 * Download the repository and open the solution (Resource.Embedder.sln).
-* Add the nuget package "Resource.Embedder" to the project "WPFTest" and compile it.
+* Add the nuget package "Resource.Embedder" to the project "WpfTest" and compile it.
 * Output will be "WpfTest.exe" in the bin\Debug or bin\Release folder in the root.
-* Copy it somewhere or delete the localization folders (Visual Studio will always copy them on build)
+* Copy it somewhere without the localization folders
 * Run the app and type "de" or "fr" into the textbox.
 * Observe that the "Hello world" text is properly localized when pressing the button to change locale even without resource assembly directories being present
+* Using tools like [JustDecompile](http://www.telerik.com/products/decompiler.aspx) it is possible to see that WpfTest.exe now contains resources "WpfTest.de.resources.dll"
 
 ### Configuration
 
@@ -85,7 +86,6 @@ If there are no resource files left for a specific language (empty localization 
 # Roadmap
 
 * Support for signed assemblies
-* Delete satellite assemblies from output once merged
 
 # Changelog
 
