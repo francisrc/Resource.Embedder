@@ -89,9 +89,13 @@ namespace ResourceEmbedder.Core.Cecil
 		public void Save()
 		{
 			var pdb = Path.ChangeExtension(OutputAssembly, "pdb");
-			if (File.Exists(pdb))
+			var exists = File.Exists(pdb);
+			if (exists && _symbolsAreBeingRead)
 			{
 				_logger.Info("Rewritting pdb");
+			}
+			if (exists)
+			{
 				// delete it just in case, as there have been issues before
 				// (e.g. a file lock by ms build that Cecil silently smallows leaving us with the old pdb, thus non-debuggable ode)
 				File.Delete(pdb);

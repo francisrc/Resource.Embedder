@@ -91,6 +91,10 @@ If there are no resource files left for a specific language (empty localization 
 
 **v1.1.0**
 
+* Reduced log output messages
+
+**v1.1.0**
+
 * Added second Nuget package that directly references ResourceEmbedder.Core and allows you to inject code/resources into other assemblies by yourself.
 
 **v1.0.11**
