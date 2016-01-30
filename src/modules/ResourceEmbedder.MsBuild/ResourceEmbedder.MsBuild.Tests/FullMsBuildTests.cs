@@ -24,6 +24,8 @@ namespace ResourceEmbedder.MsBuild.Tests
 			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
 			File.Copy("fr\\WpfTest.resources.dll", fr, true);
 			File.Copy("WpfTest.exe", msBuild);
+			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
+				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
 			var task = new SatelliteAssemblyEmbedderTask
 			{
@@ -58,6 +60,11 @@ namespace ResourceEmbedder.MsBuild.Tests
 			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
 			File.Copy("fr\\WpfTest.resources.dll", fr, true);
 			File.Copy("WpfTest.exe", msBuild);
+
+			// delete PDB as it doesn't match the exe anyway
+			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
+				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
+
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
 			var task = new SatelliteAssemblyEmbedderTask
 			{

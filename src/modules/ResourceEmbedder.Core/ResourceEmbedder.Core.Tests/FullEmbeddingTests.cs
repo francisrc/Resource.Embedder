@@ -21,6 +21,8 @@ namespace ResourceEmbedder.Core.Tests
 				File.Delete(file);
 			}
 			File.Copy("WpfTest.exe", file);
+			if (File.Exists(Path.ChangeExtension(file, "pdb")))
+				File.Delete(Path.ChangeExtension(file, "pdb"));
 
 			var logger = Substitute.For<ILogger>();
 			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, file, file))
