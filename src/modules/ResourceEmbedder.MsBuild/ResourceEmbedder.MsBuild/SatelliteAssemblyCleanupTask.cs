@@ -31,13 +31,9 @@ namespace ResourceEmbedder.MsBuild
 
 			var watch = new Stopwatch();
 			watch.Start();
-			logger.Info("Beginning resource cleanup.");
-			logger.Indent(1);
 
 			string outputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(TargetPath).DirectoryName;
-			//logger.Debug("WorkingDir (used for cleanup of resources): " + workingDir);
-			//logger.Debug("Scanning output assembly '{0}' for embedded localizations", outputAssembly);
 
 			// detect which cultures have been embedded
 			var embeddedCultures = GetEmbeddedCultures(outputAssembly).ToList();
@@ -99,7 +95,6 @@ namespace ResourceEmbedder.MsBuild
 				logger.Info("Resource directories '{0}' are not empty, thus will be kept.", string.Join(", ", notEmptyDirectories));
 			}
 			watch.Stop();
-			logger.Info("Finished cleanup in {0}ms", watch.ElapsedMilliseconds);
 			return true;
 		}
 
@@ -110,10 +105,13 @@ namespace ResourceEmbedder.MsBuild
 		/// <returns></returns>
 		private static string[] GetEmbeddedCultureNames(string outputAssembly)
 		{
-			// fix for issue#2
+			// fix for issue#2 https://github.com/MarcStan/Resource.Embedder/issues/2
 			// since we cannot pass parameters between tasks in MsBuild I originally loaded the assembly into appdomain to read all its resources
-			// I also tried with a different appdomain but didn't get it to work
-			// the simplest solution was to save a temp file from which the other task can read
+			// this however caused the assembly to remain loaded and would cause further builds to fail as long as the msbuild process is alive (Visual Studio causes MSBuild to remain alive all the time)
+
+			// I also tried to load into different appdomain (which then could be unloaded) but didn't get it to work
+
+			// the simplest solution was then to save a temp file from which the other task can read
 			// to get a unique name we use the hash of the assembly
 			var tempFile = FileHelper.GetUniqueTempFileName(outputAssembly);
 			if (!File.Exists(tempFile))

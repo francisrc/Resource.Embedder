@@ -32,8 +32,6 @@ namespace ResourceEmbedder.MsBuild
 
 			var watch = new Stopwatch();
 			watch.Start();
-			logger.Info("Beginning resource embedding.");
-			logger.Indent(1);
 			// run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
 			string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
 			var workingDir = new FileInfo(inputAssembly).DirectoryName;
@@ -44,9 +42,6 @@ namespace ResourceEmbedder.MsBuild
 							 "See https://github.com/MarcStan/Resource.Embedder/issues/3 and https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx for details.");
 				return false;
 			}
-
-			//logger.Debug("WorkingDir (used for localization detection): " + workingDir);
-			//logger.Debug("Input assembly: {0}", inputAssembly);
 
 			var assembliesToEmbed = new List<ResourceInfo>();
 			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
@@ -88,7 +83,7 @@ namespace ResourceEmbedder.MsBuild
 			watch.Stop();
 			var tempFile = FileHelper.GetUniqueTempFileName(inputAssembly);
 			File.WriteAllText(tempFile, string.Join(";", usedCultures));
-			logger.Info("Finished embedding cultures: {0} in {1}ms", string.Join(", ", usedCultures), watch.ElapsedMilliseconds);
+			logger.Info("Finished embedding cultures: {0} into {1} in {2}ms", string.Join(", ", usedCultures), Path.GetFileName(inputAssembly), watch.ElapsedMilliseconds);
 			return true;
 		}
 

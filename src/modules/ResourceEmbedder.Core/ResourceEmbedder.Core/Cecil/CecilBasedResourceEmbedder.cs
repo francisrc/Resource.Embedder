@@ -52,7 +52,6 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 			try
 			{
-				Logger.Info("Embedding {0} files into {1}", resourcesToEmbedd.Length, assembly.Name);
 				foreach (var res in resourcesToEmbedd)
 				{
 					if (!File.Exists(res.FullPathOfFileToEmbedd))
