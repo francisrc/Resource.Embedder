@@ -5,19 +5,19 @@
 		<version>$version$</version>
 		<title>Resource.Embedder</title>
 		<developmentDependency>true</developmentDependency>
-		<authors>Marc Stanglmayr</authors>
-		<owners>Marc Stanglmayr</owners>
+		<authors>MarcStan</authors>
+		<owners>MarcStan</owners>
 		<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
 		<projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<iconUrl>https://raw.githubusercontent.com/MarcStan/Resource.Embedder/master/ico/package.png</iconUrl>
 		<description>
-			Tool for automatic satellite assembly embedding (as resources).
-			If you use Fody.Costura this may interest you as well (or vica versa).
-            Any project this is added to will have it's satellite assemblies embedded as resources into the dll/exe itself.
-            During runtime the injected code will auto. resolve them so everything works the same as always, except you don't have to deploy all those "language code" folders anymore.
-            
-			Requires .Net 4 or above.
+Tool for automatic satellite assembly embedding (as resources).
+If you use Fody.Costura this may interest you as well (or vica versa).
+Any project this is added to will have it's satellite assemblies embedded as resources into the dll/exe itself.
+During runtime the injected code will auto. resolve them so everything works the same as always, except you don't have to deploy all those "language code" folders anymore.
+
+Requires .Net 4 or above.
 		</description>
 		<language>en-US</language>
 		<tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>

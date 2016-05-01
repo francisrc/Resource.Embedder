@@ -3,18 +3,18 @@
 	<metadata>
 		<id>Resource.Embedder.Core</id>
 		<version>$version$</version>
-		<authors>Marc Stanglmayr</authors>
-		<owners>Marc Stanglmayr</owners>
+		<authors>MarcStan</authors>
+		<owners>MarcStan</owners>
 		<licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
 		<projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<iconUrl>https://raw.githubusercontent.com/MarcStan/Resource.Embedder/master/ico/package.png</iconUrl>
 		<description>
-			Code that is used by Resource.Embedder as well. You can use this to:
-				* Embedd any resources into existing assemblies
-				* Inject module initializer code into assemblies (code is executed when the assembly is first loaded)
+Code that is used by Resource.Embedder as well. You can use this to:
+* Embedd any resources into existing assemblies
+* Inject module initializer code into assemblies (code is executed when the assembly is first loaded)
 			
-			Requires .Net 4 or above
+Requires .Net 4 or above.
 		</description>
 		<language>en-US</language>
 		<tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>

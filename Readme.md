@@ -89,7 +89,7 @@ If there are no resource files left for a specific language (empty localization 
 
 # Changelog
 
-**v1.1.0**
+**v1.1.1**
 
 * Reduced log output messages
 
