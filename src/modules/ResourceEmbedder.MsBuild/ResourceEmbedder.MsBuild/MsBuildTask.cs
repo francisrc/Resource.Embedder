@@ -19,6 +19,12 @@ namespace ResourceEmbedder.MsBuild
 
 		public string TargetPath { get; set; }
 
+		/// <summary>
+		/// A semicolon seperated list of reference files.
+		/// All path are full path to the reference dll files.
+		/// </summary>
+		public string References { get; set; }
+
 		#endregion Properties
 
 		#region Methods

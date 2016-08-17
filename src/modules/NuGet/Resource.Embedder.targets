@@ -28,7 +28,7 @@
 				<EmbedderKeyFilePath>$(AssemblyOriginatorKeyFile)</EmbedderKeyFilePath>
 			</PropertyGroup>
 		</When>
-		<Otherwise >
+		<Otherwise>
 			<PropertyGroup>
 				<EmbedderKeyFilePath></EmbedderKeyFilePath>
 			</PropertyGroup>
@@ -44,12 +44,12 @@
 	<!-- We want to run as soon as the satellite assemblies are generated -->
 	<Target AfterTargets="GenerateSatelliteAssemblies" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
 		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
-																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
+																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" References="@(ReferencePath)"/>
 	</Target>
 	<!--Cleanup after generating -->
 	<Target AfterTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
 		<ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)" KeyFilePath="$(EmbedderKeyFilePath)"
-																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" />
+																ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)"/>
 	</Target>
 	<!--Support for ncrunch-->
 	<ItemGroup  Condition="'$(NCrunch)' == '1'">
