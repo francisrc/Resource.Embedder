@@ -89,6 +89,16 @@ If there are no resource files left for a specific language (empty localization 
 
 # Changelog
 
+**v1.2.0**
+
+* Fixed a crash of Resource.Embedder when the project using the embedder had references that where not set to CopyLocal
+
+The bug only occured if the project either used a const field with a TypeRef to an enum defined in one of the references (which weren't copied locally) or when a custom attribute was instantiated with a TypeRef to an enum
+
+Both these cases are described [here](https://github.com/jbevain/cecil/issues/236) and forced Cecil to actually load the reference instead of just assuming that it exists.
+
+The Resource.Embedder task did not properly look in all directories for the reference assemblies and thus crashed when it finally wasn't found
+
 **v1.1.1**
 
 * Reduced log output messages

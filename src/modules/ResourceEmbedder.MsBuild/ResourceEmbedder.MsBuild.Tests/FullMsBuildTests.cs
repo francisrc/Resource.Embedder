@@ -32,7 +32,8 @@ namespace ResourceEmbedder.MsBuild.Tests
 				ProjectDirectory = ".",
 				AssemblyPath = msBuild,
 				TargetPath = Path.GetFullPath(msBuild),
-				BuildEngine = fakeEngine
+				BuildEngine = fakeEngine,
+				References = "."
 			};
 			task.Execute().Should().BeTrue();
 
@@ -71,7 +72,8 @@ namespace ResourceEmbedder.MsBuild.Tests
 				ProjectDirectory = ".",
 				AssemblyPath = msBuild,
 				TargetPath = Path.GetFullPath(msBuild),
-				BuildEngine = fakeEngine
+				BuildEngine = fakeEngine,
+				References = "."
 			};
 			task.Execute().Should().BeTrue();
 
