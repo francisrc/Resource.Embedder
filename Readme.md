@@ -91,8 +91,7 @@ If there are no resource files left for a specific language (empty localization 
 
 **v1.2.1**
 
-* Moved project to Gitlab due to [Githubs behaviour](https://github.com/MarcStan/Resource.Embedder/blob/master/Readme.md)
-* Updated all links to gitlab
+* Moved to Gitlab
 
 **v1.2.0**
 
