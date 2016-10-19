@@ -29,7 +29,7 @@ https://nuget.org/packages/Resource.Embedder.Core/
    
 By adding the NuGet package to an assembly it is possible to manually inject resources and code into other assemblies.
 
-See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs#L124) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/InjectCodeTests.cs#L26).
+See [this code for injecting resources](https://gitlab.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs#L124) and [this code for injecting code](https://gitlab.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core.Tests/InjectCodeTests.cs#L28).
 ___
 
 ### How it works
@@ -37,7 +37,7 @@ ___
 The NuGet package works similar to [Costura](https://github.com/Fody/Costura) and injects a .targets file into the project it is added to, thus allowing for two things during build:
 
 * Embedding the satellite assemblies into the assembly as resources [as per Jeffrey Richters example](http://blogs.msdn.com/b/microsoft_press/archive/2010/02/03/jeffrey-richter-excerpt-2-from-clr-via-c-third-edition.aspx).
-* Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs)
+* Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://gitlab.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs)
 
 ## Why?
 
@@ -51,7 +51,7 @@ This tool on the contrary runs after build and is thus able to embed. It is also
 
 All culture files for the current assembly will be added as resources to the assembly.
 
-[This code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs) will then be injected into the assembly and called via the module initializer.
+[This code](https://gitlab.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs) will then be injected into the assembly and called via the module initializer.
 
 The injected code will then hook into the AppDomain.CurrentDomain.AssemblyResolve event as soon as the assembly is loaded and load the resources during runtime whenever the language change requests an assembly load.
 
@@ -83,11 +83,16 @@ After the build finishes the Resource.Embedder will delete all resource files it
 If there are no resource files left for a specific language (empty localization directory) the directory is deleted as well.
 
 
-# Roadmap
+# Features to be implemented in the future
 
-* Support for signed assemblies
+* Support for signed assemblies (low priority, I haven't needed signed assemblies in a long time)
 
 # Changelog
+
+**v1.2.1**
+
+* Moved project to Gitlab due to [Githubs behaviour](https://github.com/MarcStan/Resource.Embedder/blob/master/Readme.md)
+* Updated all links to gitlab
 
 **v1.2.0**
 
@@ -117,7 +122,7 @@ The Resource.Embedder task did not properly look in all directories for the refe
 
 **v1.0.8**
 
-* Projects targeting versions of .Net older than .Net 4.0 will now throw build error instead of silently failing during runtime. [To my knowledge this is also not fixable](https://github.com/MarcStan/Resource.Embedder/issues/3)
+* Projects targeting versions of .Net older than .Net 4.0 will now throw build error instead of silently failing during runtime. [To my knowledge this is also not fixable](https://gitlab.com/MarcStan/Resource.Embedder/issues/3)
 
 **v1.0.7**
 

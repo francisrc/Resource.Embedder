@@ -39,7 +39,7 @@ namespace ResourceEmbedder.MsBuild
 			{
 				// resource embedder doesn't support these due to .Net not invoking resource assembly event prior to .Net 4: https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx
 				logger.Error("Versions prior to .Net 4.0 are not supported. Please either upgrade to .Net 4 or above or remove the Resource.Embedder NuGet package from this project. " +
-							 "See https://github.com/MarcStan/Resource.Embedder/issues/3 and https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx for details.");
+							 "See https://gitlab.com/MarcStan/Resource.Embedder/issues/3 and https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx for details.");
 				return false;
 			}
 
@@ -67,7 +67,7 @@ namespace ResourceEmbedder.MsBuild
 
 			// add target directory where the assembly is compiled to to search path for reference assemblies
 			var searchDirs = new List<string> { new FileInfo(TargetPath).DirectoryName };
-			// fix for https://github.com/MarcStan/Resource.Embedder/issues/5
+			// fix for https://gitlab.com/MarcStan/Resource.Embedder/issues/5
 			// when references are marked as CopyLocal: False they will not end up at TargetPath when we run this code (instead they may be copied later)
 			// so we need to tell Cecil about all the directories where they could be
 			var referenceFiles = References ?? "";
@@ -111,7 +111,7 @@ namespace ResourceEmbedder.MsBuild
 			var corFlagsReader = WindowsSdkHelper.FindCorFlagsExe();
 			if (corFlagsReader == null || !File.Exists(corFlagsReader))
 			{
-				Log.LogWarning("Could not determine version of assembly. If you are compiling an assembly targeting an older version than .Net 4 then resources will not work (consider removing Resource.Embedder from that project). If you are targeting .Net 4 or above, everything should be fine. See https://github.com/MarcStan/Resource.Embedder/issues/3 for details.");
+				Log.LogWarning("Could not determine version of assembly. If you are compiling an assembly targeting an older version than .Net 4 then resources will not work (consider removing Resource.Embedder from that project). If you are targeting .Net 4 or above, everything should be fine. See https://gitlab.com/MarcStan/Resource.Embedder/issues/3 for details.");
 				return false; // without corflags to check version, just process all silently, although corflags is distributed with every .Net version so it should always exist unless user deleted it
 			}
 
