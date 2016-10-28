@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Resource.Embedder.Core</id>
+        <version>$version$</version>
+        <authors>MarcStan</authors>
+        <owners>MarcStan</owners>
+        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <projectUrl>http://gitlab.com/MarcStan/Resource.Embedder</projectUrl>
+        <iconUrl>https://gitlab.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Code that is used by Resource.Embedder as well. You can use this to:
+* Embedd any resources into existing assemblies
+* Inject module initializer code into assemblies (code is executed when the assembly is first loaded)
+
+Requires .Net 4 or above.</description>
+        <language>en-US</language>
+        <tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>
+        <dependencies>
+            <dependency id="Mono.Cecil" version="0.9.6.4" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\..\..\..\bin\Release\ResourceEmbedder.Core.dll" target="lib\net40\ResourceEmbedder.Core.dll" />
+        <file src="..\..\..\..\bin\Release\ResourceEmbedder.Core.pdb" target="lib\net40\ResourceEmbedder.Core.pdb" />
+        <file src="..\..\..\..\bin\Release\ResourceEmbedder.Core.xml" target="lib\net40\ResourceEmbedder.Core.xml" />
+    </files>
+</package>

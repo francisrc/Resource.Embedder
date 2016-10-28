@@ -30,8 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSBuild", "MSBuild", "{4785
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild.Tests", "src\modules\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet", "src\modules\NuGet\NuGet.csproj", "{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "src\samples\ResourceEmbedder\ResourceEmbedder\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Tests", "src\samples\ResourceEmbedder\ResourceEmbedder.Tests\ResourceEmbedder.Tests.csproj", "{C67A1956-3102-442E-A98E-167475D0F3E5}"
@@ -59,8 +57,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectForcingCecilAssemblyResolve", "src\testmodules\ProjectForcingCecilAssemblyResolve\ProjectForcingCecilAssemblyResolve.csproj", "{E6CEE6E5-5BD1-46EB-BA33-46A9C9A6DBC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWithEnum", "src\testmodules\ProjectWithEnum\ProjectWithEnum.csproj", "{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Core", "src\modules\NuGet.Core\NuGet.Core.csproj", "{7D5548B9-B69C-4912-B913-EC1520116118}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,10 +92,6 @@ Global
 		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD84484B-4536-4181-BC70-8D6A24AD9532}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB4D4748-F0EE-4021-9BAD-662D70B89D5D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{291DC739-6E64-4488-983E-5F343955AEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{291DC739-6E64-4488-983E-5F343955AEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{291DC739-6E64-4488-983E-5F343955AEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -152,10 +144,6 @@ Global
 		{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D5548B9-B69C-4912-B913-EC1520116118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D5548B9-B69C-4912-B913-EC1520116118}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D5548B9-B69C-4912-B913-EC1520116118}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D5548B9-B69C-4912-B913-EC1520116118}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

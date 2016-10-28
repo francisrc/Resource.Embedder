@@ -52,14 +52,14 @@ namespace ResourceEmbedder
 				}
 				resources.Add(new ResourceInfo(inputResource, embeddedName));
 			}
-			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, input, output))
+			using (IModifyAssemblies modifier = new CecilBasedAssemblyModifier(logger, input, output))
 			{
-				if (!modifer.EmbedResources(resources.ToArray()))
+				if (!modifier.EmbedResources(resources.ToArray()))
 				{
 					logger.Error("Failed to embed resources!");
 					return;
 				}
-				if (!modifer.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader))
+				if (!modifier.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader))
 				{
 					logger.Error("Failed to inject code!");
 					return;

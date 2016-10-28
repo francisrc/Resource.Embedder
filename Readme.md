@@ -89,6 +89,11 @@ If there are no resource files left for a specific language (empty localization 
 
 # Changelog
 
+**v1.2.2**
+
+* Updated cecil dependency to latest
+* Internal changes
+
 **v1.2.1**
 
 * Moved to Gitlab
