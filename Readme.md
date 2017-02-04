@@ -10,7 +10,7 @@ Many thanks to Simon for the excellent [Fody](https://github.com/Fody/Fody) and 
 * compatible with .Net 4 and above
 * currently no support for signed assemblies
 
-## Available on NuGet  [![NuGet Status](http://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
+## Available on NuGet  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
 
 https://nuget.org/packages/Resource.Embedder/
 
@@ -21,7 +21,7 @@ No more need for deploying the satellite assembly folders.
 
 
 ___
-## Available on NuGet  [![NuGet Status](http://img.shields.io/nuget/v/Resource.Embedder.Core.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder.Core/)
+## Available on NuGet  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.Core.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder.Core/)
 
 https://nuget.org/packages/Resource.Embedder.Core/
 
@@ -36,7 +36,7 @@ ___
 
 The NuGet package works similar to [Costura](https://github.com/Fody/Costura) and injects a .targets file into the project it is added to, thus allowing for two things during build:
 
-* Embedding the satellite assemblies into the assembly as resources [as per Jeffrey Richters example](http://blogs.msdn.com/b/microsoft_press/archive/2010/02/03/jeffrey-richter-excerpt-2-from-clr-via-c-third-edition.aspx).
+* Embedding the satellite assemblies into the assembly as resources [as per Jeffrey Richters example](https://blogs.msdn.com/b/microsoft_press/archive/2010/02/03/jeffrey-richter-excerpt-2-from-clr-via-c-third-edition.aspx).
 * Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://gitlab.com/MarcStan/Resource.Embedder/blob/master/src/modules/ResourceEmbedder.Core/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs)
 
 ## Why?
@@ -68,7 +68,7 @@ If the application is called Wpf.exe and has "de" (German), and "fr" (French) sa
 * Copy it somewhere without the localization folders
 * Run the app and type "de" or "fr" into the textbox.
 * Observe that the "Hello world" text is properly localized when pressing the button to change locale even without resource assembly directories being present
-* Using tools like [JustDecompile](http://www.telerik.com/products/decompiler.aspx) it is possible to see that WpfTest.exe now contains resources "WpfTest.de.resources.dll"
+* Using tools like [JustDecompile](https://www.telerik.com/products/decompiler.aspx) it is possible to see that WpfTest.exe now contains resources "WpfTest.de.resources.dll"
 
 ### Configuration
 
