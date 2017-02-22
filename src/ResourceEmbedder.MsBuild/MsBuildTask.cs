@@ -10,8 +10,6 @@ namespace ResourceEmbedder.MsBuild
 		[Required]
 		public string AssemblyPath { set; get; }
 
-		public string KeyFilePath { get; set; }
-
 		[Required]
 		public string ProjectDirectory { get; set; }
 

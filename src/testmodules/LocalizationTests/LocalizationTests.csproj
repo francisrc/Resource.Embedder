@@ -60,6 +60,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="..\..\AssemblyInfoInc.cs">
+      <Link>Properties\AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="AssertCorrectLocalitations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

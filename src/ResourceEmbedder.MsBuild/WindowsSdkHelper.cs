@@ -18,25 +18,25 @@ namespace ResourceEmbedder.MsBuild
 
 		private static string FindPathForWindowsSdk(string file)
 		{
-			string[] windowsSdkPaths = new[]
-			  {
-			@"Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v8.1A\bin\",
-			@"Microsoft SDKs\Windows\v8.1\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v8.1\bin\",
-			@"Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v8.0A\bin\",
-			@"Microsoft SDKs\Windows\v8.0\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v8.0\bin\",
-			@"Microsoft SDKs\Windows\v7.1A\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v7.1A\bin\",
-			@"Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\",
-			@"Microsoft SDKs\Windows\v7.0A\bin\",
-			@"Microsoft SDKs\Windows\v6.1A\bin\",
-			@"Microsoft SDKs\Windows\v6.0A\bin\",
-			@"Microsoft SDKs\Windows\v6.0\bin\",
-			@"Microsoft.NET\FrameworkSDK\bin"
-			  };
+			string[] windowsSdkPaths =
+			{
+				@"Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v8.1A\bin\",
+				@"Microsoft SDKs\Windows\v8.1\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v8.1\bin\",
+				@"Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v8.0A\bin\",
+				@"Microsoft SDKs\Windows\v8.0\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v8.0\bin\",
+				@"Microsoft SDKs\Windows\v7.1A\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v7.1A\bin\",
+				@"Microsoft SDKs\Windows\v7.0A\bin\NETFX 4.0 Tools\",
+				@"Microsoft SDKs\Windows\v7.0A\bin\",
+				@"Microsoft SDKs\Windows\v6.1A\bin\",
+				@"Microsoft SDKs\Windows\v6.0A\bin\",
+				@"Microsoft SDKs\Windows\v6.0\bin\",
+				@"Microsoft.NET\FrameworkSDK\bin"
+			};
 
 			foreach (var possiblePath in windowsSdkPaths)
 			{

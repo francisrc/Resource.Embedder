@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,22 +29,22 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions, Version=4.13.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.dll</HintPath>
+      <HintPath>..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentAssertions.Core, Version=4.13.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.Core.dll</HintPath>
+      <HintPath>..\..\packages\FluentAssertions.4.13.0\lib\net45\FluentAssertions.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,26 +60,26 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="..\..\..\AssemblyInfo\AssemblyInfoInc.cs">
+    <Compile Include="..\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestConsoleBasedEmbedder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\testmodules\ConsoleTest\ConsoleTest.csproj">
+    <ProjectReference Include="..\testmodules\ConsoleTest\ConsoleTest.csproj">
       <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
       <Name>ConsoleTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\testmodules\WpfTest\WpfTest.csproj">
+    <ProjectReference Include="..\testmodules\WpfTest\WpfTest.csproj">
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
       <Name>WpfTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\modules\Modules.TestHelper\Modules.TestHelper\Modules.TestHelper.csproj">
+    <ProjectReference Include="..\Modules.TestHelper\Modules.TestHelper.csproj">
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
       <Name>Modules.TestHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ResourceEmbedder\ResourceEmbedder.csproj">
+    <ProjectReference Include="..\ResourceEmbedderSample\ResourceEmbedder.csproj">
       <Project>{291dc739-6e64-4488-983e-5f343955aeb6}</Project>
       <Name>ResourceEmbedder</Name>
     </ProjectReference>

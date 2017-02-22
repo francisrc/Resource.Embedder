@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\AssemblyInfoInc.cs">
+      <Link>Properties\AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Localize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

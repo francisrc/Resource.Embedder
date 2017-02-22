@@ -21,8 +21,7 @@ namespace ResourceEmbedder.MsBuild
 			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder");
 			if (SignAssembly)
 			{
-				// TODO: check required steps to add this feature
-				logger.Error("Signed assemblies have not been implemented yet.");
+				logger.Error("Signed assemblies have not been implemented.");
 				return false;
 			}
 			if (!AssertSetup(logger))
@@ -107,7 +106,6 @@ namespace ResourceEmbedder.MsBuild
 			// but then we would lock the assembly file
 			// only workaround would be to load into a different AppDomain but I'm too stupid to get it to work, so I'll use corflags.exe
 
-			// TODO: possibly not future proof as .Net on Linux, etc. might not have corflags.exe (though all non windows versions should be .Net 5+ and not ancient .Net code)
 			var corFlagsReader = WindowsSdkHelper.FindCorFlagsExe();
 			if (corFlagsReader == null || !File.Exists(corFlagsReader))
 			{

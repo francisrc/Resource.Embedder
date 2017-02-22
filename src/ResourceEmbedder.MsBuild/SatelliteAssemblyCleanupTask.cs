@@ -20,8 +20,7 @@ namespace ResourceEmbedder.MsBuild
 			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder.Cleanup");
 			if (SignAssembly)
 			{
-				// TODO: check required steps to add this feature
-				logger.Error("Signed assemblies have not been implemented yet.");
+				logger.Error("Signed assemblies have not been implemented.");
 				return false;
 			}
 			if (!AssertSetup(logger))

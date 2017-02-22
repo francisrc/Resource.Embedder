@@ -24,16 +24,14 @@ Requires .Net 4 or above.
         <dependencies></dependencies>
     </metadata>
     <files>
-        <file src="..\..\..\..\bin\Release\ResourceEmbedder.Core.dll" target="ResourceEmbedder.Core.dll" />
-        <file src="..\..\..\..\bin\Release\ResourceEmbedder.Core.pdb" target="ResourceEmbedder.Core.pdb" />
-        <file src="..\..\..\..\bin\Release\ResourceEmbedder.MsBuild.dll" target="ResourceEmbedder.MsBuild.dll" />
-        <file src="..\..\..\..\bin\Release\ResourceEmbedder.MsBuild.pdb" target="ResourceEmbedder.MsBuild.pdb" />
-        <file src="..\..\..\..\bin\Release\Mono.Cecil.dll" target="Mono.Cecil.dll" />
-        <file src="..\..\..\..\bin\Release\Mono.Cecil.Mdb.dll" target="Mono.Cecil.Mdb.dll" />
-        <file src="..\..\..\..\bin\Release\Mono.Cecil.Pdb.dll" target="Mono.Cecil.Pdb.dll" />
-        <file src="..\..\..\..\bin\Release\Mono.Cecil.Rocks.dll" target="Mono.Cecil.Rocks.dll" />
-        <file src="install.ps1" target="Tools\install.ps1" />
-        <file src="uninstall.ps1" target="Tools\uninstall.ps1" />
+        <file src="..\..\bin\Release\ResourceEmbedder.Core.dll" target="ResourceEmbedder.Core.dll" />
+        <file src="..\..\bin\Release\ResourceEmbedder.Core.pdb" target="ResourceEmbedder.Core.pdb" />
+        <file src="..\..\bin\Release\ResourceEmbedder.MsBuild.dll" target="ResourceEmbedder.MsBuild.dll" />
+        <file src="..\..\bin\Release\ResourceEmbedder.MsBuild.pdb" target="ResourceEmbedder.MsBuild.pdb" />
+        <file src="..\..\bin\Release\Mono.Cecil.dll" target="Mono.Cecil.dll" />
+        <file src="..\..\bin\Release\Mono.Cecil.Mdb.dll" target="Mono.Cecil.Mdb.dll" />
+        <file src="..\..\bin\Release\Mono.Cecil.Pdb.dll" target="Mono.Cecil.Pdb.dll" />
+        <file src="..\..\bin\Release\Mono.Cecil.Rocks.dll" target="Mono.Cecil.Rocks.dll" />
         <file src="Resource.Embedder.targets" target="build\Resource.Embedder.targets" />
     </files>
 </package>

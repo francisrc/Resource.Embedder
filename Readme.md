@@ -82,12 +82,12 @@ After the build finishes the Resource.Embedder will delete all resource files it
 
 If there are no resource files left for a specific language (empty localization directory) the directory is deleted as well.
 
-
-# Features to be implemented in the future
-
-* Support for signed assemblies (low priority, I haven't needed signed assemblies in a long time)
-
 # Changelog
+
+**v1.2.3**
+
+* Removed unnecessary files from deploy
+* Cleaned up solution structure
 
 **v1.2.2**
 
