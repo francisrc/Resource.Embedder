@@ -13,3 +13,4 @@ ipch/
 *.cachefile
 *.DotSettings.user
 **/packages/*
+**/_ReSharper.Caches/*
