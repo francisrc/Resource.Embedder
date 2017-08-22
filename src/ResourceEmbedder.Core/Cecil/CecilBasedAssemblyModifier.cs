@@ -133,7 +133,7 @@ namespace ResourceEmbedder.Core.Cecil
 			_assemblyDefinition.Write(OutputAssembly, new WriterParameters
 			{
 				WriteSymbols = _symbolsAreBeingRead,
-				SymbolWriterProvider = new PdbWriterProvider()
+				SymbolWriterProvider = _symbolsAreBeingRead ? new PdbWriterProvider() : null
 			});
 		}
 
