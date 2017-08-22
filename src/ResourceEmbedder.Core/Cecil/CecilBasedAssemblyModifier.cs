@@ -19,7 +19,16 @@ namespace ResourceEmbedder.Core.Cecil
 
 		#region Constructors
 
-		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null)
+		/// <summary>
+		/// Creates a new modifier that can insert resources and code into an assembly.
+		/// </summary>
+		/// <param name="logger"></param>
+		/// <param name="inputAssembly"></param>
+		/// <param name="outputAssembly"></param>
+		/// <param name="searchDirectories"></param>
+		/// <param name="rewriteDebugSymbols">Determines whether debug symbols are read. If null the modifier will check for the existence of a .pdb file and if found will read it.
+		/// If explicitely set to true and no pdb is found will cause an error.</param>
+		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null, bool? rewriteDebugSymbols = null)
 		{
 			if (logger == null)
 			{
@@ -39,7 +48,28 @@ namespace ResourceEmbedder.Core.Cecil
 			OutputAssembly = Path.GetFullPath(outputAssembly);
 
 			var symbolPath = Path.ChangeExtension(inputAssembly, "pdb");
-			_symbolsAreBeingRead = File.Exists(symbolPath);
+			var hasPdb = File.Exists(symbolPath);
+			if (rewriteDebugSymbols.HasValue)
+			{
+				if (rewriteDebugSymbols.Value)
+				{
+					_symbolsAreBeingRead = true;
+					if (!hasPdb)
+					{
+						throw new NotSupportedException($"User provided argument {nameof(rewriteDebugSymbols)} with value 'true' but could not locate required file '{symbolPath}'.");
+					}
+				}
+				else
+				{
+					_symbolsAreBeingRead = false;
+				}
+			}
+			else
+			{
+				// no value, default to reading when the file exists
+				_symbolsAreBeingRead = hasPdb;
+			}
+
 
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(new FileInfo(inputAssembly).DirectoryName);
@@ -97,7 +127,7 @@ namespace ResourceEmbedder.Core.Cecil
 			if (exists)
 			{
 				// delete it just in case, as there have been issues before
-				// (e.g. a file lock by ms build that Cecil silently smallows leaving us with the old pdb, thus non-debuggable ode)
+				// (e.g. a file lock by ms build that Cecil silently swallows leaving us with the old pdb, thus non-debuggable ode)
 				File.Delete(pdb);
 			}
 			_assemblyDefinition.Write(OutputAssembly, new WriterParameters
