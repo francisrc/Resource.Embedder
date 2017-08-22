@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.Build.Framework;
 using NUnit.Framework;
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -40,6 +41,110 @@ namespace ResourceEmbedder.MsBuild.Tests
 			var p = Process.Start(msBuild, "/testFullyProcessed");
 			p.WaitForExit(2000).Should().BeTrue();
 			p.ExitCode.Should().Be(0);
+			File.Delete(de);
+			File.Delete(fr);
+		}
+
+		[Test]
+		public void MsBuildBasedEmbeddingWithSymbols()
+		{
+			const string msBuild = "MsBuildBasedInjected.exe";
+			if (File.Exists(msBuild))
+			{
+				File.Delete(msBuild);
+			}
+			const string de = "de\\MsBuildBasedInjected.resources.dll";
+			File.Copy("de\\WpfTest.resources.dll", de, true);
+			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
+			File.Copy("fr\\WpfTest.resources.dll", fr, true);
+			File.Copy("WpfTest.exe", msBuild);
+
+			File.Copy("WpfTest.pdb", Path.ChangeExtension(msBuild, "pdb"), true);
+			File.Exists(Path.ChangeExtension(msBuild, "pdb")).Should().BeTrue("because we just copied it");
+
+			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
+			var task = new SatelliteAssemblyEmbedderTask
+			{
+				ProjectDirectory = ".",
+				AssemblyPath = msBuild,
+				TargetPath = Path.GetFullPath(msBuild),
+				BuildEngine = fakeEngine,
+				References = ".",
+				DebugSymbols = true,
+				DebugType = "full"
+			};
+			task.Execute().Should().BeTrue();
+
+			// pdb should not exist because we disable debug symbols
+			File.Exists(Path.ChangeExtension(msBuild, "pdb")).Should().BeTrue("because we told the task to rewrite pdb");
+
+			File.Delete(de);
+			File.Delete(fr);
+		}
+
+		[Test]
+		public void MsBuildBasedEmbeddingWithMissingSymbolsShouldThrow()
+		{
+			const string msBuild = "MsBuildBasedInjected.exe";
+			if (File.Exists(msBuild))
+			{
+				File.Delete(msBuild);
+			}
+			const string de = "de\\MsBuildBasedInjected.resources.dll";
+			File.Copy("de\\WpfTest.resources.dll", de, true);
+			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
+			File.Copy("fr\\WpfTest.resources.dll", fr, true);
+			File.Copy("WpfTest.exe", msBuild);
+			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
+				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
+			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
+			var task = new SatelliteAssemblyEmbedderTask
+			{
+				ProjectDirectory = ".",
+				AssemblyPath = msBuild,
+				TargetPath = Path.GetFullPath(msBuild),
+				BuildEngine = fakeEngine,
+				References = ".",
+				DebugSymbols = true,
+				DebugType = "full"
+			};
+			new Action(() => task.Execute()).ShouldThrow<NotSupportedException>("because pdb file is required but we deleted it manually before task executed");
+
+			File.Delete(de);
+			File.Delete(fr);
+		}
+
+		[Test]
+		public void MsBuildBasedEmbeddingWithoutSymbols()
+		{
+			const string msBuild = "MsBuildBasedInjected.exe";
+			if (File.Exists(msBuild))
+			{
+				File.Delete(msBuild);
+			}
+			const string de = "de\\MsBuildBasedInjected.resources.dll";
+			File.Copy("de\\WpfTest.resources.dll", de, true);
+			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
+			File.Copy("fr\\WpfTest.resources.dll", fr, true);
+			File.Copy("WpfTest.exe", msBuild);
+			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
+				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
+			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
+			var task = new SatelliteAssemblyEmbedderTask
+			{
+				ProjectDirectory = ".",
+				AssemblyPath = msBuild,
+				TargetPath = Path.GetFullPath(msBuild),
+				BuildEngine = fakeEngine,
+				References = ".",
+				DebugSymbols = false
+			};
+			task.Execute().Should().BeTrue();
+
+			// pdb should not exist because we disable debug symbols
+			File.Exists(Path.ChangeExtension(msBuild, "pdb")).Should().BeFalse();
+
+
 			File.Delete(de);
 			File.Delete(fr);
 		}
