@@ -75,7 +75,7 @@ namespace ResourceEmbedder.MsBuild
 			// we need the directory path, but the references are all files, so convert and take distinct set
 			searchDirs.AddRange(referenceDirs.Select(f => new FileInfo(f).DirectoryName).Distinct());
 			logger.Info("Looking for references in: {0}", string.Join(", ", searchDirs));
-			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray()))
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), DebugSymbols))
 			{
 				if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
 				{

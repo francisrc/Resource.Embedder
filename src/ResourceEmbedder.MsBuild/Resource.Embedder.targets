@@ -9,7 +9,7 @@
 	<UsingTask TaskName="ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask" AssemblyFile="$(EmbedderPath)ResourceEmbedder.MsBuild.dll" />
 	<!-- We want to run as soon as the satellite assemblies are generated -->
 	<Target AfterTargets="GenerateSatelliteAssemblies" Name="EmbedderTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
-		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" References="@(ReferencePath)"/>
+		<ResourceEmbedder.MsBuild.SatelliteAssemblyEmbedderTask AssemblyPath="@(IntermediateAssembly)" ProjectDirectory="$(ProjectDir)" TargetPath="$(TargetPath)" SignAssembly="$(EmbedderSignAssembly)" References="@(ReferencePath)" DebugSymbols="$(DebugSymbols)" DebugType="$(DebugType)" />
 	</Target>
 	<!--Cleanup after generating -->
 	<Target AfterTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
