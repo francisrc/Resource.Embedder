@@ -40,6 +40,12 @@ namespace ResourceEmbedder.MsBuild
 			// TODO: same hack as Fody is using due to a possible bug in msbuild: https://github.com/Microsoft/msbuild/issues/2169
 			// override value of debug symbols based on DebugType
 			DebugSymbols = HasDebugSymbols();
+			// TODO: can be removed with release of mono.cecil 0.10 (non-beta)
+			if (string.Equals("portable", DebugType, StringComparison.OrdinalIgnoreCase))
+			{
+				logger.Error("portable debug information setting is currently not supported. Once Mono.Cecil 0.10 is out of beta it will be supported. Issue tracked here: https://gitlab.com/MarcStan/Resource.Embedder/issues/8");
+				return false;
+			}
 			if (!Directory.Exists(ProjectDirectory))
 			{
 				logger.Error("Project directory '{0}' does not exist.", ProjectDirectory);

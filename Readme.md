@@ -84,10 +84,15 @@ If there are no resource files left for a specific language (empty localization 
 
 # Changelog
 
+**v1.2.4**
+
+* Added error message and aborting when "portable" debugging information is used (as opposed to just crashing)
+
 **v1.2.3**
 
 * Removed unnecessary files from deploy
 * Cleaned up solution structure
+* Added support for "none" and "embedded" debugging information
 
 **v1.2.2**
 
