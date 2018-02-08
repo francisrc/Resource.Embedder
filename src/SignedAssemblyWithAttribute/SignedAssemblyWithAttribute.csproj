@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA4634F0-7A82-44A5-8905-6F9E1C08B68F}</ProjectGuid>
+    <ProjectGuid>{CF0F6E92-9632-47AF-AA47-22FF7BBC7062}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SignedAssembly</RootNamespace>
-    <AssemblyName>SignedAssembly</AssemblyName>
+    <RootNamespace>SignedAssemblyWithAttribute</RootNamespace>
+    <AssemblyName>SignedAssemblyWithAttribute</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -51,10 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\AssemblyInfoInc.cs">
+    <Compile Include="..\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
-    <Compile Include="..\LocalizeHelper\Localize.cs">
+    <Compile Include="..\testmodules\LocalizeHelper\Localize.cs">
       <Link>Localize.cs</Link>
     </Compile>
     <Compile Include="Program.cs" />
@@ -67,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Translation.de.resx" />
@@ -78,11 +75,4 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\packages\Resource.Embedder.1.2.4\build\Resource.Embedder.targets" Condition="Exists('..\..\..\packages\Resource.Embedder.1.2.4\build\Resource.Embedder.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\Resource.Embedder.1.2.4\build\Resource.Embedder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Resource.Embedder.1.2.4\build\Resource.Embedder.targets'))" />
-  </Target>
 </Project>

@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace SignedAssembly
+namespace SignedAssemblyWithAttribute
 {
 	class Program
 	{
@@ -10,7 +10,7 @@ namespace SignedAssembly
 
 		static void Main(string[] args)
 		{
-			// this assembly was signed via the "Signing" property dialog (which adds "<AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>") to the csproj
+			// this assembly was signed via the attribute (see AssemblyInfo.cs)
 			var signingKey = Assembly.GetExecutingAssembly().GetName().GetPublicKeyToken();
 			if (signingKey == null || signingKey.Length == 0)
 			{
