@@ -140,7 +140,7 @@ namespace ResourceEmbedder.MsBuild.Tests
 				DebugSymbols = true,
 				DebugType = "full"
 			};
-			new Action(() => task.Execute()).ShouldThrow<NotSupportedException>("because pdb file is required but we deleted it manually before task executed");
+			new Action(() => task.Execute()).Should().Throw<NotSupportedException>("because pdb file is required but we deleted it manually before task executed");
 
 			File.Delete(de);
 			File.Delete(fr);

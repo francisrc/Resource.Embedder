@@ -89,13 +89,13 @@
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
       <Output TaskParameter="Assemblies" ItemName="myAssemblyInfo" />
     </GetAssemblyIdentity>
-    <Exec Command="..\..\packages\NuGet.CommandLine.4.3.0\tools\NuGet.exe pack Resource.Embedder.nuspec -Version %(myAssemblyInfo.Version) -Properties Configuration=Release -OutputDirectory $(OutDir)" />
+    <Exec Command="..\..\packages\NuGet.CommandLine.4.5.1\tools\NuGet.exe pack Resource.Embedder.nuspec -Version %(myAssemblyInfo.Version) -Properties Configuration=Release -OutputDirectory $(OutDir)" />
   </Target>
   <Target Name="EnsureNuGetExeExist" BeforeTargets="AfterBuild">
     <PropertyGroup>
       <ErrorText>This project uses nuget.exe from the package NuGet.CommandLine. Most likely you updated the nuget package but haven't yet edited the .csproj file. Edit the .csproj file (at the very end). Could not find: {0}</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\NuGet.CommandLine.4.3.0\tools\NuGet.exe')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NuGet.CommandLine.4.3.0\tools\NuGet.exe'))" />
+    <Error Condition="!Exists('..\..\packages\NuGet.CommandLine.4.5.1\tools\NuGet.exe')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NuGet.CommandLine.4.5.1\tools\NuGet.exe'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
