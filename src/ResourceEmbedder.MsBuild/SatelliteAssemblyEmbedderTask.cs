@@ -1,10 +1,12 @@
-﻿using ResourceEmbedder.Core;
+﻿using Mono.Cecil;
+using ResourceEmbedder.Core;
 using ResourceEmbedder.Core.Cecil;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace ResourceEmbedder.MsBuild
 {
@@ -19,11 +21,6 @@ namespace ResourceEmbedder.MsBuild
 		public override bool Execute()
 		{
 			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder");
-			if (SignAssembly)
-			{
-				logger.Error("Signed assemblies have not been implemented.");
-				return false;
-			}
 			if (!AssertSetup(logger))
 			{
 				return false;
@@ -75,7 +72,32 @@ namespace ResourceEmbedder.MsBuild
 			// we need the directory path, but the references are all files, so convert and take distinct set
 			searchDirs.AddRange(referenceDirs.Select(f => new FileInfo(f).DirectoryName).Distinct());
 			logger.Info("Looking for references in: {0}", string.Join(", ", searchDirs));
-			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), DebugSymbols))
+
+			StrongNameKeyPair signingKey = null;
+			var rp = CecilBasedAssemblyModifier.GetReaderParameters(inputAssembly, searchDirs, DebugSymbols);
+			if (!SignAssembly)
+			{
+				var md = ModuleDefinition.ReadModule(inputAssembly, rp);
+				var name = nameof(AssemblyKeyFileAttribute);
+				var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
+				if (keyFileAttr != null)
+				{
+					logger.Info("Found AssemblyKeyFileAttribute even though MSBuild said SignAssembly=false, assuming assembly has to be signed anyway.");
+					SignAssembly = true;
+				}
+			}
+			if (SignAssembly)
+			{
+				var keyFilePath = GetSigningKeyPath(inputAssembly, rp, logger);
+				if (!File.Exists(keyFilePath))
+				{
+					logger.Info("Could not find signing key file at path '{0}'.", keyFilePath);
+					return false;
+				}
+				signingKey = new StrongNameKeyPair(File.OpenRead(keyFilePath));
+			}
+
+			using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), DebugSymbols, signingKey))
 			{
 				if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
 				{
@@ -93,6 +115,41 @@ namespace ResourceEmbedder.MsBuild
 			File.WriteAllText(tempFile, string.Join(";", usedCultures));
 			logger.Info("Finished embedding cultures: {0} into {1} in {2}ms", string.Join(", ", usedCultures), Path.GetFileName(inputAssembly), watch.ElapsedMilliseconds);
 			return true;
+		}
+
+		/// <summary>
+		/// Attempts to find the signing key for the specific assembly.
+		/// </summary>
+		/// <param name="inputAssemblyPath"></param>
+		/// <param name="rp"></param>
+		/// <param name="logger"></param>
+		/// <returns></returns>
+		private string GetSigningKeyPath(string inputAssemblyPath, ReaderParameters rp, ILogger logger)
+		{
+			if (KeyFilePath != null)
+			{
+				var path = Path.GetFullPath(KeyFilePath);
+				// only use, if the file exists
+				if (File.Exists(path))
+				{
+					logger.Info("Using signing key provided by msbuild: '{0}'", path);
+					return path;
+				}
+			}
+
+			// fallback as per: https://github.com/Fody/Fody/blob/master/FodyIsolated/StrongNameKeyFinder.cs
+			var md = ModuleDefinition.ReadModule(inputAssemblyPath, rp);
+			var name = nameof(AssemblyKeyFileAttribute);
+			var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
+			if (keyFileAttr != null)
+			{
+				var suffix = (string)keyFileAttr.ConstructorArguments.First().Value;
+				var path = Path.Combine(IntermediateDirectory, suffix);
+				logger.Info("Using signing key path from attribute: {0}", path);
+				return path;
+			}
+			logger.Warning("No signing key found");
+			return null;
 		}
 
 		/// <summary>

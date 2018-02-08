@@ -18,11 +18,6 @@ namespace ResourceEmbedder.MsBuild
 		public override bool Execute()
 		{
 			var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder.Cleanup");
-			if (SignAssembly)
-			{
-				logger.Error("Signed assemblies have not been implemented.");
-				return false;
-			}
 			if (!AssertSetup(logger))
 			{
 				return false;

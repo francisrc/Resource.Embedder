@@ -19,6 +19,10 @@ namespace ResourceEmbedder.MsBuild
 
 		public bool SignAssembly { get; set; }
 
+		public string KeyFilePath { get; set; }
+
+		public string IntermediateDirectory { get; set; }
+
 		public string TargetPath { get; set; }
 
 		public bool DebugSymbols { get; set; }

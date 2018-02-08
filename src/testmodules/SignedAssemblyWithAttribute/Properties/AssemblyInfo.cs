@@ -10,5 +10,5 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: Guid("cf0f6e92-9632-47af-aa47-22ff7bbc7062")]
 
-// adding signing key as attribute, path is relative to output dir (aka bin\Debug)
+// adding signing key as attribute, path is relative to intermediate dir (aka obj\Debug)
 [assembly: AssemblyKeyFile("..\\..\\Key.snk")]

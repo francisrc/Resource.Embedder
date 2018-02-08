@@ -1,7 +1,9 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Pdb;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace ResourceEmbedder.Core.Cecil
 {
@@ -12,6 +14,7 @@ namespace ResourceEmbedder.Core.Cecil
 		private readonly AssemblyDefinition _assemblyDefinition;
 		private readonly IInjectCode _codeInjector;
 		private readonly ILogger _logger;
+		private readonly StrongNameKeyPair _signingKey;
 		private readonly IEmbedResources _resourceEmbedder;
 		private readonly bool _symbolsAreBeingRead;
 
@@ -28,7 +31,8 @@ namespace ResourceEmbedder.Core.Cecil
 		/// <param name="searchDirectories"></param>
 		/// <param name="rewriteDebugSymbols">Determines whether debug symbols are read. If null the modifier will check for the existence of a .pdb file and if found will read it.
 		/// If explicitely set to true and no pdb is found will cause an error.</param>
-		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null, bool? rewriteDebugSymbols = null)
+		/// <param name="signingKey">Optional signing key to be applied to the output assembly.</param>
+		public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null, bool? rewriteDebugSymbols = null, StrongNameKeyPair signingKey = null)
 		{
 			if (logger == null)
 			{
@@ -44,6 +48,7 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 
 			_logger = logger;
+			_signingKey = signingKey;
 			InputAssembly = Path.GetFullPath(inputAssembly);
 			OutputAssembly = Path.GetFullPath(outputAssembly);
 
@@ -70,7 +75,22 @@ namespace ResourceEmbedder.Core.Cecil
 				_symbolsAreBeingRead = hasPdb;
 			}
 
+			var rp = GetReaderParameters(inputAssembly, searchDirectories, _symbolsAreBeingRead);
 
+			_assemblyDefinition = AssemblyDefinition.ReadAssembly(inputAssembly, rp);
+			_resourceEmbedder = new CecilBasedResourceEmbedder(logger);
+			_codeInjector = new CecilBasedCodeInjector(logger);
+		}
+
+		/// <summary>
+		/// Helper to create the correct reader parameter construct based on the parameters.
+		/// </summary>
+		/// <param name="inputAssembly"></param>
+		/// <param name="searchDirectories"></param>
+		/// <param name="symbolsAreBeingRead"></param>
+		/// <returns></returns>
+		public static ReaderParameters GetReaderParameters(string inputAssembly, IEnumerable<string> searchDirectories, bool symbolsAreBeingRead)
+		{
 			var resolver = new DefaultAssemblyResolver();
 			resolver.AddSearchDirectory(new FileInfo(inputAssembly).DirectoryName);
 
@@ -80,13 +100,10 @@ namespace ResourceEmbedder.Core.Cecil
 
 			var rp = new ReaderParameters
 			{
-				ReadSymbols = _symbolsAreBeingRead,
+				ReadSymbols = symbolsAreBeingRead,
 				AssemblyResolver = resolver
 			};
-
-			_assemblyDefinition = AssemblyDefinition.ReadAssembly(inputAssembly, rp);
-			_resourceEmbedder = new CecilBasedResourceEmbedder(logger);
-			_codeInjector = new CecilBasedCodeInjector(logger);
+			return rp;
 		}
 
 		#endregion Constructors
@@ -132,6 +149,7 @@ namespace ResourceEmbedder.Core.Cecil
 			}
 			_assemblyDefinition.Write(OutputAssembly, new WriterParameters
 			{
+				StrongNameKeyPair = _signingKey,
 				WriteSymbols = _symbolsAreBeingRead,
 				SymbolWriterProvider = _symbolsAreBeingRead ? new PdbWriterProvider() : null
 			});
