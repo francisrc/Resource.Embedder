@@ -77,13 +77,22 @@ namespace ResourceEmbedder.MsBuild
 			var rp = CecilBasedAssemblyModifier.GetReaderParameters(inputAssembly, searchDirs, DebugSymbols);
 			if (!SignAssembly)
 			{
-				var md = ModuleDefinition.ReadModule(inputAssembly, rp);
-				var name = nameof(AssemblyKeyFileAttribute);
-				var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
-				if (keyFileAttr != null)
+				if (DebugSymbols && !File.Exists(Path.ChangeExtension(inputAssembly, ".pdb")))
 				{
-					logger.Info("Found AssemblyKeyFileAttribute even though MSBuild said SignAssembly=false, assuming assembly has to be signed anyway.");
-					SignAssembly = true;
+					// can't call ReadModule with DebugSymbols=true when .pdb is missing; since we most likely won't end up producing working output anyway
+					// just ignore the sign assembly check
+					logger.Warning("DebugSymbols are requested, but .pdb file is missing!");
+				}
+				else
+				{
+					var md = ModuleDefinition.ReadModule(inputAssembly, rp);
+					var name = nameof(AssemblyKeyFileAttribute);
+					var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
+					if (keyFileAttr != null)
+					{
+						logger.Info("Found AssemblyKeyFileAttribute even though MSBuild said SignAssembly=false, assuming assembly has to be signed anyway.");
+						SignAssembly = true;
+					}
 				}
 			}
 			if (SignAssembly)
