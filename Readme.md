@@ -84,6 +84,12 @@ If there are no resource files left for a specific language (empty localization 
 
 # Changelog
 
+**v1.2.5**
+
+* Added support for signed assemblies via:
+  * csproj AssemblyOriginatorKeyFile and
+  * AssemblyKeyFileAttribute assembly attribute
+
 **v1.2.4**
 
 * Added error message and aborting when "portable" debugging information is used (as opposed to just crashing)
