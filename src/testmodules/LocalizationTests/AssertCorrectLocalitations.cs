@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace LocalizationTests
 {
@@ -10,10 +12,18 @@ namespace LocalizationTests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void AssertDeEnEsJaPlRupt()
 		{
-			var p = Process.Start("DeEnEsJaPlRupt.exe");
+			var p = Process.Start(Path.Combine(AssemblyDirectory(), "DeEnEsJaPlRupt.exe"));
 
 			p.WaitForExit(2000).Should().Be(true);
 			p.ExitCode.Should().Be(0);
@@ -29,7 +39,7 @@ namespace LocalizationTests
 		[Test]
 		public void AssertEnglishGermanPolishWorks()
 		{
-			var p = Process.Start("EnglishGermanPolish.exe");
+			var p = Process.Start(Path.Combine(AssemblyDirectory(), "EnglishGermanPolish.exe"));
 
 			p.WaitForExit(2000).Should().Be(true);
 			p.ExitCode.Should().Be(0);
@@ -41,7 +51,7 @@ namespace LocalizationTests
 		[Test]
 		public void AssertEnglishOnlyWorks()
 		{
-			var p = Process.Start("EnglishOnly.exe");
+			var p = Process.Start(Path.Combine(AssemblyDirectory(), "EnglishOnly.exe"));
 
 			p.WaitForExit(2000).Should().Be(true);
 			p.ExitCode.Should().Be(0);
@@ -51,7 +61,7 @@ namespace LocalizationTests
 		[Test]
 		public void AssertNoLocalizationWorks()
 		{
-			var p = Process.Start("NoLocalization.exe");
+			var p = Process.Start(Path.Combine(AssemblyDirectory(), "NoLocalization.exe"));
 
 			p.WaitForExit(2000).Should().Be(true);
 			p.ExitCode.Should().Be(0);

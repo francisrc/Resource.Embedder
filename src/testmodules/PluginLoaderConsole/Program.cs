@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -12,10 +13,10 @@ namespace PluginLoaderConsole
 	{
 		#region Methods
 
-		private static void LoadAssemblies()
+		private static void LoadAssemblies(string path)
 		{
 			// LocalizedPlugin assembly is never referenced, so forceload it manually
-			Assembly.LoadFrom("LocalizedPlugin.dll");
+			Assembly.LoadFrom(Path.Combine(path, "LocalizedPlugin.dll"));
 		}
 
 		private static IEnumerable<ILocalizedPlugin> LoadPlugins()
@@ -35,15 +36,17 @@ namespace PluginLoaderConsole
 
 		static void Main(string[] args)
 		{
-			if (args.Length == 1 && args[0] == "/fulltest")
+			if (args.Length == 1 && args[0].StartsWith("/fulltest:"))
 			{
 				// assert that there is no plugin as the assembly is not referenced
 				if (LoadPlugins().Count() != 0)
 				{
 					Environment.Exit(-1);
 				}
+
+				var path = args[0].Substring("/fulltest:".Length);
 				// force the load
-				LoadAssemblies();
+				LoadAssemblies(path);
 				var plugins = LoadPlugins().ToList();
 				if (plugins.Count == 0)
 				{
@@ -91,7 +94,7 @@ namespace PluginLoaderConsole
 			}
 			else
 			{
-				LoadAssemblies();
+				LoadAssemblies(".");
 				var plugins = LoadPlugins().ToList();
 				if (plugins.Count == 0)
 				{

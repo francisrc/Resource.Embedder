@@ -2,8 +2,10 @@
 using NSubstitute;
 using NUnit.Framework;
 using ResourceEmbedder.Core.Cecil;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace ResourceEmbedder.Core.Tests
 {
@@ -12,15 +14,23 @@ namespace ResourceEmbedder.Core.Tests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void TestEmbedResourceAndInjectCode()
 		{
-			const string file = "WpfFullTest.exe";
+			var file = Path.Combine(AssemblyDirectory(), "WpfFullTest.exe");
 			if (File.Exists(file))
 			{
 				File.Delete(file);
 			}
-			File.Copy("WpfTest.exe", file);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), file);
 			if (File.Exists(Path.ChangeExtension(file, "pdb")))
 				File.Delete(Path.ChangeExtension(file, "pdb"));
 
@@ -29,8 +39,8 @@ namespace ResourceEmbedder.Core.Tests
 			{
 				var resources = new[]
 				{
-					new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),
-					new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.resources.dll")
+					new ResourceInfo(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), "WpfTest.de.resources.dll"),
+					new ResourceInfo(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), "WpfTest.fr.resources.dll")
 				};
 				modifer.EmbedResources(resources).Should().BeTrue();
 

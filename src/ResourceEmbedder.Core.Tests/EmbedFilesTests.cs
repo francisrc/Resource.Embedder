@@ -17,15 +17,23 @@ namespace ResourceEmbedder.Core.Tests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void TestEmbeddMultipleLocalizationsIntoWpfExe()
 		{
 			var resources = new[]
 			{
-				new ResourceInfo("de\\WpfTest.resources.dll", "WpfTest.de.resources.dll"),
-				new ResourceInfo("fr\\WpfTest.resources.dll", "WpfTest.fr.resources.dll")
+				new ResourceInfo(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), "WpfTest.de.resources.dll"),
+				new ResourceInfo(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), "WpfTest.fr.resources.dll")
 			};
-			using (var asm = EmbedHelper("WpfTest.exe", resources))
+			using (var asm = EmbedHelper(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), resources))
 			{
 				asm.Assembly.GetManifestResourceNames().Should().Contain(new[]
 				{
@@ -53,7 +61,7 @@ namespace ResourceEmbedder.Core.Tests
 				new ResourceInfo(fileToEmbed, "ConsoleTest.subfolder.test.txt"),
 				new ResourceInfo(fileToEmbed, "TotallyDifferentName.test.txt")
 			};
-			using (var helper = EmbedHelper("ConsoleTest.exe", resources))
+			using (var helper = EmbedHelper(Path.Combine(AssemblyDirectory(), "ConsoleTest.exe"), resources))
 			{
 				var names = helper.Assembly.GetManifestResourceNames();
 				names.Should().Contain(new[]
@@ -80,13 +88,13 @@ namespace ResourceEmbedder.Core.Tests
 			// when embedding manually, the compiler always adds the namespace, so it should be available as a resource "ResourceEmbedder.Core.Tests.de.resources.dll" which is the name we look for
 			Translation.Language.Should().Be("English");
 			// make sure our localized file is deleted so we don't accidently use that for localization
-			File.Exists("de\\ResourceEmbedder.Core.Tests.resources.dll").Should().BeTrue("because .Net generates resource assemblies on each build. If this test fails here, rebuild this assembly and the test will work.");
-			const string temp = "de\\ResourceEmbedder.Core.Tests.resources.dll.temp";
+			File.Exists(Path.Combine(AssemblyDirectory(), "de\\ResourceEmbedder.Core.Tests.resources.dll")).Should().BeTrue("because .Net generates resource assemblies on each build. If this test fails here, rebuild this assembly and the test will work.");
+			var temp = Path.Combine(AssemblyDirectory(), "de\\ResourceEmbedder.Core.Tests.resources.dll.temp");
 			if (File.Exists(temp))
 			{
 				File.Delete(temp);
 			}
-			File.Move("de\\ResourceEmbedder.Core.Tests.resources.dll", temp);
+			File.Move(Path.Combine(AssemblyDirectory(), "de\\ResourceEmbedder.Core.Tests.resources.dll"), temp);
 
 			// now that we removed the (not yet loaded) German resource, hook into the resolver and ensure it does its job
 			// manually hook into the required event
@@ -103,7 +111,7 @@ namespace ResourceEmbedder.Core.Tests
 			// we didn't translate to russian so this will falback from: ru-RU -> ru -> en
 			Translation.Culture = new CultureInfo("ru-RU");
 			Translation.Language.Should().Be("English");
-			File.Move(temp, "de\\ResourceEmbedder.Core.Tests.resources.dll");
+			File.Move(temp, Path.Combine(AssemblyDirectory(), Path.Combine(AssemblyDirectory(), "de\\ResourceEmbedder.Core.Tests.resources.dll")));
 		}
 
 		/// <summary>

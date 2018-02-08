@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 using ResourceEmbedder.Core.Cecil;
@@ -13,15 +14,23 @@ namespace ResourceEmbedder.Core.Tests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void InjectCodeIntoConsoleExe()
 		{
-			const string file = "WpfTestWithInjectedCode.exe";
+			var file = Path.Combine(AssemblyDirectory(), "WpfTestWithInjectedCode.exe");
 			if (File.Exists(file))
 			{
 				File.Delete(file);
 			}
-			File.Copy("WpfTest.exe", file);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), file);
 			if (File.Exists(Path.ChangeExtension(file, "pdb")))
 				File.Delete(Path.ChangeExtension(file, "pdb"));
 

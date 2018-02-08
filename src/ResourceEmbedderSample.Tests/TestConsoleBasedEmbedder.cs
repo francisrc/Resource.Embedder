@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
 using Modules.TestHelper;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace ResourceEmbedder.Tests
 {
@@ -12,25 +14,36 @@ namespace ResourceEmbedder.Tests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void TestEmbedTextFileInExe()
 		{
 			var file = Path.Combine(RepositoryLocator.Locate(RepositoryDirectory.TestFiles), "test.txt");
-			var command = string.Format("\"/input:{0}\" \"/output:{1}\" {2}>ConsoleTestWithResource.exe.test.txt", "ConsoleTest.exe", "ConsoleTestWithResource.exe", file);
+			var command = string.Format("\"/input:{0}\" \"/output:{1}\" {2}>ConsoleTestWithResource.exe.test.txt",
+				Path.Combine(AssemblyDirectory(), "ConsoleTest.exe"),
+				Path.Combine(AssemblyDirectory(), "ConsoleTestWithResource.exe"),
+				file);
 
 			// embed file into exe
-			var r = Process.Start("ResourceEmbedder.exe", command);
+			var r = Process.Start(Path.Combine(AssemblyDirectory(), "ResourceEmbedder.exe"), command);
 			r.WaitForExit(5000).Should().BeTrue();
 			r.ExitCode.Should().Be(0);
 
 			// new file should now exist
-			File.Exists("ConsoleTestWithResource.exe").Should().BeTrue();
+			File.Exists(Path.Combine(AssemblyDirectory(), "ConsoleTestWithResource.exe")).Should().BeTrue();
 
 			var path = Path.GetTempFileName();
 			File.Delete(path);
 
 			// run new file with command line that will extract the resource
-			var r2 = Process.Start("ConsoleTestWithResource.exe", string.Format("ConsoleTestWithResource.exe.test.txt {0}", path));
+			var r2 = Process.Start(Path.Combine(AssemblyDirectory(), "ConsoleTestWithResource.exe"), string.Format("ConsoleTestWithResource.exe.test.txt {0}", path));
 			r2.WaitForExit(5000).Should().BeTrue();
 			r2.ExitCode.Should().Be(0);
 

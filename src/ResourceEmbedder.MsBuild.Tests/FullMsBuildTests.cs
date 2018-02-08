@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 
 namespace ResourceEmbedder.MsBuild.Tests
 {
@@ -12,19 +13,27 @@ namespace ResourceEmbedder.MsBuild.Tests
 	{
 		#region Methods
 
+		private static string AssemblyDirectory()
+		{
+			var assembly = Assembly.GetExecutingAssembly();
+			var codebase = new Uri(assembly.CodeBase);
+			var path = codebase.LocalPath;
+			return new FileInfo(path).DirectoryName;
+		}
+
 		[Test]
 		public void MsBuildBasedEmbedding()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
 				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -49,16 +58,16 @@ namespace ResourceEmbedder.MsBuild.Tests
 		[Test]
 		public void MsBuildTestPortableShouldCancel()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
 				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -80,18 +89,18 @@ namespace ResourceEmbedder.MsBuild.Tests
 		[Test]
 		public void MsBuildBasedEmbeddingWithSymbols()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 
-			File.Copy("WpfTest.pdb", Path.ChangeExtension(msBuild, "pdb"), true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.pdb"), Path.ChangeExtension(msBuild, "pdb"), true);
 			File.Exists(Path.ChangeExtension(msBuild, "pdb")).Should().BeTrue("because we just copied it");
 
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -117,16 +126,16 @@ namespace ResourceEmbedder.MsBuild.Tests
 		[Test]
 		public void MsBuildBasedEmbeddingWithMissingSymbolsShouldThrow()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
 				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -149,16 +158,16 @@ namespace ResourceEmbedder.MsBuild.Tests
 		[Test]
 		public void MsBuildBasedEmbeddingWithoutSymbols()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
 				File.Delete(Path.ChangeExtension(msBuild, "pdb"));
 			var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -184,20 +193,20 @@ namespace ResourceEmbedder.MsBuild.Tests
 		[Test]
 		public void MsBuildBasedEmbeddingAndCleanup()
 		{
-			const string msBuild = "MsBuildBasedInjected.exe";
+			var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
 			if (File.Exists(msBuild))
 			{
 				File.Delete(msBuild);
 			}
-			const string de = "de\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de\\WpfTest.resources.dll", de, true);
+			var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
 			// de is german in generall, de-DE is german specific to germany -> if someone has set his localitation to German (Germany) he would get de-DE, if he sets it to e.g. German (Austria) he should get "de"
 			// let's ensure that both levels of localization are correctly embedded
-			const string deDe = "de-DE\\MsBuildBasedInjected.resources.dll";
-			File.Copy("de-DE\\WpfTest.resources.dll", deDe, true);
-			const string fr = "fr\\MsBuildBasedInjected.resources.dll";
-			File.Copy("fr\\WpfTest.resources.dll", fr, true);
-			File.Copy("WpfTest.exe", msBuild);
+			var deDe = Path.Combine(AssemblyDirectory(), "de-DE\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "de-DE\\WpfTest.resources.dll"), deDe, true);
+			var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
+			File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
+			File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
 
 			// delete PDB as it doesn't match the exe anyway
 			if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
