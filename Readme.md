@@ -8,7 +8,6 @@ This tool will embed the localization assemblies. Works just as easy as Costura:
 Many thanks to Simon for the excellent [Fody](https://github.com/Fody/Fody) and [Fody.Costura](https://github.com/Fody/Costura) which this tool is heavily inspired from.
 
 * compatible with .Net 4 and above
-* currently no support for signed assemblies
 
 ## Available on NuGet  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
 
