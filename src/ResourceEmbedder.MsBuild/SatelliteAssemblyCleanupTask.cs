@@ -99,7 +99,7 @@ namespace ResourceEmbedder.MsBuild
 		/// <returns></returns>
 		private static string[] GetEmbeddedCultureNames(string outputAssembly)
 		{
-			// fix for issue#2 https://gitlab.com/MarcStan/Resource.Embedder/issues/2
+			// fix for issue#2 https://github.com/MarcStan/Resource.Embedder/issues/2
 			// since we cannot pass parameters between tasks in MsBuild I originally loaded the assembly into appdomain to read all its resources
 			// this however caused the assembly to remain loaded and would cause further builds to fail as long as the msbuild process is alive (Visual Studio causes MSBuild to remain alive all the time)
 

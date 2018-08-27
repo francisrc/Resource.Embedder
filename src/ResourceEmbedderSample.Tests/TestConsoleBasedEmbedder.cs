@@ -54,7 +54,7 @@ namespace ResourceEmbedder.Tests
 		[Test]
 		public void TestCopyLocalProjectReference()
 		{
-			// test for https://gitlab.com/MarcStan/Resource.Embedder/issues/5
+			// test for https://github.com/MarcStan/Resource.Embedder/issues/5
 
 			/* specifically:
 			 * 

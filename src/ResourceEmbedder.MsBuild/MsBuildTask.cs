@@ -47,7 +47,7 @@ namespace ResourceEmbedder.MsBuild
 			// TODO: can be removed with release of mono.cecil 0.10 (non-beta)
 			if (string.Equals("portable", DebugType, StringComparison.OrdinalIgnoreCase))
 			{
-				logger.Error("portable debug information setting is currently not supported. Once Mono.Cecil 0.10 is out of beta it will be supported. Issue tracked here: https://gitlab.com/MarcStan/Resource.Embedder/issues/8");
+				logger.Error("portable debug information setting is currently not supported. Once Mono.Cecil 0.10 is out of beta it will be supported. Issue tracked here: https://github.com/MarcStan/Resource.Embedder/issues/8");
 				return false;
 			}
 			if (!Directory.Exists(ProjectDirectory))

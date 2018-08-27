@@ -8,9 +8,9 @@
         <authors>MarcStan</authors>
         <owners>MarcStan</owners>
         <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-        <projectUrl>http://gitlab.com/MarcStan/Resource.Embedder</projectUrl>
+        <projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <iconUrl>https://gitlab.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
+        <iconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
         <description>
 Tool for automatic satellite assembly embedding (as resources). Satellite assemblies will automatically be loaded from resource section and no longer need to be manually deployed with the executable.
 If you use Fody.Costura this may interest you as well (or vica versa).

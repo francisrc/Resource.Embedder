@@ -6,8 +6,8 @@
         <authors>MarcStan</authors>
         <owners>MarcStan</owners>
         <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-        <projectUrl>http://gitlab.com/MarcStan/Resource.Embedder</projectUrl>
-        <iconUrl>https://gitlab.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
+        <projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
+        <iconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Code that is used by Resource.Embedder as well. You can use this to:
 * Embedd any resources into existing assemblies

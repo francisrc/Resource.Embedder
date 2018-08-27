@@ -8,7 +8,7 @@ namespace ProjectForcingCecilAssemblyResolve
 	class Program
 	{
 		/// <summary>
-		/// Test for https://gitlab.com/MarcStan/Resource.Embedder/issues/5
+		/// Test for https://github.com/MarcStan/Resource.Embedder/issues/5
 		/// Cecil needs to resolve a TypeRef to write it properly when you have a const field with a TypeRef to an enum.
 		/// So this project has a const ref to an enum from another assembly.
 		/// This forces cecil to actually load the other assembly instead of just saying "I see the assembly name and assume it is valid" without actually checking for the assembly file.
