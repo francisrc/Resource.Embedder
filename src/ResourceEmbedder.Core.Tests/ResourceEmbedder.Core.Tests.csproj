@@ -79,6 +79,7 @@
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="AssemblyHelper.cs" />
+    <Compile Include="TypeLoadTests.cs" />
     <Compile Include="EmbedFilesTests.cs" />
     <Compile Include="FullEmbeddingTests.cs" />
     <Compile Include="InjectCodeTests.cs" />

@@ -25,6 +25,12 @@ namespace ResourceEmbedder.Core.GeneratedCode
 			currentDomain.AssemblyResolve += AssemblyResolve;
 		}
 
+		internal static void Dettach()
+		{
+			var currentDomain = AppDomain.CurrentDomain;
+			currentDomain.AssemblyResolve -= AssemblyResolve;
+		}
+
 		/// <summary>
 		/// Attach to resolve satellite assemblies from embedded resources.
 		/// </summary>
