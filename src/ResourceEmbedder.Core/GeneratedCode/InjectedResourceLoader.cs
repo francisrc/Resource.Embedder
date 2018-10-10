@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 
 namespace ResourceEmbedder.Core.GeneratedCode
@@ -32,7 +33,17 @@ namespace ResourceEmbedder.Core.GeneratedCode
 		/// <returns></returns>
 		internal static Assembly AssemblyResolve(object sender, ResolveEventArgs args)
 		{
-			var requestedAssemblyName = new AssemblyName(args.Name);
+			AssemblyName requestedAssemblyName;
+			try
+			{
+				// validate user input
+				// needed e.g. when Type.GetType is used as we are then part of the resolve chain
+				requestedAssemblyName = new AssemblyName(args.Name);
+			}
+			catch (Exception e) when (e is ArgumentException || e is FileLoadException)
+			{
+				return null;
+			}
 			if (!IsLocalizedAssembly(requestedAssemblyName))
 			{
 				return null;
