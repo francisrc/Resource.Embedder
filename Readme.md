@@ -21,9 +21,9 @@ By adding the NuGet package to an assembly all it's satellite assemblies will au
 No more need for deploying the satellite assembly folders.
 
 
-# Inject your own assemblies
+# Inject your own assemblies/files
 
-Alternative solution if you want to control exactly which resources are embedded how and where.
+Alternative solution if you want to embed custom files or control exactly which resources are embedded how and where.
 
 Example usecases for this:
 

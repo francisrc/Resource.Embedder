@@ -1,18 +1,18 @@
 ﻿namespace Modules.TestHelper
 {
-	#region Enumerations
+    #region Enumerations
 
-	public enum RepositoryDirectory
-	{
-		/// <summary>
-		/// The directory containing common testfiles
-		/// </summary>
-		TestFiles,
-		/// <summary>
-		/// The central folder for sourcecode
-		/// </summary>
-		SourceCode,
-	}
+    public enum RepositoryDirectory
+    {
+        /// <summary>
+        /// The directory containing common testfiles
+        /// </summary>
+        TestFiles,
+        /// <summary>
+        /// The central folder for sourcecode
+        /// </summary>
+        SourceCode,
+    }
 
-	#endregion Enumerations
+    #endregion Enumerations
 }

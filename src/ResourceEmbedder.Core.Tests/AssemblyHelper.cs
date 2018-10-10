@@ -4,58 +4,58 @@ using System.Reflection;
 
 namespace ResourceEmbedder.Core.Tests
 {
-	public class AssemblyHelper : IDisposable
-	{
-		#region Fields
+    public class AssemblyHelper : IDisposable
+    {
+        #region Fields
 
-		private Action _onDispose;
+        private Action _onDispose;
 
-		#endregion Fields
+        #endregion Fields
 
-		#region Constructors
+        #region Constructors
 
-		public AssemblyHelper(Assembly assembly, string location, Action onDispose)
-		{
-			if (assembly == null)
-				throw new ArgumentNullException("assembly");
-			if (string.IsNullOrEmpty(location))
-				throw new ArgumentNullException("location");
+        public AssemblyHelper(Assembly assembly, string location, Action onDispose)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException("assembly");
+            if (string.IsNullOrEmpty(location))
+                throw new ArgumentNullException("location");
 
-			if (!File.Exists(location))
-				throw new FileNotFoundException("location");
+            if (!File.Exists(location))
+                throw new FileNotFoundException("location");
 
-			AssemblyLocation = location;
-			_onDispose = onDispose;
-			Assembly = assembly;
-		}
+            AssemblyLocation = location;
+            _onDispose = onDispose;
+            Assembly = assembly;
+        }
 
-		#endregion Constructors
+        #endregion Constructors
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// The loaded assembly.
-		/// </summary>
-		public Assembly Assembly { get; private set; }
+        /// <summary>
+        /// The loaded assembly.
+        /// </summary>
+        public Assembly Assembly { get; private set; }
 
-		public string AssemblyLocation { get; private set; }
+        public string AssemblyLocation { get; private set; }
 
-		#endregion Properties
+        #endregion Properties
 
-		#region Methods
+        #region Methods
 
-		public void Dispose()
-		{
-			lock (_onDispose)
-			{
-				if (_onDispose != null)
-				{
-					_onDispose();
-					_onDispose = null;
-				}
-			}
-		}
+        public void Dispose()
+        {
+            lock (_onDispose)
+            {
+                if (_onDispose != null)
+                {
+                    _onDispose();
+                    _onDispose = null;
+                }
+            }
+        }
 
-		#endregion Methods
-	}
+        #endregion Methods
+    }
 }

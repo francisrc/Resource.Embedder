@@ -4,70 +4,70 @@ using System.IO;
 
 namespace ResourceEmbedder.MsBuild
 {
-	/// <summary>
-	/// Base class for all resource embedder msbuild tasks.
-	/// </summary>
-	public abstract class MsBuildTask : Microsoft.Build.Utilities.Task
-	{
-		#region Properties
+    /// <summary>
+    /// Base class for all resource embedder msbuild tasks.
+    /// </summary>
+    public abstract class MsBuildTask : Microsoft.Build.Utilities.Task
+    {
+        #region Properties
 
-		[Required]
-		public string AssemblyPath { set; get; }
+        [Required]
+        public string AssemblyPath { set; get; }
 
-		[Required]
-		public string ProjectDirectory { get; set; }
+        [Required]
+        public string ProjectDirectory { get; set; }
 
-		public bool SignAssembly { get; set; }
+        public bool SignAssembly { get; set; }
 
-		public string KeyFilePath { get; set; }
+        public string KeyFilePath { get; set; }
 
-		public string IntermediateDirectory { get; set; }
+        public string IntermediateDirectory { get; set; }
 
-		public string TargetPath { get; set; }
+        public string TargetPath { get; set; }
 
-		public bool DebugSymbols { get; set; }
+        public bool DebugSymbols { get; set; }
 
-		public string DebugType { get; set; }
+        public string DebugType { get; set; }
 
-		/// <summary>
-		/// A semicolon seperated list of reference files.
-		/// All path are full path to the reference dll files.
-		/// </summary>
-		public string References { get; set; }
+        /// <summary>
+        /// A semicolon seperated list of reference files.
+        /// All path are full path to the reference dll files.
+        /// </summary>
+        public string References { get; set; }
 
-		#endregion Properties
+        #endregion Properties
 
-		#region Methods
+        #region Methods
 
-		protected bool AssertSetup(Core.ILogger logger)
-		{
-			// TODO: same hack as Fody is using due to a possible bug in msbuild: https://github.com/Microsoft/msbuild/issues/2169
-			// override value of debug symbols based on DebugType
-			DebugSymbols = HasDebugSymbols();
-			// TODO: can be removed with release of mono.cecil 0.10 (non-beta)
-			if (string.Equals("portable", DebugType, StringComparison.OrdinalIgnoreCase))
-			{
-				logger.Error("portable debug information setting is currently not supported. Once Mono.Cecil 0.10 is out of beta it will be supported. Issue tracked here: https://github.com/MarcStan/Resource.Embedder/issues/8");
-				return false;
-			}
-			if (!Directory.Exists(ProjectDirectory))
-			{
-				logger.Error("Project directory '{0}' does not exist.", ProjectDirectory);
-				return false;
-			}
-			var asm = Path.Combine(ProjectDirectory, AssemblyPath);
-			if (!File.Exists(asm))
-			{
-				logger.Error("Assembly '{0}' not found", asm);
-				return false;
-			}
-			return true;
-		}
+        protected bool AssertSetup(Core.ILogger logger)
+        {
+            // TODO: same hack as Fody is using due to a possible bug in msbuild: https://github.com/Microsoft/msbuild/issues/2169
+            // override value of debug symbols based on DebugType
+            DebugSymbols = HasDebugSymbols();
+            // TODO: can be removed with release of mono.cecil 0.10 (non-beta)
+            if (string.Equals("portable", DebugType, StringComparison.OrdinalIgnoreCase))
+            {
+                logger.Error("portable debug information setting is currently not supported. Once Mono.Cecil 0.10 is out of beta it will be supported. Issue tracked here: https://github.com/MarcStan/Resource.Embedder/issues/8");
+                return false;
+            }
+            if (!Directory.Exists(ProjectDirectory))
+            {
+                logger.Error("Project directory '{0}' does not exist.", ProjectDirectory);
+                return false;
+            }
+            var asm = Path.Combine(ProjectDirectory, AssemblyPath);
+            if (!File.Exists(asm))
+            {
+                logger.Error("Assembly '{0}' not found", asm);
+                return false;
+            }
+            return true;
+        }
 
-		private bool HasDebugSymbols() => !string.IsNullOrEmpty(DebugType) &&
-										  !string.Equals(DebugType, "none", StringComparison.OrdinalIgnoreCase) &&
-										  !string.Equals(DebugType, "embedded", StringComparison.OrdinalIgnoreCase);
+        private bool HasDebugSymbols() => !string.IsNullOrEmpty(DebugType) &&
+                                          !string.Equals(DebugType, "none", StringComparison.OrdinalIgnoreCase) &&
+                                          !string.Equals(DebugType, "embedded", StringComparison.OrdinalIgnoreCase);
 
-		#endregion Methods
-	}
+        #endregion Methods
+    }
 }
