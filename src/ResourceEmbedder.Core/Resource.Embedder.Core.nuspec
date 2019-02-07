@@ -5,7 +5,7 @@
         <version>$version$</version>
         <authors>MarcStan</authors>
         <owners>MarcStan</owners>
-        <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+        <license type="expression">MIT</license>
         <projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
         <iconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
