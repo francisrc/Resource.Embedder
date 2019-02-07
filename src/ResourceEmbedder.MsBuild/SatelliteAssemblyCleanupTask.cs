@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace ResourceEmbedder.MsBuild
 {
@@ -17,6 +18,13 @@ namespace ResourceEmbedder.MsBuild
 
         public override bool Execute()
         {
+            // this sleep semi-fixes a race condition:
+            // old: "run after AfterBuild" -> now: "run before AfterBuild"
+            // since this is closer to creation of resource directories the cleanup seems to be to fast (it deletes all directories and
+            // sometimes one of the directories is created again bit stays empty)
+            // to fix this small annoyance just way a bit - this seems to fix it most the time
+            Thread.Sleep(50);
+
             var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder.Cleanup");
             if (!AssertSetup(logger))
             {
@@ -49,16 +57,17 @@ namespace ResourceEmbedder.MsBuild
                     if (Directory.GetFileSystemEntries(dir).Length == 0)
                     {
                         // empty dir -> we just deleted the last resource from it, so delete it as well
-                        try
+                        // retry on error in case build was not fully finished with copying files
+                        Retry<Exception>(() =>
                         {
                             Directory.Delete(dir);
                             emptyDirectories.Add(ci.Name);
-                        }
-                        catch (Exception ex)
+                        },
+                        ex =>
                         {
                             // happens e.g. if user has directory locked via another application without any files in the directory
                             logger.Warning("Failed to delete resource directory '{0}': {1}", ci.Name, ex.Message);
-                        }
+                        });
                     }
                 }
             }
@@ -90,6 +99,22 @@ namespace ResourceEmbedder.MsBuild
             }
             watch.Stop();
             return true;
+        }
+
+        private static void Retry<TException>(Action action, Action<TException> onError, int tryCount = 1) where TException : Exception
+        {
+            while (tryCount-- > 0)
+            {
+                try
+                {
+                    action();
+                }
+                catch (TException e)
+                {
+                    if (tryCount == 0)
+                        onError(e);
+                }
+            }
         }
 
         /// <summary>

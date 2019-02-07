@@ -20,7 +20,7 @@
                                                                 DebugType="$(DebugType)" />
     </Target>
     <!--Cleanup after generating -->
-    <Target AfterTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
+    <Target BeforeTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
         <ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)"
                                                                ProjectDirectory="$(ProjectDir)"
                                                                TargetPath="$(TargetPath)"

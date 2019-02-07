@@ -1,3 +1,7 @@
+**v1.2.7**
+
+Run cleanup before "AfterBuild" target instead of after it.
+
 **v1.2.6**
 
 * Added user input validation on type resolution (e.g. Type.GetType) to prevent crashes on malformed input

@@ -5,8 +5,10 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "src\testmodules\ConsoleTest\ConsoleTest.csproj", "{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "src\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "src\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "src\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
+EndProjecty
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_AssembliesUsedForTests", "_AssembliesUsedForTests", "{AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{387AC5B5-8C38-4432-845F-0668AD7FC9CE}"
@@ -38,8 +40,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWithEnum", "src\testmodules\ProjectWithEnum\ProjectWithEnum.csproj", "{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.TestHelper", "src\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "src\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core.Tests", "src\ResourceEmbedder.Core.Tests\ResourceEmbedder.Core.Tests.csproj", "{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}"
 EndProject
