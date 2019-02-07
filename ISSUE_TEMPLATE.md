@@ -1,4 +1,4 @@
-**Expected behaviour*:
+**Expected behaviour**:
 
 
 **Actual behaviour:**

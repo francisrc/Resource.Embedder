@@ -21,8 +21,8 @@ namespace ResourceEmbedder.MsBuild
             // this sleep semi-fixes a race condition:
             // old: "run after AfterBuild" -> now: "run before AfterBuild"
             // since this is closer to creation of resource directories the cleanup seems to be to fast (it deletes all directories and
-            // sometimes one of the directories is created again bit stays empty)
-            // to fix this small annoyance just way a bit - this seems to fix it most the time
+            // sometimes one of the directories is created again but stays empty)
+            // to fix this small annoyance just wait a bit - this seems to fix it most the time
             Thread.Sleep(50);
 
             var logger = new MSBuildBasedLogger(BuildEngine, "ResourceEmbedder.Cleanup");
