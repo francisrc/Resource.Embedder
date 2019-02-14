@@ -6,7 +6,11 @@ using System.IO;
 
 namespace ResourceEmbedder
 {
-    class Program
+    /// <summary>
+    /// Application that embeds files into other assemblies.
+    /// Code is always injected automatically.
+    /// </summary>
+    public static class Program
     {
         #region Methods
 
@@ -78,6 +82,9 @@ namespace ResourceEmbedder
             Console.WriteLine("\t\"resource_file_to_embed>path_in_assembly\" list of resources to embed.");
             Console.WriteLine("\t\t-resource_file_to_embed: Full or relative path to embed.");
             Console.WriteLine("\t\t-path_in_assembly:\t The path the file should have in the assembly.");
+            Console.WriteLine("Example:");
+            Console.WriteLine("\t/input:foo.dll /output:foo2.dll de\\foo.resources.dll>foo.de.resources.dll b.txt>c.txt");
+            Console.WriteLine("Will embed two files into the dll (with different resource names)");
             Environment.Exit(0);
         }
 
