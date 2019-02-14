@@ -19,12 +19,37 @@
                                                                 DebugSymbols="$(DebugSymbols)"
                                                                 DebugType="$(DebugType)" />
     </Target>
-    <!--Cleanup after generating -->
-    <Target BeforeTargets="AfterBuild" Name="CleanupTarget" DependsOnTargets="$(EmbedderDependsOnTargets)">
+    <!--
+    Cleanup after generating. Need to selectively run depending on PostBuild:
+    - When no PostBuild events exist, run directly after CoreBuild
+    - Otherwise run before PostBuild events
+    Reason for this: PostBuild runs directly after "CoreBuild", if we just run as "After CoreBuild"
+    then PostBuild will run first, and as noted in issue #9* the user can see/copy all the resource files.
+    * https://github.com/MarcStan/Resource.Embedder/issue/9
+    -->
+    <Target BeforeTargets="PostBuildEvent"
+            Condition="'$(PostBuildEvent)' != '' and ('$(RunPostBuildEvent)' != 'OnOutputUpdated' or '$(_AssemblyTimestampBeforeCompile)' != '$(_AssemblyTimestampAfterCompile)')"
+            Name="CleanupTargetBeforePostBuild"
+            DependsOnTargets="$(EmbedderDependsOnTargets)">
+        <Exec Command="echo CleanupBeforePostBuild" ConsoleToMSBuild="true">
+          <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+        </Exec>
         <ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)"
                                                                ProjectDirectory="$(ProjectDir)"
                                                                TargetPath="$(TargetPath)"
                                                                SignAssembly="$(EmbedderSignAssembly)" />
     </Target>
+    <Target AfterTargets="CoreBuild"
+            Condition="'$(PostBuildEvent)' == ''"
+            Name="CleanupTargetAfterCoreBuild"
+            DependsOnTargets="$(EmbedderDependsOnTargets)">
+      <Exec Command="echo CleanupAfterCoreBuild" ConsoleToMSBuild="true">
+          <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+        </Exec>
+        <ResourceEmbedder.MsBuild.SatelliteAssemblyCleanupTask AssemblyPath="@(IntermediateAssembly)"
+                                                               ProjectDirectory="$(ProjectDir)"
+                                                               TargetPath="$(TargetPath)"
+                                                               SignAssembly="$(EmbedderSignAssembly)" />
+  </Target>
 
 </Project>

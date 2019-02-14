@@ -1,3 +1,7 @@
+**1.2.8**
+
+Cleanup now runs before PostBuild events of Visual Studio, so users processing the bin output via PostBuild events don't see the resource directories.
+
 **v1.2.7**
 
 Run cleanup before "AfterBuild" target instead of after it.
