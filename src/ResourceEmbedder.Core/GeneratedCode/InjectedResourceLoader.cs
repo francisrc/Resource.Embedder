@@ -25,7 +25,7 @@ namespace ResourceEmbedder.Core.GeneratedCode
             currentDomain.AssemblyResolve += AssemblyResolve;
         }
 
-        internal static void Dettach()
+        public static void Detach()
         {
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.AssemblyResolve -= AssemblyResolve;
@@ -33,11 +33,12 @@ namespace ResourceEmbedder.Core.GeneratedCode
 
         /// <summary>
         /// Attach to resolve satellite assemblies from embedded resources.
+        /// Do not use directly, call <see cref="Attach"/> and <see cref="Detach"/> instead.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        internal static Assembly AssemblyResolve(object sender, ResolveEventArgs args)
+        public static Assembly AssemblyResolve(object sender, ResolveEventArgs args)
         {
             AssemblyName requestedAssemblyName;
             try

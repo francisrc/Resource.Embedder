@@ -2,24 +2,19 @@
 using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Globalization;
-using System.Windows.Input;
-using WpfTest.Resources;
+using WinFormsTest.Resources;
 
-namespace WpfTest.ViewModels
+namespace WinFormsTest
 {
-    public class MainWindowViewModel : NotifyPropertyChangedBase
+    /// <summary>
+    /// WinForms JITs the forms code behind on startup-
+    /// Costura isn't hooked up yet, so it crashes with a reference not found exception.
+    /// By putting the code here, the JIT only sees the method call on startup and offloads
+    /// the actual reference resolving to the actual runtime (at which point costura can find the reference).
+    /// </summary>
+    public class JitDelayHelper
     {
-        #region Fields
-
-        private string _error;
-        private string _locale;
-        private ICommand _setLanguage;
-
-        #endregion Fields
-
-        #region Constructors
-
-        public MainWindowViewModel()
+        public void Run(Action<string> callback)
         {
             var args = Environment.GetCommandLineArgs();
             // first argument is always exe name itself
@@ -36,7 +31,7 @@ namespace WpfTest.ViewModels
                     // else - the other unit test does resource embedding + code injection, so do not hook the event again
 
                     // test localizations
-                    SwitchLocale("en");
+                    SwitchLocale("en", callback);
                     if (Translations.Text != "Hello world!")
                     {
                         Environment.Exit(-1);
@@ -46,7 +41,7 @@ namespace WpfTest.ViewModels
                     {
                         Environment.Exit(-2);
                     }
-                    SwitchLocale("fr");
+                    SwitchLocale("fr", callback);
                     if (Translations.Text != "Bonjour le monde!")
                     {
                         Environment.Exit(-3);
@@ -61,7 +56,7 @@ namespace WpfTest.ViewModels
                     {
                         Environment.Exit(-5);
                     }
-                    SwitchLocale("de");
+                    SwitchLocale("de", callback);
                     if (Translations.Text != "Hallo Welt!")
                     {
                         Environment.Exit(-6);
@@ -75,55 +70,9 @@ namespace WpfTest.ViewModels
             }
         }
 
-        #endregion Constructors
-
-        #region Properties
-
-        public string Error
+        private void SwitchLocale(string culture, Action<string> callback)
         {
-            get { return _error; }
-            set
-            {
-                _error = value;
-                OnPropertyChanged(() => Error);
-            }
-        }
-
-        public string Info
-        {
-            get { return "Switched to: " + (CultureInfo.DefaultThreadCurrentCulture != null ? CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName : "<default>"); }
-        }
-
-        public string Locale
-        {
-            get { return _locale; }
-            set
-            {
-                _locale = value;
-                OnPropertyChanged(() => Locale);
-            }
-        }
-
-        public string LocalizedText
-        {
-            get { return Translations.Text; }
-        }
-
-        public ICommand SetLanguage
-        {
-            get
-            {
-                return _setLanguage ?? (_setLanguage = new RelayCommand<object>(o => SwitchLocale(Locale), o => !string.IsNullOrEmpty(Locale)));
-            }
-        }
-
-        #endregion Properties
-
-        #region Methods
-
-        private void SwitchLocale(string culture)
-        {
-            Error = null;
+            callback("");
             if (string.IsNullOrEmpty(culture))
             {
                 CultureInfo.DefaultThreadCurrentCulture = null;
@@ -138,15 +87,14 @@ namespace WpfTest.ViewModels
             catch (CultureNotFoundException)
             {
                 ci = null;
-                Error = "Culture not valid!";
+                callback("Culture not valid!");
+                return;
             }
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
 
-            OnPropertyChanged(() => LocalizedText);
-            OnPropertyChanged(() => Info);
+            callback($"Translation: {Translations.Text}. Switched to: " +
+                (CultureInfo.DefaultThreadCurrentCulture != null ? CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName : "<default>"));
         }
-
-        #endregion Methods
     }
 }

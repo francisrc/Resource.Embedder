@@ -53,6 +53,33 @@ namespace ResourceEmbedder.Core.Tests
         }
 
         [Test]
+        public void TestEmbeddMultipleLocalizationsIntoWinFormsExe()
+        {
+            var resources = new[]
+            {
+                new ResourceInfo(Path.Combine(AssemblyDirectory(), "de\\WinFormsTest.resources.dll"), "WinFormsTest.de.resources.dll"),
+                new ResourceInfo(Path.Combine(AssemblyDirectory(), "fr\\WinFormsTest.resources.dll"), "WinFormsTest.fr.resources.dll")
+            };
+            using (var asm = EmbedHelper(Path.Combine(AssemblyDirectory(), "WinFormsTest.exe"), resources))
+            {
+                asm.Assembly.GetManifestResourceNames().Should().Contain(new[]
+                {
+                    "WinFormsTest.de.resources.dll",
+                    "WinFormsTest.fr.resources.dll"
+                });
+                // ensure localization still works
+                var file = asm.AssemblyLocation;
+                var info = new ProcessStartInfo(file, "/throwOnMissingInlineLocalization");
+                using (var p = Process.Start(info))
+                {
+                    p.Should().NotBeNull();
+                    p.WaitForExit(3 * 1000).Should().BeTrue();
+                    p.ExitCode.Should().Be(0, "because all localized files have been loaded");
+                }
+            }
+        }
+
+        [Test]
         public void TestEmbeddTextFileInConsoleApplication()
         {
             var fileToEmbed = Path.Combine(RepositoryLocator.Locate(RepositoryDirectory.TestFiles), "test.txt");

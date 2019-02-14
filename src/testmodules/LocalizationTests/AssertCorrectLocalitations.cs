@@ -23,7 +23,7 @@ namespace LocalizationTests
         }
 
         [Test]
-        public void AssertDeEnEsJaPlRupt()
+        public void AssertDeEnEsJaPlRuptWorkInConsole()
         {
             var p = Process.Start(Path.Combine(AssemblyDirectory(), "DeEnEsJaPlRupt.exe"));
 
@@ -39,7 +39,7 @@ namespace LocalizationTests
         }
 
         [Test]
-        public void AssertEnglishGermanPolishWorks()
+        public void AssertEnglishGermanPolishWorksInConsoleProject()
         {
             var p = Process.Start(Path.Combine(AssemblyDirectory(), "EnglishGermanPolish.exe"));
 
@@ -71,7 +71,7 @@ namespace LocalizationTests
         }
 
         [Test]
-        public void TestEmbedTextFileInExe()
+        public void TestEmbedTextFileInConsoleExe()
         {
             var file = Path.Combine(RepositoryLocator.Locate(RepositoryDirectory.TestFiles), "test.txt");
             var command = string.Format("\"/input:{0}\" \"/output:{1}\" {2}>ConsoleTestWithResource.exe.test.txt",

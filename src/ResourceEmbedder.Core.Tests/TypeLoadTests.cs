@@ -21,7 +21,7 @@ namespace ResourceEmbedder.Core.Tests
             }
             finally
             {
-                InjectedResourceLoader.Dettach();
+                InjectedResourceLoader.Detach();
             }
         }
 
@@ -35,7 +35,7 @@ namespace ResourceEmbedder.Core.Tests
             }
             finally
             {
-                InjectedResourceLoader.Dettach();
+                InjectedResourceLoader.Detach();
             }
         }
 
