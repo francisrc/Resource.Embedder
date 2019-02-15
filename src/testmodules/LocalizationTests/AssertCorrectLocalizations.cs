@@ -10,7 +10,7 @@ using System.Reflection;
 namespace LocalizationTests
 {
     [TestFixture]
-    public class AssertCorrectLocalitations
+    public class AssertCorrectLocalizations
     {
         #region Methods
 

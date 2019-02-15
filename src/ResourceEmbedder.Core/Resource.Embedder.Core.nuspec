@@ -21,8 +21,8 @@ Requires .Net 4 or above.</description>
         </dependencies>
     </metadata>
     <files>
-        <file src="..\..\bin\Release\ResourceEmbedder.Core.dll" target="lib\net40\ResourceEmbedder.Core.dll" />
-        <file src="..\..\bin\Release\ResourceEmbedder.Core.pdb" target="lib\net40\ResourceEmbedder.Core.pdb" />
-        <file src="..\..\bin\Release\ResourceEmbedder.Core.xml" target="lib\net40\ResourceEmbedder.Core.xml" />
+        <file src="bin\Release\ResourceEmbedder.Core.dll" target="lib\net40\ResourceEmbedder.Core.dll" />
+        <file src="bin\Release\ResourceEmbedder.Core.pdb" target="lib\net40\ResourceEmbedder.Core.pdb" />
+        <file src="bin\Release\ResourceEmbedder.Core.xml" target="lib\net40\ResourceEmbedder.Core.xml" />
     </files>
 </package>
