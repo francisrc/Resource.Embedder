@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -72,6 +73,9 @@ namespace ResourceEmbedder.Core.Cecil
         /// <returns>The cloned type, already added to the targetModule.</returns>
         public static TypeDefinition CloneTo(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
         {
+            if (sourceType == null)
+                throw new ArgumentNullException(nameof(sourceType));
+
             return new TypeCloner(sourceType, targetModule, methodCloneOrder, nameSpace, className).ClonedType;
         }
 

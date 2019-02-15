@@ -72,6 +72,10 @@
       <Project>{A5789ED8-C4B9-4542-A5F3-A12FD986B462}</Project>
       <Name>Modules.TestHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ResourceEmbedderSample\ResourceEmbedderSample.csproj">
+      <Project>{291dc739-6e64-4488-983e-5f343955aeb6}</Project>
+      <Name>ResourceEmbedderSample</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConsoleTest\ConsoleTest.csproj">
       <Project>{acfe7bc5-cc1e-4c54-8767-888f8cd2eb3b}</Project>
       <Name>ConsoleTest</Name>
@@ -91,10 +95,6 @@
     <ProjectReference Include="..\NoLocalization\NoLocalization.csproj">
       <Project>{fff79f47-337b-4915-b966-c2a9372e5f82}</Project>
       <Name>NoLocalization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfTest\WpfTest.csproj">
-      <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
-      <Name>WpfTest</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

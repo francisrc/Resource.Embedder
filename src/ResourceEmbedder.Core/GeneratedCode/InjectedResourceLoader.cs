@@ -25,6 +25,9 @@ namespace ResourceEmbedder.Core.GeneratedCode
             currentDomain.AssemblyResolve += AssemblyResolve;
         }
 
+        /// <summary>
+        /// Call to remove the hook event set by <see cref="Attach"/>.
+        /// </summary>
         public static void Detach()
         {
             var currentDomain = AppDomain.CurrentDomain;

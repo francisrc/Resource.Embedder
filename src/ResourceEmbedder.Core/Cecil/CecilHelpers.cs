@@ -45,8 +45,8 @@ namespace ResourceEmbedder.Core.Cecil
                 "LoadFromResource",
                 "IsLocalizedAssembly",
                 "AssemblyResolve",
-                "Attach"
-            }, "ResourceEmbedderCompilerGenerated", className);
+                initMethod
+            }, nameSpace, className);
             // add the type to the assembly.
             definition.MainModule.Types.Add(clonedType);
             // return the method

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace ConsoleTest
 {
-    class Program
+    public static class Program
     {
         #region Methods
 

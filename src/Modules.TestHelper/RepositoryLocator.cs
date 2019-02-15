@@ -4,12 +4,13 @@ using System.Reflection;
 
 namespace Modules.TestHelper
 {
-    public class RepositoryLocator
+    public static class RepositoryLocator
     {
         #region Methods
 
         /// <summary>
-        /// Returns the full path to the specific directory. Assumes that this assembly is currently place in the 'bin' folder parallel to the 'src'.
+        /// Returns the full path to the specific directory. Assumes that this assembly is currently place in
+        /// a subfolder of "src".
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
@@ -22,23 +23,21 @@ namespace Modules.TestHelper
             loc = loc.Replace("/", "\\");
 
             // move up until we are in the root
-            while (loc.Contains("\\") && !loc.EndsWith("\\bin"))
+            while (loc.Contains("\\") && !loc.EndsWith("\\src"))
             {
                 loc = loc.Substring(0, loc.LastIndexOf("\\", StringComparison.Ordinal));
             }
             if (!loc.Contains("\\"))
                 return null;
 
-            var scannerRoot = loc.Substring(0, loc.LastIndexOf("\\", StringComparison.Ordinal));
-
             switch (dir)
             {
                 case RepositoryDirectory.SourceCode:
-                    return Path.Combine(scannerRoot, "src");
+                    return loc;
                 case RepositoryDirectory.TestFiles:
-                    return Path.Combine(scannerRoot, "src\\testfiles");
+                    return Path.Combine(loc, "testfiles");
                 default:
-                    throw new ArgumentOutOfRangeException("dir");
+                    throw new ArgumentOutOfRangeException(nameof(dir));
             }
         }
 

@@ -92,6 +92,10 @@
       <Project>{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}</Project>
       <Name>ResourceEmbedder.MsBuild</Name>
     </ProjectReference>
+    <ProjectReference Include="..\testmodules\WpfTest\WpfTest.csproj">
+      <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
+      <Name>WpfTest</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

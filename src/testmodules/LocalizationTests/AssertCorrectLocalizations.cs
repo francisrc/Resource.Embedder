@@ -80,7 +80,7 @@ namespace LocalizationTests
                 file);
 
             // embed file into exe
-            var r = Process.Start(Path.Combine(AssemblyDirectory(), "ResourceEmbedder.exe"), command);
+            var r = Process.Start(Path.Combine(AssemblyDirectory(), "ResourceEmbedderSample.exe"), command);
             r.WaitForExit(5000).Should().BeTrue();
             r.ExitCode.Should().Be(0);
 

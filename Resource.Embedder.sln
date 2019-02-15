@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild.Tests", "src\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder", "src\ResourceEmbedderSample\ResourceEmbedder.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedderSample", "src\ResourceEmbedderSample\ResourceEmbedderSample.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignedAssembly", "src\testmodules\SignedAssembly\SignedAssembly.csproj", "{AA4634F0-7A82-44A5-8905-6F9E1C08B68F}"
 EndProject

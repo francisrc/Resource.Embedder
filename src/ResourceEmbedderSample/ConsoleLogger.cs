@@ -1,7 +1,7 @@
 ﻿using ResourceEmbedder.Core;
 using System;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedderSample
 {
     public class ConsoleLogger : ILogger
     {

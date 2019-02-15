@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ResourceEmbedder
+namespace ResourceEmbedderSample
 {
     /// <summary>
     /// Application that embeds files into other assemblies.
@@ -52,7 +52,7 @@ namespace ResourceEmbedder
                 if (!File.Exists(inputResource))
                 {
                     logger.Error("Input file: '{0}' not found.", inputResource);
-                    Environment.Exit(-1);
+                    Environment.Exit(-2);
                 }
                 resources.Add(new ResourceInfo(inputResource, embeddedName));
             }
@@ -61,12 +61,12 @@ namespace ResourceEmbedder
                 if (!modifier.EmbedResources(resources.ToArray()))
                 {
                     logger.Error("Failed to embed resources!");
-                    return;
+                    Environment.Exit(-3);
                 }
                 if (!modifier.InjectModuleInitializedCode(CecilHelpers.InjectEmbeddedResourceLoader))
                 {
                     logger.Error("Failed to inject code!");
-                    return;
+                    Environment.Exit(-4);
                 }
             }
             Console.WriteLine("Successfully added resources and code!");
