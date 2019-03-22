@@ -81,6 +81,7 @@
     <Compile Include="..\AssemblyInfoInc.cs">
       <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
+    <Compile Include="SymbolTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FullMsBuildTests.cs" />
   </ItemGroup>
@@ -92,6 +93,18 @@
     <ProjectReference Include="..\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj">
       <Project>{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}</Project>
       <Name>ResourceEmbedder.MsBuild</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\testmodules\Symbols\FullFramework\Full\Full.csproj">
+      <Project>{1dd8a396-42fe-4b6f-b257-908cdf37ba95}</Project>
+      <Name>Full</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\testmodules\Symbols\FullFramework\None\None.csproj">
+      <Project>{8a150e65-e6ea-472f-8e90-ecd4e13de864}</Project>
+      <Name>None</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\testmodules\Symbols\FullFramework\PdbOnly\PdbOnly.csproj">
+      <Project>{b0408930-ecfa-4281-89d5-958737fecb81}</Project>
+      <Name>PdbOnly</Name>
     </ProjectReference>
     <ProjectReference Include="..\testmodules\WpfTest\WpfTest.csproj">
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>

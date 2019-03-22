@@ -94,14 +94,13 @@ namespace ResourceEmbedder.Core.Cecil
             switch (debugSymbolType)
             {
                 case DebugSymbolType.None:
-                // embedded has symbols in dll, could probably extract and rewrite but I have never used this ever
-                case DebugSymbolType.Embedded:
                     return null;
+                case DebugSymbolType.Embedded:
+                    return new EmbeddedPortablePdbReaderProvider();
                 case DebugSymbolType.Full:
                 case DebugSymbolType.PdbOnly:
-                    return pdb ? (ISymbolReaderProvider)new PdbReaderProvider() : new MdbReaderProvider();
                 case DebugSymbolType.Portable:
-                    return new EmbeddedPortablePdbReaderProvider();
+                    return pdb ? (ISymbolReaderProvider)new PdbReaderProvider() : new MdbReaderProvider();
                 default:
                     throw new NotSupportedException(debugSymbolType.ToString());
             }
