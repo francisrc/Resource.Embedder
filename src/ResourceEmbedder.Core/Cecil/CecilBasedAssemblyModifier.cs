@@ -1,4 +1,6 @@
 ﻿using Mono.Cecil;
+using Mono.Cecil.Cil;
+using Mono.Cecil.Mdb;
 using Mono.Cecil.Pdb;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,8 @@ namespace ResourceEmbedder.Core.Cecil
         private readonly string _tempFilePath;
         private readonly string _tempSymbolFilePath;
         private readonly IEmbedResources _resourceEmbedder;
-        private readonly bool _symbolsAreBeingRead;
+        private readonly ISymbolWriterProvider _symbolsWriter;
+        private string _symbolExtension;
 
         /// <summary>
         /// Creates a new modifier that can insert resources and code into an assembly.
@@ -25,10 +28,9 @@ namespace ResourceEmbedder.Core.Cecil
         /// <param name="inputAssembly"></param>
         /// <param name="outputAssembly"></param>
         /// <param name="searchDirectories"></param>
-        /// <param name="rewriteDebugSymbols">Determines whether debug symbols are read. If null the modifier will check for the existence of a .pdb file and if found will read it.
-        /// If explicitely set to true and no pdb is found will cause an error.</param>
+        /// <param name="debugSymbolType">Determines which (if any) debug symbols are read.</param>
         /// <param name="signingKey">Optional signing key to be applied to the output assembly.</param>
-        public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null, bool? rewriteDebugSymbols = null, StrongNameKeyPair signingKey = null)
+        public CecilBasedAssemblyModifier(ILogger logger, string inputAssembly, string outputAssembly, string[] searchDirectories = null, DebugSymbolType debugSymbolType = DebugSymbolType.Full, StrongNameKeyPair signingKey = null)
         {
             if (logger == null)
             {
@@ -45,44 +47,32 @@ namespace ResourceEmbedder.Core.Cecil
 
             _logger = logger;
             _signingKey = signingKey;
-            // cecil 0.10 has a lock on the read file now
+            // cecil 0.10 has a lock on the read file now so need to copy it
             _tempFilePath = $"{Path.ChangeExtension(Path.GetFullPath(inputAssembly), ".tmp")}.dll";
             File.Copy(inputAssembly, _tempFilePath, true);
 
-            var existingSymbolsPath = Path.ChangeExtension(inputAssembly, "pdb");
-            _tempSymbolFilePath = $"{Path.ChangeExtension(Path.GetFullPath(existingSymbolsPath), ".tmp")}.pdb";
+            _symbolExtension = "pdb";
+            var existingSymbolsPath = Path.ChangeExtension(inputAssembly, _symbolExtension);
+            if (!File.Exists(existingSymbolsPath))
+            {
+                _symbolExtension = "mdb";
+                existingSymbolsPath = Path.ChangeExtension(inputAssembly, _symbolExtension);
+            }
+
             // symbols are optional
             if (File.Exists(existingSymbolsPath))
+            {
+                _tempSymbolFilePath = $"{Path.ChangeExtension(Path.GetFullPath(existingSymbolsPath), ".tmp")}.{_symbolExtension}";
                 File.Copy(existingSymbolsPath, _tempSymbolFilePath, true);
-
-
+            }
 
             InputAssembly = inputAssembly = _tempFilePath;
             OutputAssembly = Path.GetFullPath(outputAssembly);
 
-            var hasPdb = File.Exists(_tempSymbolFilePath);
-            if (rewriteDebugSymbols.HasValue)
-            {
-                if (rewriteDebugSymbols.Value)
-                {
-                    _symbolsAreBeingRead = true;
-                    if (!hasPdb)
-                    {
-                        throw new NotSupportedException($"User provided argument {nameof(rewriteDebugSymbols)} with value 'true' but could not locate required file '{_tempSymbolFilePath}'.");
-                    }
-                }
-                else
-                {
-                    _symbolsAreBeingRead = false;
-                }
-            }
-            else
-            {
-                // no value, default to reading when the file exists
-                _symbolsAreBeingRead = hasPdb;
-            }
+            ISymbolReaderProvider symbolReader = GetSymbolReader(_tempSymbolFilePath, debugSymbolType);
+            _symbolsWriter = GetSymbolWriter(_tempSymbolFilePath, debugSymbolType);
 
-            var rp = GetReaderParameters(inputAssembly, searchDirectories, _symbolsAreBeingRead);
+            var rp = GetReaderParameters(inputAssembly, searchDirectories, symbolReader);
 
             _assemblyDefinition = AssemblyDefinition.ReadAssembly(inputAssembly, rp);
             _resourceEmbedder = new CecilBasedResourceEmbedder(logger);
@@ -90,13 +80,66 @@ namespace ResourceEmbedder.Core.Cecil
         }
 
         /// <summary>
+        /// Given an existing assembly, this will check for the existance of PDB files
+        /// </summary>
+        /// <returns></returns>
+        public static ISymbolReaderProvider GetSymbolReader(string assemblyPath, DebugSymbolType debugSymbolType = DebugSymbolType.Full)
+        {
+            var pdb = File.Exists(Path.ChangeExtension(assemblyPath, "pdb"));
+            var mdb = File.Exists(Path.ChangeExtension(assemblyPath, "mdb"));
+
+            if (!pdb && !mdb)
+                return null;
+
+            switch (debugSymbolType)
+            {
+                case DebugSymbolType.None:
+                // embedded has symbols in dll, could probably extract and rewrite but I have never used this ever
+                case DebugSymbolType.Embedded:
+                    return null;
+                case DebugSymbolType.Full:
+                case DebugSymbolType.PdbOnly:
+                    return pdb ? (ISymbolReaderProvider)new PdbReaderProvider() : new MdbReaderProvider();
+                case DebugSymbolType.Portable:
+                    return new EmbeddedPortablePdbReaderProvider();
+                default:
+                    throw new NotSupportedException(debugSymbolType.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Given an existing assembly, this will check for the existance of PDB files
+        /// </summary>
+        /// <returns></returns>
+        public static ISymbolWriterProvider GetSymbolWriter(string assemblyPath, DebugSymbolType debugSymbolType = DebugSymbolType.Full)
+        {
+            var pdb = File.Exists(Path.ChangeExtension(assemblyPath, "pdb"));
+            var mdb = File.Exists(Path.ChangeExtension(assemblyPath, "mdb"));
+
+            if (!pdb && !mdb)
+                return null;
+
+            switch (debugSymbolType)
+            {
+                case DebugSymbolType.None:
+                // embedded has symbols in dll, could probably extract and rewrite but I have never used this ever
+                case DebugSymbolType.Embedded:
+                    return null;
+                case DebugSymbolType.Full:
+                case DebugSymbolType.PdbOnly:
+                    return pdb ? (ISymbolWriterProvider)new PdbWriterProvider() : new MdbWriterProvider();
+                case DebugSymbolType.Portable:
+                    return new EmbeddedPortablePdbWriterProvider();
+                default:
+                    throw new NotSupportedException(debugSymbolType.ToString());
+            }
+        }
+
+        /// <summary>
         /// Helper to create the correct reader parameter construct based on the parameters.
         /// </summary>
-        /// <param name="inputAssembly"></param>
-        /// <param name="searchDirectories"></param>
-        /// <param name="symbolsAreBeingRead"></param>
         /// <returns></returns>
-        public static ReaderParameters GetReaderParameters(string inputAssembly, IEnumerable<string> searchDirectories, bool symbolsAreBeingRead)
+        public static ReaderParameters GetReaderParameters(string inputAssembly, IEnumerable<string> searchDirectories, ISymbolReaderProvider symbolReader)
         {
             var resolver = new DefaultAssemblyResolver();
             resolver.AddSearchDirectory(new FileInfo(inputAssembly).DirectoryName);
@@ -107,15 +150,16 @@ namespace ResourceEmbedder.Core.Cecil
 
             var rp = new ReaderParameters
             {
-                ReadSymbols = symbolsAreBeingRead,
-                AssemblyResolver = resolver
+                AssemblyResolver = resolver,
+                ReadSymbols = symbolReader != null,
+                SymbolReaderProvider = symbolReader
             };
             return rp;
         }
 
-        public string InputAssembly { get; private set; }
+        public string InputAssembly { get; }
 
-        public string OutputAssembly { get; private set; }
+        public string OutputAssembly { get; }
 
         public void Dispose()
         {
@@ -134,26 +178,20 @@ namespace ResourceEmbedder.Core.Cecil
 
         public void Save()
         {
-            var pdb = Path.ChangeExtension(OutputAssembly, "pdb");
-            var exists = File.Exists(pdb);
-            if (exists && _symbolsAreBeingRead)
+            if (_symbolsWriter != null)
             {
-                _logger.Info("Rewritting pdb");
-            }
-            if (exists)
-            {
-                // delete it just in case, as there have been issues before
-                // (e.g. a file lock by ms build that Cecil silently swallows leaving us with the old pdb, thus non-debuggable ode)
-                File.Delete(pdb);
+                _logger.Info($"Rewritting {_symbolExtension}");
             }
             _assemblyDefinition.Write(OutputAssembly, new WriterParameters
             {
                 StrongNameKeyPair = _signingKey,
-                WriteSymbols = _symbolsAreBeingRead,
-                SymbolWriterProvider = _symbolsAreBeingRead ? new PdbWriterProvider() : null
+                WriteSymbols = _symbolsWriter != null,
+                SymbolWriterProvider = _symbolsWriter
             });
             _assemblyDefinition.Dispose();
             File.Delete(_tempFilePath);
+            if (!string.IsNullOrEmpty(_tempSymbolFilePath))
+                File.Delete(_tempSymbolFilePath);
         }
     }
 }

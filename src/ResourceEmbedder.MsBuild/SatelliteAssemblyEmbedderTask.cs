@@ -74,7 +74,9 @@ namespace ResourceEmbedder.MsBuild
             logger.Info("Looking for references in: {0}", string.Join(", ", searchDirs));
 
             StrongNameKeyPair signingKey = null;
-            var rp = CecilBasedAssemblyModifier.GetReaderParameters(inputAssembly, searchDirs, DebugSymbols);
+            var debugSymbolType = DebugSymbolHelper.FromString(DebugType);
+            var symbolReader = CecilBasedAssemblyModifier.GetSymbolReader(inputAssembly, debugSymbolType);
+            var rp = CecilBasedAssemblyModifier.GetReaderParameters(inputAssembly, searchDirs, symbolReader);
             if (!SignAssembly)
             {
                 if (DebugSymbols && !File.Exists(Path.ChangeExtension(inputAssembly, ".pdb")))
@@ -108,7 +110,7 @@ namespace ResourceEmbedder.MsBuild
                 signingKey = new StrongNameKeyPair(File.OpenRead(keyFilePath));
             }
 
-            using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), DebugSymbols, signingKey))
+            using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), debugSymbolType, signingKey))
             {
                 if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
                 {

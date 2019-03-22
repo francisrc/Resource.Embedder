@@ -54,38 +54,6 @@ namespace ResourceEmbedder.MsBuild.Tests
             File.Delete(fr);
         }
 
-
-        [Test]
-        public void MsBuildTestPortableShouldCancel()
-        {
-            var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
-            if (File.Exists(msBuild))
-            {
-                File.Delete(msBuild);
-            }
-            var de = Path.Combine(AssemblyDirectory(), "de\\MsBuildBasedInjected.resources.dll");
-            File.Copy(Path.Combine(AssemblyDirectory(), "de\\WpfTest.resources.dll"), de, true);
-            var fr = Path.Combine(AssemblyDirectory(), "fr\\MsBuildBasedInjected.resources.dll");
-            File.Copy(Path.Combine(AssemblyDirectory(), "fr\\WpfTest.resources.dll"), fr, true);
-            File.Copy(Path.Combine(AssemblyDirectory(), "WpfTest.exe"), msBuild);
-            if (File.Exists(Path.ChangeExtension(msBuild, "pdb")))
-                File.Delete(Path.ChangeExtension(msBuild, "pdb"));
-            var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
-            var task = new SatelliteAssemblyEmbedderTask
-            {
-                ProjectDirectory = ".",
-                AssemblyPath = msBuild,
-                TargetPath = Path.GetFullPath(msBuild),
-                BuildEngine = fakeEngine,
-                References = ".",
-                DebugType = "portable"
-            };
-            task.Execute().Should().BeFalse("Because portable setting is currently not supported");
-
-            File.Delete(de);
-            File.Delete(fr);
-        }
-
         [Test]
         public void MsBuildBasedEmbeddingWithSymbols()
         {
@@ -124,7 +92,7 @@ namespace ResourceEmbedder.MsBuild.Tests
         }
 
         [Test]
-        public void MsBuildBasedEmbeddingWithMissingSymbolsShouldThrow()
+        public void MsBuildBasedEmbeddingWithMissingSymbolsShouldWork()
         {
             var msBuild = Path.Combine(AssemblyDirectory(), "MsBuildBasedInjected.exe");
             if (File.Exists(msBuild))
@@ -149,7 +117,7 @@ namespace ResourceEmbedder.MsBuild.Tests
                 DebugSymbols = true,
                 DebugType = "full"
             };
-            new Action(() => task.Execute()).Should().Throw<NotSupportedException>("because pdb file is required but we deleted it manually before task executed");
+            task.Execute().Should().BeTrue();
 
             File.Delete(de);
             File.Delete(fr);

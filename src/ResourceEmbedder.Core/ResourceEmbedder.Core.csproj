@@ -63,6 +63,8 @@
     <Compile Include="Cecil\CecilBasedResourceEmbedder.cs" />
     <Compile Include="Cecil\CecilHelpers.cs" />
     <Compile Include="Cecil\CecilExtensions.cs" />
+    <Compile Include="DebugSymbolHelper.cs" />
+    <Compile Include="DebugSymbolType.cs" />
     <Compile Include="DictionaryExtensions.cs" />
     <Compile Include="DummyLogger.cs" />
     <Compile Include="IEmbedResources.cs" />
