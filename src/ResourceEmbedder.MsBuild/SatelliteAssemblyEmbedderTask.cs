@@ -85,13 +85,15 @@ namespace ResourceEmbedder.MsBuild
                 }
                 else
                 {
-                    var md = ModuleDefinition.ReadModule(inputAssembly, rp);
-                    var name = nameof(AssemblyKeyFileAttribute);
-                    var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
-                    if (keyFileAttr != null)
+                    using (var md = ModuleDefinition.ReadModule(inputAssembly, rp))
                     {
-                        logger.Info("Found AssemblyKeyFileAttribute even though MSBuild said SignAssembly=false, assuming assembly has to be signed anyway.");
-                        SignAssembly = true;
+                        var name = nameof(AssemblyKeyFileAttribute);
+                        var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
+                        if (keyFileAttr != null)
+                        {
+                            logger.Info("Found AssemblyKeyFileAttribute even though MSBuild said SignAssembly=false, assuming assembly has to be signed anyway.");
+                            SignAssembly = true;
+                        }
                     }
                 }
             }
@@ -147,15 +149,17 @@ namespace ResourceEmbedder.MsBuild
             }
 
             // fallback as per: https://github.com/Fody/Fody/blob/master/FodyIsolated/StrongNameKeyFinder.cs
-            var md = ModuleDefinition.ReadModule(inputAssemblyPath, rp);
-            var name = nameof(AssemblyKeyFileAttribute);
-            var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
-            if (keyFileAttr != null)
+            using (var md = ModuleDefinition.ReadModule(inputAssemblyPath, rp))
             {
-                var suffix = (string)keyFileAttr.ConstructorArguments.First().Value;
-                var path = Path.Combine(IntermediateDirectory, suffix);
-                logger.Info("Using signing key path from attribute: {0}", path);
-                return path;
+                var name = nameof(AssemblyKeyFileAttribute);
+                var keyFileAttr = md.Assembly.CustomAttributes.FirstOrDefault(x => x.AttributeType.Name == name);
+                if (keyFileAttr != null)
+                {
+                    var suffix = (string)keyFileAttr.ConstructorArguments.First().Value;
+                    var path = Path.Combine(IntermediateDirectory, suffix);
+                    logger.Info("Using signing key path from attribute: {0}", path);
+                    return path;
+                }
             }
             logger.Warning("No signing key found");
             return null;

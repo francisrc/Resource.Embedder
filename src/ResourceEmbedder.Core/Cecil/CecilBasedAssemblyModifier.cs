@@ -9,18 +9,14 @@ namespace ResourceEmbedder.Core.Cecil
 {
     public class CecilBasedAssemblyModifier : IModifyAssemblies
     {
-        #region Fields
-
         private readonly AssemblyDefinition _assemblyDefinition;
         private readonly IInjectCode _codeInjector;
         private readonly ILogger _logger;
         private readonly StrongNameKeyPair _signingKey;
+        private readonly string _tempFilePath;
+        private readonly string _tempSymbolFilePath;
         private readonly IEmbedResources _resourceEmbedder;
         private readonly bool _symbolsAreBeingRead;
-
-        #endregion Fields
-
-        #region Constructors
 
         /// <summary>
         /// Creates a new modifier that can insert resources and code into an assembly.
@@ -49,11 +45,22 @@ namespace ResourceEmbedder.Core.Cecil
 
             _logger = logger;
             _signingKey = signingKey;
-            InputAssembly = Path.GetFullPath(inputAssembly);
+            // cecil 0.10 has a lock on the read file now
+            _tempFilePath = $"{Path.ChangeExtension(Path.GetFullPath(inputAssembly), ".tmp")}.dll";
+            File.Copy(inputAssembly, _tempFilePath, true);
+
+            var existingSymbolsPath = Path.ChangeExtension(inputAssembly, "pdb");
+            _tempSymbolFilePath = $"{Path.ChangeExtension(Path.GetFullPath(existingSymbolsPath), ".tmp")}.pdb";
+            // symbols are optional
+            if (File.Exists(existingSymbolsPath))
+                File.Copy(existingSymbolsPath, _tempSymbolFilePath, true);
+
+
+
+            InputAssembly = inputAssembly = _tempFilePath;
             OutputAssembly = Path.GetFullPath(outputAssembly);
 
-            var symbolPath = Path.ChangeExtension(inputAssembly, "pdb");
-            var hasPdb = File.Exists(symbolPath);
+            var hasPdb = File.Exists(_tempSymbolFilePath);
             if (rewriteDebugSymbols.HasValue)
             {
                 if (rewriteDebugSymbols.Value)
@@ -61,7 +68,7 @@ namespace ResourceEmbedder.Core.Cecil
                     _symbolsAreBeingRead = true;
                     if (!hasPdb)
                     {
-                        throw new NotSupportedException($"User provided argument {nameof(rewriteDebugSymbols)} with value 'true' but could not locate required file '{symbolPath}'.");
+                        throw new NotSupportedException($"User provided argument {nameof(rewriteDebugSymbols)} with value 'true' but could not locate required file '{_tempSymbolFilePath}'.");
                     }
                 }
                 else
@@ -106,17 +113,9 @@ namespace ResourceEmbedder.Core.Cecil
             return rp;
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         public string InputAssembly { get; private set; }
 
         public string OutputAssembly { get; private set; }
-
-        #endregion Properties
-
-        #region Methods
 
         public void Dispose()
         {
@@ -153,8 +152,8 @@ namespace ResourceEmbedder.Core.Cecil
                 WriteSymbols = _symbolsAreBeingRead,
                 SymbolWriterProvider = _symbolsAreBeingRead ? new PdbWriterProvider() : null
             });
+            _assemblyDefinition.Dispose();
+            File.Delete(_tempFilePath);
         }
-
-        #endregion Methods
     }
 }

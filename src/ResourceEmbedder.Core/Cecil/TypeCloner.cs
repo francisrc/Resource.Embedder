@@ -13,30 +13,33 @@ namespace ResourceEmbedder.Core.Cecil
     /// </summary>
     public class TypeCloner
     {
-        #region Fields
-
         private readonly ConstructorInfo _instructionConstructorInfo = typeof(Instruction).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(OpCode), typeof(object) }, null);
-        private readonly TypeDefinition _sourceType, _targetType;
+        private readonly TypeDefinition _sourceType;
         private readonly ModuleDefinition _targetModule;
-
-        #endregion Fields
-
-        #region Constructors
 
         private TypeCloner(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
         {
             _targetModule = targetModule;
             _sourceType = sourceType;
 
-            _targetType = new TypeDefinition(nameSpace ?? _sourceType.Namespace, className ?? _sourceType.Name, _sourceType.Attributes, Resolve(_sourceType.BaseType));
+            ClonedType = new TypeDefinition(nameSpace ?? _sourceType.Namespace, className ?? _sourceType.Name, _sourceType.Attributes, Resolve(_sourceType.BaseType));
 
+            //Assembly mscorlib;
+            //try
+            //{
+            //    mscorlib = Assembly.Load("mscorlib");
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new DllNotFoundException("Failed to locate mscorlib", e);
+            //}
             IAssemblyResolver assemblyResolver = targetModule.AssemblyResolver;
-            var msCoreLibDefinition = assemblyResolver.Resolve("mscorlib");
+            var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference("mscorlib", new Version(4, 0)));
             var msCoreTypes = msCoreLibDefinition.MainModule.Types;
             var compilerGeneratedAttribute = msCoreTypes.First(x => x.Name == "CompilerGeneratedAttribute");
-            var compilerGeneratedAttributeCtor = targetModule.Import(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));
-            _targetType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
-            CopyFields(_sourceType, _targetType);
+            var compilerGeneratedAttributeCtor = targetModule.ImportReference(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));
+            ClonedType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
+            CopyFields(_sourceType, ClonedType);
 
             // Cecil throws on assembly.Write if we have wrong order
             /*
@@ -45,20 +48,11 @@ namespace ResourceEmbedder.Core.Cecil
              */
             foreach (var s in methodCloneOrder)
             {
-                _targetType.Methods.Add(CopyMethod(_sourceType.Methods.First(m => m.Name == s)));
+                ClonedType.Methods.Add(CopyMethod(_sourceType.Methods.First(m => m.Name == s)));
             }
         }
 
-        #endregion Constructors
-
-        #region Properties
-
-        public TypeDefinition ClonedType
-        {
-            get { return _targetType; }
-        }
-
-        #endregion Properties
+        public TypeDefinition ClonedType { get; }
 
         #region Methods
 
@@ -83,7 +77,6 @@ namespace ResourceEmbedder.Core.Cecil
         {
             var newInstruction = (Instruction)_instructionConstructorInfo.Invoke(new[] { instruction.OpCode, instruction.Operand });
             newInstruction.Operand = Import(instruction.Operand);
-            newInstruction.SequencePoint = TranslateSequencePoint(instruction.SequencePoint, fullyQualifiedPath);
             return newInstruction;
         }
 
@@ -137,16 +130,28 @@ namespace ResourceEmbedder.Core.Cecil
 
         private void CopyInstructions(MethodDefinition templateMethod, MethodDefinition newMethod)
         {
-            var name = templateMethod.Module.FullyQualifiedName;
+            var name = templateMethod.Module.FileName;
             foreach (var instruction in templateMethod.Body.Instructions)
             {
-                newMethod.Body.Instructions.Add(CloneInstruction(instruction, name));
+                var newInstruction = (Instruction)_instructionConstructorInfo.Invoke(new[] { instruction.OpCode, instruction.Operand });
+                newInstruction.Operand = Import(instruction.Operand);
+                newMethod.Body.Instructions.Add(newInstruction);
+                var sequencePoint = templateMethod.DebugInformation.GetSequencePoint(instruction);
+                if (sequencePoint != null)
+                {
+                    newMethod.DebugInformation.SequencePoints.Add(TranslateSequencePoint(newInstruction, sequencePoint, name));
+                }
             }
         }
 
-        private MethodDefinition CopyMethod(MethodDefinition templateMethod)
+        private MethodDefinition CopyMethod(MethodDefinition templateMethod, bool makePrivate = false)
         {
             var attributes = templateMethod.Attributes;
+            if (makePrivate)
+            {
+                attributes &= ~Mono.Cecil.MethodAttributes.Public;
+                attributes |= ~Mono.Cecil.MethodAttributes.Private;
+            }
             var returnType = Resolve(templateMethod.ReturnType);
             var newMethod = new MethodDefinition(templateMethod.Name, attributes, returnType)
             {
@@ -170,7 +175,6 @@ namespace ResourceEmbedder.Core.Cecil
                 foreach (var variableDefinition in templateMethod.Body.Variables)
                 {
                     var newVariableDefinition = new VariableDefinition(Resolve(variableDefinition.VariableType));
-                    newVariableDefinition.Name = variableDefinition.Name;
                     newMethod.Body.Variables.Add(newVariableDefinition);
                 }
                 CopyInstructions(templateMethod, newMethod);
@@ -194,13 +198,12 @@ namespace ResourceEmbedder.Core.Cecil
                 var methodReference = reference;
                 if (methodReference.DeclaringType == _sourceType)
                 {
-                    var mr = _targetType.Methods.FirstOrDefault(x => x.Name == methodReference.Name && x.Parameters.Count == methodReference.Parameters.Count);
+                    var mr = ClonedType.Methods.FirstOrDefault(x => x.Name == methodReference.Name && x.Parameters.Count == methodReference.Parameters.Count);
                     if (mr == null)
                     {
-                        //little poetic license... :). .Resolve() doesn't work with "extern" methods
-                        //return CopyMethod(methodReference.DeclaringType.Resolve().Methods
-                        //                  .First(m => m.Name == methodReference.Name && m.Parameters.Count == methodReference.Parameters.Count),
-                        //    methodReference.DeclaringType != _sourceType);
+                        return CopyMethod(methodReference.DeclaringType.Resolve().Methods
+                                          .First(m => m.Name == methodReference.Name && m.Parameters.Count == methodReference.Parameters.Count),
+                            methodReference.DeclaringType != _sourceType);
                     }
                     return mr;
                 }
@@ -219,7 +222,7 @@ namespace ResourceEmbedder.Core.Cecil
             var fieldReference = operand as FieldReference;
             if (fieldReference != null)
             {
-                return _targetType.Fields.FirstOrDefault(f => f.Name == fieldReference.Name) ?? operand;
+                return ClonedType.Fields.FirstOrDefault(f => f.Name == fieldReference.Name) ?? operand;
             }
             return operand;
         }
@@ -239,7 +242,7 @@ namespace ResourceEmbedder.Core.Cecil
             return typeReference;
         }
 
-        private SequencePoint TranslateSequencePoint(SequencePoint sequencePoint, string fullyQualifiedPath)
+        private SequencePoint TranslateSequencePoint(Instruction instruction, SequencePoint sequencePoint, string fullyQualifiedPath)
         {
             if (sequencePoint == null)
                 return null;
@@ -251,7 +254,7 @@ namespace ResourceEmbedder.Core.Cecil
                 Type = sequencePoint.Document.Type,
             };
 
-            return new SequencePoint(document)
+            return new SequencePoint(instruction, document)
             {
                 StartLine = sequencePoint.StartLine,
                 StartColumn = sequencePoint.StartColumn,
