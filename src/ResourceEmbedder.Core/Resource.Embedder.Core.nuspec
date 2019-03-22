@@ -3,8 +3,8 @@
     <metadata>
         <id>Resource.Embedder.Core</id>
         <version>$version$</version>
-        <authors>MarcStan</authors>
-        <owners>MarcStan</owners>
+        <authors>Marc Stan</authors>
+        <owners>Marc Stan</owners>
         <license type="expression">MIT</license>
         <projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
         <iconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</iconUrl>
@@ -17,7 +17,7 @@ Requires .Net 4 or above.</description>
         <language>en-US</language>
         <tags>Embed, Resource, Satellite assemblies, Localization, Cecil</tags>
         <dependencies>
-            <dependency id="Mono.Cecil" version="0.9.6.4" />
+            <dependency id="Mono.Cecil" version="0.10.0.3" />
         </dependencies>
     </metadata>
     <files>

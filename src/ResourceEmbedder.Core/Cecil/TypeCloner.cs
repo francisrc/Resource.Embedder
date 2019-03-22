@@ -209,10 +209,10 @@ namespace ResourceEmbedder.Core.Cecil
                 }
                 if (methodReference.DeclaringType.IsGenericInstance)
                 {
-                    return _targetModule.Import(methodReference.Resolve())
+                    return _targetModule.ImportReference(methodReference.Resolve())
                         .MakeHostInstanceGeneric(methodReference.DeclaringType.GetGenericInstanceArguments().ToArray());
                 }
-                return _targetModule.Import(methodReference.Resolve());
+                return _targetModule.ImportReference(methodReference.Resolve());
             }
             var typeReference = operand as TypeReference;
             if (typeReference != null)
@@ -230,7 +230,7 @@ namespace ResourceEmbedder.Core.Cecil
         private TypeReference Resolve(TypeReference baseType)
         {
             var typeDefinition = baseType.Resolve();
-            var typeReference = _targetModule.Import(typeDefinition);
+            var typeReference = _targetModule.ImportReference(typeDefinition);
             if (baseType is ArrayType)
             {
                 return new ArrayType(typeReference);

@@ -5,8 +5,8 @@
         <version>$version$</version>
         <title>Resource.Embedder</title>
         <developmentDependency>true</developmentDependency>
-        <authors>MarcStan</authors>
-        <owners>MarcStan</owners>
+        <authors>Marc Stan</authors>
+        <owners>Marc Stan</owners>
         <license type="expression">MIT</license>
         <projectUrl>http://github.com/MarcStan/Resource.Embedder</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>

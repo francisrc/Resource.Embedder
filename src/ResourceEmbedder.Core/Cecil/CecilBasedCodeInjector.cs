@@ -28,7 +28,6 @@ namespace ResourceEmbedder.Core.Cecil
 
         #region Methods
 
-        /// <see cref="IInjectCode.Inject"/>
         public bool Inject(AssemblyDefinition assembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
         {
             if (assembly == null || methodToCall == null)
@@ -106,7 +105,7 @@ namespace ResourceEmbedder.Core.Cecil
                                                     | MethodAttributes.SpecialName
                                                     | MethodAttributes.RTSpecialName;
 
-                var _void = targetType.Module.Import(typeof(void));
+                var _void = targetType.Module.ImportReference(typeof(void));
                 cctor = new MethodDefinition(".cctor", attributes, _void);
                 targetType.Methods.Add(cctor);
                 cctor.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
