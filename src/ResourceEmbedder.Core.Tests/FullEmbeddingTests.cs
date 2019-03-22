@@ -94,6 +94,24 @@ namespace ResourceEmbedder.Core.Tests
             File.Delete(file);
         }
 
+        [Test]
+        public void TestCosturaAndREInWpf()
+        {
+            var dir = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).FullName;
+            var file = Path.Combine(dir, "WpfCosturaAndRE.exe");
+
+            File.Copy(Path.Combine(AssemblyDirectory(), "WpfCosturaAndRE.exe"), file);
+
+            var info = new ProcessStartInfo(file, "/testFullyProcessed");
+            using (var p = Process.Start(info))
+            {
+                p.Should().NotBeNull();
+                p.WaitForExit(3 * 1000).Should().BeTrue();
+                p.ExitCode.Should().Be(0, "because all localized files and references have been correctly loaded");
+            }
+            Directory.Delete(dir, true);
+        }
+
         #endregion Methods
     }
 }

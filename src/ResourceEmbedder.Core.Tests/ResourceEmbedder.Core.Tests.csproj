@@ -116,6 +116,10 @@
       <Project>{df3ace2d-6039-401b-8e72-1c7a4a50d56a}</Project>
       <Name>WinFormsTest</Name>
     </ProjectReference>
+    <ProjectReference Include="..\testmodules\WpfCosturaAndRE\WpfCosturaAndRE.csproj">
+      <Project>{22cf7e25-3ad4-4b5b-b694-710f5f869b51}</Project>
+      <Name>WpfCosturaAndRE</Name>
+    </ProjectReference>
     <ProjectReference Include="..\testmodules\WpfTest\WpfTest.csproj">
       <Project>{b5accc42-1eab-4a93-8c16-0dc078fab378}</Project>
       <Name>WpfTest</Name>

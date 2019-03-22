@@ -48,7 +48,7 @@ namespace ResourceEmbedder.Core.Cecil
             _logger = logger;
             _signingKey = signingKey;
             // cecil 0.10 has a lock on the read file now so need to copy it
-            _tempFilePath = $"{Path.ChangeExtension(Path.GetFullPath(inputAssembly), ".tmp")}.dll";
+            _tempFilePath = Path.ChangeExtension(Path.GetFullPath(inputAssembly), ".tmp");
             File.Copy(inputAssembly, _tempFilePath, true);
 
             _symbolExtension = "pdb";

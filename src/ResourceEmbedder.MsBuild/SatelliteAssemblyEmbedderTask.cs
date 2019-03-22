@@ -110,7 +110,7 @@ namespace ResourceEmbedder.MsBuild
                 signingKey = new StrongNameKeyPair(File.OpenRead(keyFilePath));
             }
 
-            using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, TargetPath, searchDirs.ToArray(), debugSymbolType, signingKey))
+            using (IModifyAssemblies modifer = new CecilBasedAssemblyModifier(logger, inputAssembly, inputAssembly, searchDirs.ToArray(), debugSymbolType, signingKey))
             {
                 if (!modifer.EmbedResources(assembliesToEmbed.ToArray()))
                 {

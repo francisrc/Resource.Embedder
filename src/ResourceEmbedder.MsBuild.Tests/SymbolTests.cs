@@ -25,23 +25,21 @@ namespace ResourceEmbedder.MsBuild.Tests
         {
             // copy elsewhere and ensure localization works
             var copyDir = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).FullName;
-            // helper needed by all
-            File.Copy(Path.Combine(AssemblyDirectory(), "LocalizeHelper.dll"), Path.Combine(copyDir, "LocalizeHelper.dll"));
             var originalExe = Path.Combine(AssemblyDirectory(), $"{exeName}.exe");
             var output = Path.Combine(copyDir, $"{exeName}.exe");
+            File.Copy(originalExe, output, true);
+            var originalPdb = Path.ChangeExtension(originalExe, "pdb");
             var outputPdb = Path.ChangeExtension(output, "pdb");
+            if (symbols != "none")
+                File.Copy(originalPdb, outputPdb, true);
 
             var pdb = Path.Combine(AssemblyDirectory(), $"{exeName}.pdb");
-            var targetPdb = Path.Combine(AssemblyDirectory(), "UnderTest.pdb");
-            if (File.Exists(targetPdb))
-                File.Delete(targetPdb);
-            if (symbols != "none")
-                File.Copy(pdb, targetPdb);
 
             var languages = new[] { "de", "pl" };
             foreach (var lang in languages)
             {
-                var res = Path.Combine(AssemblyDirectory(), $"{lang}\\UnderTest.resources.dll");
+                Directory.CreateDirectory(Path.Combine(copyDir, lang));
+                var res = Path.Combine(copyDir, $"{lang}\\{exeName}.resources.dll");
                 File.Copy(Path.Combine(AssemblyDirectory(), $"{lang}\\{exeName}.resources.dll"), res, true);
             }
 
@@ -50,7 +48,7 @@ namespace ResourceEmbedder.MsBuild.Tests
             var task = new SatelliteAssemblyEmbedderTask
             {
                 ProjectDirectory = ".",
-                AssemblyPath = originalExe,
+                AssemblyPath = output,
                 TargetPath = output,
                 BuildEngine = fakeEngine,
                 References = ".",
@@ -58,7 +56,6 @@ namespace ResourceEmbedder.MsBuild.Tests
                 DebugType = symbols
             };
             task.Execute().Should().BeTrue();
-            File.Exists(output).Should().BeTrue();
             File.Exists(outputPdb).Should().Be(symbols != "none");
 
             var p = Process.Start(output);
@@ -77,13 +74,15 @@ namespace ResourceEmbedder.MsBuild.Tests
             // not ideal as it doesn't ensure build is up to date..
             // also must copy multiple files for .net core
             var originalDir = $"{AssemblyDirectory()}\\..\\..\\..\\testmodules\\Symbols\\NetCorePortable\\bin\\{dir}\\netcoreapp2.2";
-            var originalExe = Path.Combine(originalDir, "NetCorePortable.dll");
             var output = Path.Combine(copyDir, "NetCorePortable.dll");
             var outputPdb = Path.Combine(copyDir, "NetCorePortable.pdb");
-            var toCopy = Directory.GetFiles(originalDir, "*.*", SearchOption.TopDirectoryOnly);
-            foreach (var i in toCopy)
+            var toCopy = Directory.GetFiles(originalDir, "*.*", SearchOption.AllDirectories);
+            foreach (var srcFile in toCopy)
             {
-                File.Copy(i, Path.Combine(copyDir, Path.GetFileName(i)));
+                var target = srcFile.Substring(originalDir.Length + 1);
+                if (target.Contains("\\"))
+                    Directory.CreateDirectory(Path.Combine(copyDir, target.Substring(0, target.LastIndexOf("\\"))));
+                File.Copy(srcFile, Path.Combine(copyDir, target));
             }
 
             var fakeEngine = NSubstitute.Substitute.For<IBuildEngine>();
@@ -91,7 +90,7 @@ namespace ResourceEmbedder.MsBuild.Tests
             var task = new SatelliteAssemblyEmbedderTask
             {
                 ProjectDirectory = ".",
-                AssemblyPath = originalExe,
+                AssemblyPath = output,
                 TargetPath = output,
                 BuildEngine = fakeEngine,
                 References = ".",
