@@ -24,17 +24,17 @@ namespace ResourceEmbedder.Core.Cecil
 
             ClonedType = new TypeDefinition(nameSpace ?? _sourceType.Namespace, className ?? _sourceType.Name, _sourceType.Attributes, Resolve(_sourceType.BaseType));
 
-            //Assembly mscorlib;
-            //try
-            //{
-            //    mscorlib = Assembly.Load("mscorlib");
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new DllNotFoundException("Failed to locate mscorlib", e);
-            //}
+            Assembly mscorlib;
+            try
+            {
+                mscorlib = Assembly.Load("mscorlib");
+            }
+            catch (Exception e)
+            {
+                throw new DllNotFoundException("Failed to locate mscorlib", e);
+            }
             IAssemblyResolver assemblyResolver = targetModule.AssemblyResolver;
-            var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference("mscorlib", new Version(4, 0)));
+            var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference("mscorlib", mscorlib.GetName().Version));
             var msCoreTypes = msCoreLibDefinition.MainModule.Types;
             var compilerGeneratedAttribute = msCoreTypes.First(x => x.Name == "CompilerGeneratedAttribute");
             var compilerGeneratedAttributeCtor = targetModule.ImportReference(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));

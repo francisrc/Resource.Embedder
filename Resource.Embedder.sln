@@ -69,6 +69,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FullFramework", "FullFramew
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCorePortable", "src\testmodules\Symbols\NetCorePortable\NetCorePortable.csproj", "{FE0DB9E9-AD10-48D2-AFDD-B3FADE40AD8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreConsole", "src\testmodules\CoreConsole\CoreConsole.csproj", "{1B6A6788-8675-4A34-9983-0F8036337D63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,10 @@ Global
 		{FE0DB9E9-AD10-48D2-AFDD-B3FADE40AD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE0DB9E9-AD10-48D2-AFDD-B3FADE40AD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE0DB9E9-AD10-48D2-AFDD-B3FADE40AD8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B6A6788-8675-4A34-9983-0F8036337D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6A6788-8675-4A34-9983-0F8036337D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6A6788-8675-4A34-9983-0F8036337D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6A6788-8675-4A34-9983-0F8036337D63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,6 +223,7 @@ Global
 		{8A150E65-E6EA-472F-8E90-ECD4E13DE864} = {9E964162-1E1F-45D5-9A3A-1266761D13B2}
 		{9E964162-1E1F-45D5-9A3A-1266761D13B2} = {6AB66AD0-C439-483C-A72F-A4C719B0666F}
 		{FE0DB9E9-AD10-48D2-AFDD-B3FADE40AD8F} = {6AB66AD0-C439-483C-A72F-A4C719B0666F}
+		{1B6A6788-8675-4A34-9983-0F8036337D63} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A84AE46-B050-4F2F-8D4D-5B7DE2E2CABE}
