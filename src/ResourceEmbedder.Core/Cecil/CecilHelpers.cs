@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using ResourceEmbedder.Core.Extensions;
 using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Linq;
@@ -6,10 +7,11 @@ using System.Reflection;
 
 namespace ResourceEmbedder.Core.Cecil
 {
-    public class CecilHelpers
+    /// <summary>
+    /// Helpers for cecil usage.
+    /// </summary>
+    public static class CecilHelpers
     {
-        #region Methods
-
         /// <summary>
         /// When called will inject the <see cref="InjectedResourceLoader"/> type int the provided assembly.
         /// Then returns the <see cref="InjectedResourceLoader.Attach"/> method.
@@ -52,7 +54,5 @@ namespace ResourceEmbedder.Core.Cecil
             // return the method
             return clonedType.Methods.First(m => m.Name == initMethod);
         }
-
-        #endregion Methods
     }
 }

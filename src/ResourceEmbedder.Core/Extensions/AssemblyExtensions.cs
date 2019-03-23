@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 
-namespace ResourceEmbedder.Core
+namespace ResourceEmbedder.Core.Extensions
 {
+    /// <summary>
+    /// Extensions for assembly
+    /// </summary>
     public static class AssemblyExtensions
     {
-        #region Methods
-
         /// <summary>
         /// Tries to resolve the assembly location as best as possible.
         /// </summary>
@@ -21,7 +22,5 @@ namespace ResourceEmbedder.Core
                 return asm.Location;
             return "";
         }
-
-        #endregion Methods
     }
 }

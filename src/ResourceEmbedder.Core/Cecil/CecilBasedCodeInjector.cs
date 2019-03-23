@@ -6,28 +6,24 @@ using System.Linq;
 
 namespace ResourceEmbedder.Core.Cecil
 {
+    /// <summary>
+    /// Cecil based <see cref="IInjectCode"/>
+    /// </summary>
     public class CecilBasedCodeInjector : IInjectCode
     {
-        #region Constructors
-
+        /// <summary>
+        /// Creates a new instance
+        /// </summary>
+        /// <param name="logger"></param>
         public CecilBasedCodeInjector(ILogger logger)
         {
-            if (logger == null)
-                throw new ArgumentNullException("logger");
-
-            Logger = logger;
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        #endregion Constructors
+        /// <inheritdoc />
+        public ILogger Logger { get; }
 
-        #region Properties
-
-        public ILogger Logger { get; private set; }
-
-        #endregion Properties
-
-        #region Methods
-
+        /// <inheritdoc />
         public bool Inject(AssemblyDefinition assembly, Func<AssemblyDefinition, MethodDefinition> methodToCall)
         {
             if (assembly == null || methodToCall == null)
@@ -112,7 +108,5 @@ namespace ResourceEmbedder.Core.Cecil
             }
             return cctor;
         }
-
-        #endregion Methods
     }
 }

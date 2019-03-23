@@ -10,28 +10,19 @@ namespace ResourceEmbedder.Core.Cecil
     /// </summary>
     public class CecilBasedResourceEmbedder : IEmbedResources
     {
-        #region Constructors
-
+        /// <summary>
+        /// Creates a new cecil based instance.
+        /// </summary>
+        /// <param name="logger"></param>
         public CecilBasedResourceEmbedder(ILogger logger)
         {
-            if (logger == null)
-                throw new ArgumentNullException("logger");
-
-            Logger = logger;
+            Logger = logger ?? throw new ArgumentNullException("logger");
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         /// <summary>
         /// The logger used during the embedding.
         /// </summary>
-        public ILogger Logger { get; private set; }
-
-        #endregion Properties
-
-        #region Methods
+        public ILogger Logger { get; }
 
         /// <summary>
         /// Call to embedd the provided set of resources into the specific assembly.
@@ -84,7 +75,5 @@ namespace ResourceEmbedder.Core.Cecil
             }
             return true;
         }
-
-        #endregion Methods
     }
 }

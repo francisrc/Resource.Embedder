@@ -10,8 +10,6 @@ namespace ResourceEmbedder.Core.GeneratedCode
     /// </summary>
     public static class InjectedResourceLoader
     {
-        #region Methods
-
         /// <summary>
         /// Call once to attach the assembly resolve event.
         /// All embedded satellite assemblies will then be loaded.
@@ -153,7 +151,5 @@ namespace ResourceEmbedder.Core.GeneratedCode
                 requestedAssemblyName = new AssemblyName(alteredAssemblyName);
             }
         }
-
-        #endregion Methods
     }
 }

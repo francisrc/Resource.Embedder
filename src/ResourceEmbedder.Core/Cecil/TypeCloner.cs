@@ -59,6 +59,9 @@ namespace ResourceEmbedder.Core.Cecil
             return compilerGeneratedAttributeCtor;
         }
 
+        /// <summary>
+        /// After creation this represents the cloned type.
+        /// </summary>
         public TypeDefinition ClonedType { get; }
 
         #region Methods
@@ -69,8 +72,8 @@ namespace ResourceEmbedder.Core.Cecil
         /// <param name="sourceType">The type to clone.</param>
         /// <param name="targetModule">The module where the type should be added to.</param>
         /// <param name="methodCloneOrder">Cecil crashes when methods are added in wrong order. You must manually sort your methods in their reverse execution order if they depend on each other. I'm sure that this problem can be solved, but for now this implementation is "good enough" for me.</param>
-        /// <param name="nameSpace">The namespace to use. Leave null to use same namespace as in <see cref="sourceType"/></param>
-        /// <param name="className">The classname to use. Leave null to use same classname as in <see cref="sourceType"/></param>
+        /// <param name="nameSpace">The namespace to use. Leave null to use same namespace as in sourceType</param>
+        /// <param name="className">The classname to use. Leave null to use same classname as in sourceType</param>
         /// <returns>The cloned type, already added to the targetModule.</returns>
         public static TypeDefinition CloneTo(TypeDefinition sourceType, ModuleDefinition targetModule, string[] methodCloneOrder, string nameSpace = null, string className = null)
         {

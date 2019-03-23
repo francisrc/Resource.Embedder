@@ -3,15 +3,15 @@ using System;
 
 namespace ResourceEmbedder.Core
 {
+    /// <summary>
+    /// Interface for code injection.
+    /// </summary>
     public interface IInjectCode
     {
-        #region Properties
-
+        /// <summary>
+        /// The logger in use
+        /// </summary>
         ILogger Logger { get; }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// When called will inject a module initializer into it.
@@ -24,7 +24,5 @@ namespace ResourceEmbedder.Core
         /// <param name="methodToCall"></param>
         /// <returns></returns>
         bool Inject(AssemblyDefinition assembly, Func<AssemblyDefinition, MethodDefinition> methodToCall);
-
-        #endregion Methods
     }
 }

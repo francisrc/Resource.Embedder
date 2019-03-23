@@ -9,8 +9,6 @@ namespace ResourceEmbedder.Core
     /// </summary>
     public interface IModifyAssemblies : IDisposable
     {
-        #region Properties
-
         /// <summary>
         /// Full path to the input assembly.
         /// </summary>
@@ -20,10 +18,6 @@ namespace ResourceEmbedder.Core
         /// Full path to the output assembly location (may be the same as input).
         /// </summary>
         string OutputAssembly { get; }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// Call to embed the specific set of resources into the assembly.
@@ -36,7 +30,7 @@ namespace ResourceEmbedder.Core
         /// <summary>
         /// Call to inject code.
         /// This will hook up a module initializer (first to run when the specific assembly is loaded) and then allow you to add your own types, etc.
-        /// by calling <see cref="func"/>. When you are done adding stuff, you must return the method that should be called by the module initializer.
+        /// by calling the provided func. When you are done adding stuff, you must return the method that should be called by the module initializer.
         /// It must be: public, static and have no arguments.
         /// </summary>
         /// <param name="func"></param>
@@ -48,7 +42,5 @@ namespace ResourceEmbedder.Core
         /// Also automatically called on dispose.
         /// </summary>
         void Save();
-
-        #endregion Methods
     }
 }

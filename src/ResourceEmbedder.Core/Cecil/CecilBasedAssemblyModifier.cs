@@ -9,6 +9,9 @@ using System.Reflection;
 
 namespace ResourceEmbedder.Core.Cecil
 {
+    /// <summary>
+    /// Cecil based implementation of <see cref="IModifyAssemblies"/>
+    /// </summary>
     public class CecilBasedAssemblyModifier : IModifyAssemblies
     {
         private readonly AssemblyDefinition _assemblyDefinition;
@@ -156,25 +159,31 @@ namespace ResourceEmbedder.Core.Cecil
             return rp;
         }
 
+        /// <inheritdoc />
         public string InputAssembly { get; }
 
+        /// <inheritdoc />
         public string OutputAssembly { get; }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Save();
         }
 
+        /// <inheritdoc />
         public bool EmbedResources(ResourceInfo[] resourceInfo)
         {
             return _resourceEmbedder.EmbedResources(_assemblyDefinition, resourceInfo);
         }
 
+        /// <inheritdoc />
         public bool InjectModuleInitializedCode(Func<AssemblyDefinition, MethodDefinition> func)
         {
             return _codeInjector.Inject(_assemblyDefinition, func);
         }
 
+        /// <inheritdoc />
         public void Save()
         {
             if (_symbolsWriter != null)

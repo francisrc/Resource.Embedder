@@ -7,16 +7,10 @@ namespace ResourceEmbedder.Core
     /// </summary>
     public interface IEmbedResources
     {
-        #region Properties
-
         /// <summary>
         /// The logger used during the embedding.
         /// </summary>
         ILogger Logger { get; }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// Call to embedd the provided set of resources into the specific assembly.
@@ -26,7 +20,5 @@ namespace ResourceEmbedder.Core
         /// <param name="resourcesToEmbedd"></param>
         /// <returns></returns>
         bool EmbedResources(AssemblyDefinition assembly, ResourceInfo[] resourcesToEmbedd);
-
-        #endregion Methods
     }
 }

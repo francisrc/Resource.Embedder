@@ -2,8 +2,16 @@
 
 namespace ResourceEmbedder.Core
 {
+    /// <summary>
+    /// Helpers for debug symbols.
+    /// </summary>
     public static class DebugSymbolHelper
     {
+        /// <summary>
+        /// Convert from msbuild strings.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static DebugSymbolType FromString(string input)
         {
             if (string.IsNullOrEmpty(input) ||
