@@ -1,11 +1,10 @@
 ﻿using System.Globalization;
+using System.Threading;
 
 namespace LocalizeHelper
 {
     public static class Localize
     {
-        #region Methods
-
         public static void SwitchLocale(string culture)
         {
             if (string.IsNullOrEmpty(culture))
@@ -25,8 +24,8 @@ namespace LocalizeHelper
             }
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
         }
-
-        #endregion Methods
     }
 }

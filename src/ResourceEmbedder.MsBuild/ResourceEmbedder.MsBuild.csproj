@@ -2,22 +2,77 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)..\..\</PackageOutputPath>
+    <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
+    <!-- include all refs -->
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+  <!-- nuget -->
   
+  <PropertyGroup>
+    <PackageId>Resource.Embedder</PackageId>
+    <Title>Resource.Embedder</Title>
+    <Description>
+Embeds translations (satellite assemblies) automatically into the exe/dll itself during the build process and hooks up code to extract them dynamically during runtime.
+Once installed, you don't have to deploy all those "language code" folders anymore as they will be read from the resource section automatically.
+If you use Fody.Costura this may interest you as well (or vica versa).
+
+Supports: .Net Standard 2.0, .Net Core 2.0 and Net 4.6 and above.
+    </Description>
+    <Authors>MarcStan</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>http://github.com/MarcStan/Resource.Embedder</RepositoryUrl>
+    <PackageIconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</PackageIconUrl>
+    <PackageTags>Embed, Resource, Satellite assemblies, Localization, Cecil</PackageTags>
+    <NuspecProperties>version=$(Version)</NuspecProperties>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="build\*" PackagePath="build\" />
+    <Content Include="buildMultiTargeting\*" PackagePath="buildMultiTargeting\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\AssemblyInfoInc.cs" Link="Properties\AssemblyInfoInc.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.10.3" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup Condition="$(TargetFramework) == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.9.20" PrivateAssets="All" />
   </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework) == 'net46'">
+  <ItemGroup Condition="$(TargetFramework) == 'net46'"> 
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.10.3" />
+    <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj" PrivateAssets="All" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj" />
+    <Folder Include="Properties\" />
   </ItemGroup>
-  
+
+
+  <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
+    <!--
+    https://natemcmaster.com/blog/2017/11/11/msbuild-task-with-dependencies/
+    https://github.com/madskristensen/BundlerMinifier/blob/e66ec7c85ad6c291fcd5bf55e7f426485e2e2d38/src/BundlerMinifier/BundlerMinifier.csproj#L35-L47
+    The include needs to happen after output has been copied to build output folder
+    but before NuGet generates a nuspec. See https://github.com/NuGet/Home/issues/4704.
+    -->
+    <ItemGroup>
+      <_PackageFiles Include="bin\$(Configuration)\*\*.dll">
+        <PackagePath>tasks\%(RecursiveDir)</PackagePath>
+        <Visible>false</Visible>
+        <BuildAction>Content</BuildAction>
+      </_PackageFiles>
+    </ItemGroup>
+  </Target>
+
 </Project>

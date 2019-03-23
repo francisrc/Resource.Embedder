@@ -2,6 +2,7 @@
 using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Globalization;
+using System.Threading;
 using System.Windows.Input;
 using WpfCosturaAndRE.Resources;
 
@@ -128,6 +129,8 @@ namespace WpfCosturaAndRE.ViewModels
             {
                 CultureInfo.DefaultThreadCurrentCulture = null;
                 CultureInfo.DefaultThreadCurrentUICulture = null;
+                Thread.CurrentThread.CurrentCulture = null;
+                Thread.CurrentThread.CurrentUICulture = null;
                 return;
             }
             CultureInfo ci;
@@ -142,6 +145,8 @@ namespace WpfCosturaAndRE.ViewModels
             }
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
 
             OnPropertyChanged(() => LocalizedText);
             OnPropertyChanged(() => Info);

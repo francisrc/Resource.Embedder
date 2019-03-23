@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="de.resources.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="de.resources.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
     <PackageReference Include="NSubstitute" Version="4.0.0" />
     <PackageReference Include="NUnit" Version="3.11.0" />
@@ -14,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Modules.TestHelper\Modules.TestHelper.csproj" />
     <ProjectReference Include="..\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj" />
+    <ProjectReference Include="..\testmodules\ConsoleTest\ConsoleTest.csproj" />
     <ProjectReference Include="..\testmodules\LocalizedPlugin\LocalizedPlugin.csproj" />
     <ProjectReference Include="..\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj" />
     <ProjectReference Include="..\testmodules\WinFormsTest\WinFormsTest.csproj" />

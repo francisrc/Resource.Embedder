@@ -2,6 +2,7 @@
 using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Globalization;
+using System.Threading;
 using System.Windows.Input;
 using WpfTest.Resources;
 
@@ -142,6 +143,8 @@ namespace WpfTest.ViewModels
             }
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
 
             OnPropertyChanged(() => LocalizedText);
             OnPropertyChanged(() => Info);

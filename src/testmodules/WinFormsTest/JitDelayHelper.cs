@@ -2,6 +2,7 @@
 using ResourceEmbedder.Core.GeneratedCode;
 using System;
 using System.Globalization;
+using System.Threading;
 using WinFormsTest.Resources;
 
 namespace WinFormsTest
@@ -92,6 +93,8 @@ namespace WinFormsTest
             }
             CultureInfo.DefaultThreadCurrentCulture = ci;
             CultureInfo.DefaultThreadCurrentUICulture = ci;
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
 
             callback($"Translation: {Translations.Text}. Switched to: " +
                 (CultureInfo.DefaultThreadCurrentCulture != null ? CultureInfo.DefaultThreadCurrentCulture.TwoLetterISOLanguageName : "<default>"));

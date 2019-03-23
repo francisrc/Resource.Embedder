@@ -65,29 +65,32 @@ namespace PluginLoaderConsole
                 if (p.LocalizedHeader != "Hallo Welt!" ||
                     p.LocalizedDescription != "Das ist eine übersetze Beschreibung des Plugins.")
                 {
-                    Environment.Exit(-3);
+                    Environment.Exit(-4);
                 }
 
                 // ensure that the HeaderLocalizedByThread is actually not affected by the property
                 p.CurrentLocale = new CultureInfo("de");
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en");
                 if (p.LocalizedHeader != "Hallo Welt!" ||
                     p.HeaderLocalizedByThread != "Hello world!" ||
                     p.LocalizedDescription != "Das ist eine übersetze Beschreibung des Plugins.")
                 {
-                    Environment.Exit(-4);
+                    Environment.Exit(-5);
                 }
                 // but instead only by the thread's culture
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo("de");
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("de");
                 if (p.HeaderLocalizedByThread != "Hallo Welt!")
                 {
-                    Environment.Exit(-5);
+                    Environment.Exit(-6);
                 }
                 // also test fallback route de-DE doesn't exist, so it should load "de" and not "en"
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("de-DE");
                 if (p.HeaderLocalizedByThread != "Hallo Welt!")
                 {
-                    Environment.Exit(-5);
+                    Environment.Exit(-7);
                 }
 
                 Environment.Exit(0);

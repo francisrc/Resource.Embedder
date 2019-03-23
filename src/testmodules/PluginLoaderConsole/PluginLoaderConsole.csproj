@@ -9,4 +9,8 @@
     <ProjectReference Include="..\PluginCore\PluginCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>

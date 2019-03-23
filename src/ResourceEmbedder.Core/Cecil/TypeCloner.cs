@@ -24,20 +24,7 @@ namespace ResourceEmbedder.Core.Cecil
 
             ClonedType = new TypeDefinition(nameSpace ?? _sourceType.Namespace, className ?? _sourceType.Name, _sourceType.Attributes, Resolve(_sourceType.BaseType));
 
-            Assembly mscorlib;
-            try
-            {
-                mscorlib = Assembly.Load("mscorlib");
-            }
-            catch (Exception e)
-            {
-                throw new DllNotFoundException("Failed to locate mscorlib", e);
-            }
-            IAssemblyResolver assemblyResolver = targetModule.AssemblyResolver;
-            var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference("mscorlib", mscorlib.GetName().Version));
-            var msCoreTypes = msCoreLibDefinition.MainModule.Types;
-            var compilerGeneratedAttribute = msCoreTypes.First(x => x.Name == "CompilerGeneratedAttribute");
-            var compilerGeneratedAttributeCtor = targetModule.ImportReference(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));
+            var compilerGeneratedAttributeCtor = FindConstructor(targetModule, "mscorlib", "CompilerGeneratedAttribute");
             ClonedType.CustomAttributes.Add(new CustomAttribute(compilerGeneratedAttributeCtor));
             CopyFields(_sourceType, ClonedType);
 
@@ -50,6 +37,26 @@ namespace ResourceEmbedder.Core.Cecil
             {
                 ClonedType.Methods.Add(CopyMethod(_sourceType.Methods.First(m => m.Name == s)));
             }
+        }
+
+        private MethodReference FindConstructor(ModuleDefinition moduleDefinition, string assembly, string className)
+        {
+            IAssemblyResolver assemblyResolver = moduleDefinition.AssemblyResolver;
+
+            var msCoreLibDefinition = assemblyResolver.Resolve(new AssemblyNameReference(assembly, null));
+            // small difference between classic vs core.. the opposite array will always be of length 0, so check both
+            var msCoreTypesNetStandard = msCoreLibDefinition.MainModule.ExportedTypes;
+            var compilerGeneratedAttributeNetStandard = msCoreTypesNetStandard.FirstOrDefault(x => x.Name == className);
+            if (compilerGeneratedAttributeNetStandard != null)
+            {
+                var compilerGeneratedAttributeCtorNetStandard = moduleDefinition.ImportReference(compilerGeneratedAttributeNetStandard.Resolve().Methods.First(x => x.IsConstructor));
+                if (compilerGeneratedAttributeCtorNetStandard != null)
+                    return compilerGeneratedAttributeCtorNetStandard;
+            }
+            var msCoreTypesFullFramework = msCoreLibDefinition.MainModule.Types;
+            var compilerGeneratedAttribute = msCoreTypesFullFramework.FirstOrDefault(x => x.Name == className);
+            var compilerGeneratedAttributeCtor = moduleDefinition.ImportReference(compilerGeneratedAttribute.Methods.First(x => x.IsConstructor));
+            return compilerGeneratedAttributeCtor;
         }
 
         public TypeDefinition ClonedType { get; }
@@ -70,7 +77,15 @@ namespace ResourceEmbedder.Core.Cecil
             if (sourceType == null)
                 throw new ArgumentNullException(nameof(sourceType));
 
-            return new TypeCloner(sourceType, targetModule, methodCloneOrder, nameSpace, className).ClonedType;
+            try
+            {
+                var cloner = new TypeCloner(sourceType, targetModule, methodCloneOrder, nameSpace, className);
+                return cloner.ClonedType;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Type cloning failed. Unable to clone {sourceType.Name} to module {targetModule.Name} as {nameSpace}.{className}", ex);
+            }
         }
 
         private Instruction CloneInstruction(Instruction instruction, string fullyQualifiedPath)
