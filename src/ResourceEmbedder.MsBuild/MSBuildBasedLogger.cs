@@ -1,10 +1,9 @@
-﻿using ILogger = ResourceEmbedder.Core.ILogger;
-using Microsoft.Build.Framework;
+﻿using Microsoft.Build.Framework;
 using System;
 
 namespace ResourceEmbedder.MsBuild
 {
-    public class MSBuildBasedLogger : ILogger
+    public class MSBuildBasedLogger : ResourceEmbedder.Core.ILogger
     {
         #region Fields
 

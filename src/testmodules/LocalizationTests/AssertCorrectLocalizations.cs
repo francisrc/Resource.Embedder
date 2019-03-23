@@ -116,17 +116,13 @@ namespace LocalizationTests
              * Since copy local is false, the ProjectWithEnum reference is not yet found there; crashing Resource.Embedder
              */
 
-
             // technically this test never ran with Resource.Embedder v1.1.1 or prior because a clean build always resulted in a crash and no compiled exe
             // we now use this test to assert that the exe is actually compiled which means that reference bug must now be fixed (otherwise we would get a compile error)
 
-            // I don't know any better way to find out the current configuration
-            var config =
-#if DEBUG
-                "Debug";
-#else
-                "Release";
-#endif
+            var fi = new DirectoryInfo(AssemblyDirectory());
+            // e.g. net46\Debug
+            var config = Path.Combine(fi.Parent.Name, fi.Name);
+
             // locate the exe
             var file = Path.Combine(RepositoryLocator.Locate(RepositoryDirectory.SourceCode), @"testmodules\ProjectForcingCecilAssemblyResolve\bin\" + config + "\\ProjectForcingCecilAssemblyResolve.exe");
 

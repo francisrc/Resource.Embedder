@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Build.Framework;
+using Modules.TestHelper;
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
@@ -69,11 +70,12 @@ namespace ResourceEmbedder.MsBuild.Tests
         {
             // copy elsewhere and ensure localization works
             var copyDir = Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString())).FullName;
-            var dir = new DirectoryInfo(AssemblyDirectory()).Name;
+            var configuration = new DirectoryInfo(AssemblyDirectory()).Parent.Name;
             // must copy from original dir as .Net Core 2.2. can't be referenced from full framework..
             // not ideal as it doesn't ensure build is up to date..
             // also must copy multiple files for .net core
-            var originalDir = $"{AssemblyDirectory()}\\..\\..\\..\\testmodules\\Symbols\\NetCorePortable\\bin\\{dir}\\netcoreapp2.2";
+
+            var originalDir = $"{RepositoryLocator.Locate(RepositoryDirectory.SourceCode)}\\testmodules\\Symbols\\NetCorePortable\\bin\\{configuration}\\netcoreapp2.2";
             var output = Path.Combine(copyDir, "NetCorePortable.dll");
             var outputPdb = Path.Combine(copyDir, "NetCorePortable.pdb");
             var toCopy = Directory.GetFiles(originalDir, "*.*", SearchOption.AllDirectories);

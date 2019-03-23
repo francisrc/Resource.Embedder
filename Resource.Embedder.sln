@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28714.193
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "src\testmodules\ConsoleTest\ConsoleTest.csproj", "{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "src\testmodules\ConsoleTest\ConsoleTest.csproj", "{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core", "src\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceEmbedder.Core", "src\ResourceEmbedder.Core\ResourceEmbedder.Core.csproj", "{61353C81-2537-47AF-855B-21BBDDD2EEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "src\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfTest", "src\testmodules\WpfTest\WpfTest.csproj", "{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_AssembliesUsedForTests", "_AssembliesUsedForTests", "{AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}"
 EndProject
@@ -15,55 +15,55 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{387A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8421B971-523E-4376-8146-2D4155671EAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizedPlugin", "src\testmodules\LocalizedPlugin\LocalizedPlugin.csproj", "{ED32B259-39EB-41AB-99EB-1B92E1508109}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizedPlugin", "src\testmodules\LocalizedPlugin\LocalizedPlugin.csproj", "{ED32B259-39EB-41AB-99EB-1B92E1508109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginLoaderConsole", "src\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj", "{3E7C0205-DE08-445B-A1EA-AE2E0EFAC39C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginLoaderConsole", "src\testmodules\PluginLoaderConsole\PluginLoaderConsole.csproj", "{3E7C0205-DE08-445B-A1EA-AE2E0EFAC39C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginCore", "src\testmodules\PluginCore\PluginCore.csproj", "{D7EC42BF-4662-460F-8166-6E424E1B0D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginCore", "src\testmodules\PluginCore\PluginCore.csproj", "{D7EC42BF-4662-460F-8166-6E424E1B0D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoLocalization", "src\testmodules\NoLocalization\NoLocalization.csproj", "{FFF79F47-337B-4915-B966-C2A9372E5F82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoLocalization", "src\testmodules\NoLocalization\NoLocalization.csproj", "{FFF79F47-337B-4915-B966-C2A9372E5F82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnglishOnly", "src\testmodules\EnglishOnly\EnglishOnly.csproj", "{D609782D-40EC-46CC-B19B-7AD5B356FB8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnglishOnly", "src\testmodules\EnglishOnly\EnglishOnly.csproj", "{D609782D-40EC-46CC-B19B-7AD5B356FB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnglishGermanPolish", "src\testmodules\EnglishGermanPolish\EnglishGermanPolish.csproj", "{39095C2F-0B79-4E0B-A2A6-0E47AA149DD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnglishGermanPolish", "src\testmodules\EnglishGermanPolish\EnglishGermanPolish.csproj", "{39095C2F-0B79-4E0B-A2A6-0E47AA149DD5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_AssembliesUsingResourceEmbedder", "_AssembliesUsingResourceEmbedder", "{9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizeHelper", "src\testmodules\LocalizeHelper\LocalizeHelper.csproj", "{8308347F-6E4D-4AAC-BE42-B46D8341BFE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizeHelper", "src\testmodules\LocalizeHelper\LocalizeHelper.csproj", "{8308347F-6E4D-4AAC-BE42-B46D8341BFE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationTests", "src\testmodules\LocalizationTests\LocalizationTests.csproj", "{8E674B48-6B0B-4782-9181-94D6C293B8B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationTests", "src\testmodules\LocalizationTests\LocalizationTests.csproj", "{8E674B48-6B0B-4782-9181-94D6C293B8B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectForcingCecilAssemblyResolve", "src\testmodules\ProjectForcingCecilAssemblyResolve\ProjectForcingCecilAssemblyResolve.csproj", "{E6CEE6E5-5BD1-46EB-BA33-46A9C9A6DBC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectForcingCecilAssemblyResolve", "src\testmodules\ProjectForcingCecilAssemblyResolve\ProjectForcingCecilAssemblyResolve.csproj", "{E6CEE6E5-5BD1-46EB-BA33-46A9C9A6DBC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectWithEnum", "src\testmodules\ProjectWithEnum\ProjectWithEnum.csproj", "{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectWithEnum", "src\testmodules\ProjectWithEnum\ProjectWithEnum.csproj", "{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.TestHelper", "src\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modules.TestHelper", "src\Modules.TestHelper\Modules.TestHelper.csproj", "{A5789ED8-C4B9-4542-A5F3-A12FD986B462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.Core.Tests", "src\ResourceEmbedder.Core.Tests\ResourceEmbedder.Core.Tests.csproj", "{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceEmbedder.Core.Tests", "src\ResourceEmbedder.Core.Tests\ResourceEmbedder.Core.Tests.csproj", "{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild", "src\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceEmbedder.MsBuild", "src\ResourceEmbedder.MsBuild\ResourceEmbedder.MsBuild.csproj", "{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedder.MsBuild.Tests", "src\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResourceEmbedder.MsBuild.Tests", "src\ResourceEmbedder.MsBuild.Tests\ResourceEmbedder.MsBuild.Tests.csproj", "{DD84484B-4536-4181-BC70-8D6A24AD9532}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceEmbedderSample", "src\ResourceEmbedderSample\ResourceEmbedderSample.csproj", "{291DC739-6E64-4488-983E-5F343955AEB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignedAssembly", "src\testmodules\SignedAssembly\SignedAssembly.csproj", "{AA4634F0-7A82-44A5-8905-6F9E1C08B68F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignedAssembly", "src\testmodules\SignedAssembly\SignedAssembly.csproj", "{AA4634F0-7A82-44A5-8905-6F9E1C08B68F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignedAssemblyWithAttribute", "src\testmodules\SignedAssemblyWithAttribute\SignedAssemblyWithAttribute.csproj", "{CF0F6E92-9632-47AF-AA47-22FF7BBC7062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignedAssemblyWithAttribute", "src\testmodules\SignedAssemblyWithAttribute\SignedAssemblyWithAttribute.csproj", "{CF0F6E92-9632-47AF-AA47-22FF7BBC7062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeEnEsJaPlRupt", "src\testmodules\DeEnEsJaPlRupt\DeEnEsJaPlRupt.csproj", "{AE85C000-0EEA-4E7C-B3F4-8300800C0B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeEnEsJaPlRupt", "src\testmodules\DeEnEsJaPlRupt\DeEnEsJaPlRupt.csproj", "{AE85C000-0EEA-4E7C-B3F4-8300800C0B9A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWithTranslations", "src\testmodules\LibraryWithTranslations\LibraryWithTranslations.csproj", "{8A57B795-E498-49AA-B597-4CAA5D44885C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWithTranslations", "src\testmodules\LibraryWithTranslations\LibraryWithTranslations.csproj", "{8A57B795-E498-49AA-B597-4CAA5D44885C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsTest", "src\testmodules\WinFormsTest\WinFormsTest.csproj", "{DF3ACE2D-6039-401B-8E72-1C7A4A50D56A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsTest", "src\testmodules\WinFormsTest\WinFormsTest.csproj", "{DF3ACE2D-6039-401B-8E72-1C7A4A50D56A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdbOnly", "src\testmodules\Symbols\FullFramework\PdbOnly\PdbOnly.csproj", "{B0408930-ECFA-4281-89D5-958737FECB81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdbOnly", "src\testmodules\Symbols\FullFramework\PdbOnly\PdbOnly.csproj", "{B0408930-ECFA-4281-89D5-958737FECB81}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Symbols", "Symbols", "{6AB66AD0-C439-483C-A72F-A4C719B0666F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Full", "src\testmodules\Symbols\FullFramework\Full\Full.csproj", "{1DD8A396-42FE-4B6F-B257-908CDF37BA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Full", "src\testmodules\Symbols\FullFramework\Full\Full.csproj", "{1DD8A396-42FE-4B6F-B257-908CDF37BA95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "None", "src\testmodules\Symbols\FullFramework\None\None.csproj", "{8A150E65-E6EA-472F-8E90-ECD4E13DE864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "None", "src\testmodules\Symbols\FullFramework\None\None.csproj", "{8A150E65-E6EA-472F-8E90-ECD4E13DE864}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FullFramework", "FullFramework", "{9E964162-1E1F-45D5-9A3A-1266761D13B2}"
 EndProject
@@ -71,7 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCorePortable", "src\test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreConsole", "src\testmodules\CoreConsole\CoreConsole.csproj", "{1B6A6788-8675-4A34-9983-0F8036337D63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfCosturaAndRE", "src\testmodules\WpfCosturaAndRE\WpfCosturaAndRE.csproj", "{22CF7E25-3AD4-4B5B-B694-710F5F869B51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfCosturaAndRE", "src\testmodules\WpfCosturaAndRE\WpfCosturaAndRE.csproj", "{22CF7E25-3AD4-4B5B-B694-710F5F869B51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EB37977C-AFED-40B7-A11E-1154E71EF21B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -203,20 +205,20 @@ Global
 		{ACFE7BC5-CC1E-4C54-8767-888F8CD2EB3B} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
 		{61353C81-2537-47AF-855B-21BBDDD2EEC2} = {387AC5B5-8C38-4432-845F-0668AD7FC9CE}
 		{B5ACCC42-1EAB-4A93-8C16-0DC078FAB378} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
-		{ED32B259-39EB-41AB-99EB-1B92E1508109} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
+		{ED32B259-39EB-41AB-99EB-1B92E1508109} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{3E7C0205-DE08-445B-A1EA-AE2E0EFAC39C} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
 		{D7EC42BF-4662-460F-8166-6E424E1B0D93} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
 		{FFF79F47-337B-4915-B966-C2A9372E5F82} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{D609782D-40EC-46CC-B19B-7AD5B356FB8A} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{39095C2F-0B79-4E0B-A2A6-0E47AA149DD5} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{8308347F-6E4D-4AAC-BE42-B46D8341BFE2} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
-		{8E674B48-6B0B-4782-9181-94D6C293B8B8} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
+		{8E674B48-6B0B-4782-9181-94D6C293B8B8} = {EB37977C-AFED-40B7-A11E-1154E71EF21B}
 		{E6CEE6E5-5BD1-46EB-BA33-46A9C9A6DBC6} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{C091C6FC-F1FC-47BF-BF4B-88ACCCFA1DB1} = {AC3E0FC9-18A1-46F7-80E3-5E785D0E9DA3}
-		{A5789ED8-C4B9-4542-A5F3-A12FD986B462} = {387AC5B5-8C38-4432-845F-0668AD7FC9CE}
-		{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1} = {387AC5B5-8C38-4432-845F-0668AD7FC9CE}
+		{A5789ED8-C4B9-4542-A5F3-A12FD986B462} = {EB37977C-AFED-40B7-A11E-1154E71EF21B}
+		{CDF10612-CCDB-4DC2-8CAA-AA7100651CA1} = {EB37977C-AFED-40B7-A11E-1154E71EF21B}
 		{0FC40C6F-86CC-4F64-B950-3E7D9ECB8737} = {387AC5B5-8C38-4432-845F-0668AD7FC9CE}
-		{DD84484B-4536-4181-BC70-8D6A24AD9532} = {387AC5B5-8C38-4432-845F-0668AD7FC9CE}
+		{DD84484B-4536-4181-BC70-8D6A24AD9532} = {EB37977C-AFED-40B7-A11E-1154E71EF21B}
 		{291DC739-6E64-4488-983E-5F343955AEB6} = {8421B971-523E-4376-8146-2D4155671EAD}
 		{AA4634F0-7A82-44A5-8905-6F9E1C08B68F} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{CF0F6E92-9632-47AF-AA47-22FF7BBC7062} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}

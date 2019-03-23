@@ -183,7 +183,9 @@ namespace ResourceEmbedder.Core.Cecil
             }
             _assemblyDefinition.Write(OutputAssembly, new WriterParameters
             {
+#if !NETSTANDARD
                 StrongNameKeyPair = _signingKey,
+#endif
                 WriteSymbols = _symbolsWriter != null,
                 SymbolWriterProvider = _symbolsWriter
             });

@@ -39,7 +39,7 @@ namespace ResourceEmbedder.MsBuild
 
         #region Methods
 
-        protected bool AssertSetup(Core.ILogger logger)
+        protected bool AssertSetup(ResourceEmbedder.Core.ILogger logger)
         {
             // override value of debug symbols based on DebugType as it takes precedence
             DebugSymbols = HasDebugSymbols();
