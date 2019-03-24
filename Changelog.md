@@ -1,3 +1,8 @@
+**2.0.0**
+
+* Added support for .Net Standard 2.0/.Net Core 2.0
+* Full framework now requires at least .Net 4.6
+
 **1.2.8**
 
 Cleanup now runs before PostBuild events of Visual Studio, so users processing the bin output via PostBuild events don't see the resource directories.

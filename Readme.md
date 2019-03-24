@@ -1,27 +1,62 @@
 [Gitlab](https://gitlab.com/MarcStan) is just a read-only mirror, [github](https://github.com/MarcStan) has the most up-to-date content.
 
-## Embeds satellite assemblies into the main assemblies.
+# Automatically embeds satellite assemblies into the main assembly
 
-If you use [Fody.Costura](https://github.com/Fody/Costura) this tool probably comes in handy as well.
-Fody.Costura cannot embed localization resources (*.resources.dll) as Costura runs before MS Build can generate them.
+Compatible with .Net Standard 2.0, .Net Core 2.0+ and .Net 4.6 and above
+
+If you use [Costura](https://github.com/Fody/Costura) this tool probably comes in handy as well.
+
+**Costura cannot embed localization resources** (*.resources.dll) as Costura runs before MS Build can generate them.
 
 This tool will embed the localization assemblies. Works just as easy as Costura: Add nuget package to project and done!
 
-Many thanks to Simon for the excellent [Fody](https://github.com/Fody/Fody) and [Fody.Costura](https://github.com/Fody/Costura) which this tool is heavily inspired from.
+Many thanks to Simon for the excellent [Fody](https://github.com/Fody/Fody) and [Costura](https://github.com/Fody/Costura) which this tool is heavily inspired from.
 
-* compatible with .Net 4 and above
+## Why?
 
-## Available on NuGet  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
+By embedding translations it is possible to create "zero dependency" executables that can simply be deployed and "just run".
 
-https://nuget.org/packages/Resource.Embedder/
+In order to embed any reference dll's, use Costura ([which cannot embed satellite assemblies](https://github.com/Fody/Costura/issues/61) due to the way it's integrated into the build process (it runs before they are generated)).
 
-    PM> Install-Package Resource.Embedder
-   
+## Resource.Embedder  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder/)
+
 By adding the NuGet package to an assembly all it's satellite assemblies will automatically be embedded as resources and loaded from there.
 No more need for deploying the satellite assembly folders.
 
+## Resource.Embedder.Core  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.Core.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder.Core/)
 
-# Inject your own assemblies/files
+(Use the Core package if you want to manually inject resources)
+
+## Known issues
+
+* Compatibility issue with Fody/Costura
+
+There is an incompatibility with Fody 4.x, I suggest you downgrade to Costura 3.3.2 in the meantime (which uses Fody \< 4).
+
+Fody 4 embeds its class multiple times into the same assembly if used in conjunction with resource embedder. This will cause a BadImageEsxception on launch ([#13](https://github.com/MarcStan/Resource.Embedder/issues/13)).
+
+* SDK style project + PostBuild
+
+If you use this combination **and** you happen to run something like `xcopy * *` to copy all your files elsewhere, you will find that the culture folders are included in the postbuild. This is due to the cleanup running after the postbuild event.
+
+I recommend you use "dotnet publish" instead (with -o you can specific where to copy the files to) as the cleanup runs before publish
+
+* .Net Core deps file
+
+If you build or publish a .Net Core app, it will have a *.deps.json file that is required to run.
+
+Inside the file you will still find sections that seem to reference the satellite assemblies even though the files don't exist on disk. To my knowledge there is no downside to still having this entry.
+
+``` json
+"resources": {
+  "de/DemoWebAppDotNetCore.resources.dll": {
+  "locale": "fr"
+}
+```
+
+Nevertheless, even without a satellite file on disk (as it's embedded into the dll) the .Net Core app will run just fine and is automatically localized.
+
+# Inject your own assemblies/files (using Resource.Embedder.Core)
 
 Alternative solution if you want to embed custom files or control exactly which resources are embedded how and where.
 
@@ -31,54 +66,21 @@ Example usecases for this:
 * Include default plugins (that are always loaded) inside your dll
 * Embed any file dyamically during runtime
 
-## Available on NuGet  [![NuGet Status](https://img.shields.io/nuget/v/Resource.Embedder.Core.svg?style=flat)](https://www.nuget.org/packages/Resource.Embedder.Core/)
-
-https://nuget.org/packages/Resource.Embedder.Core/
-
-    PM> Install-Package Resource.Embedder.Core
-   
 By adding the NuGet package to an assembly it is possible to manually inject resources and code into other assemblies.
 
-See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs#L132) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core.Tests/InjectCodeTests.cs#L28).
+See [this code for injecting resources](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core.Tests/EmbedFilesTests.cs#L162) and [this code for injecting code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core.Tests/InjectCodeTests.cs#L40).
 ___
 
-### How it works
+# Internals
 
-The NuGet package works similar to [Costura](https://github.com/Fody/Costura) and injects a .targets file into the project it is added to, thus allowing for two things during build:
+The NuGet package uses MSBuild events to hook into the build pipeline and:
 
 * Embedding the satellite assemblies into the assembly as resources [as per Jeffrey Richters example](https://blogs.msdn.com/b/microsoft_press/archive/2010/02/03/jeffrey-richter-excerpt-2-from-clr-via-c-third-edition.aspx).
 * Uses Cecil to add/edit the [module initializer](http://einaregilsson.com/module-initializers-in-csharp/) which will call the hooking code to load the satellite assemblies from resources [(The Injected code)](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs)
 
-## Why?
+## Verify
 
-By embedding it is possible to create "zero dependency" executables that can simply be deployed and "just run"**™**.
-
-Costura does exactly the same, except that it [cannot embed satellite assemblies](https://github.com/Fody/Costura/issues/61) due to the way it's integrated into the build process (it runs before they are generated).
-
-This tool on the contrary runs after build and is thus able to embed. It is also (obviously) compatible with Costura, meaning by adding both to your project all your references and satellite assemblies will be embedded).
-
-### Details
-
-All culture files for the current assembly will be added as resources to the assembly.
-
-[This code](https://github.com/MarcStan/Resource.Embedder/blob/master/src/ResourceEmbedder.Core/GeneratedCode/InjectedResourceLoader.cs) will then be injected into the assembly and called via the module initializer.
-
-The injected code will then hook into the AppDomain.CurrentDomain.AssemblyResolve event as soon as the assembly is loaded and load the resources during runtime whenever the language change requests an assembly load.
-
-
-**Example:**
-
-If the application is called Wpf.exe and has "de" (German), and "fr" (French) satellite assemblies, these will be added as resources: Wpf.de.resources.dll and Wpf.fr.resources.dll to the Wpf.exe and then autom. resolved during runtime via the hooking code.
-
-### Try it yourself
-
-* Download the repository and open the solution (Resource.Embedder.sln).
-* Add the nuget package "Resource.Embedder" to the project "WpfTest" and compile it.
-* Output will be "WpfTest.exe" in the bin\Debug or bin\Release folder in the root.
-* Copy it somewhere without the localization folders
-* Run the app and type "de" or "fr" into the textbox.
-* Observe that the "Hello world" text is properly localized when pressing the button to change locale even without resource assembly directories being present
-* Using tools like [JustDecompile](https://www.telerik.com/products/decompiler.aspx) it is possible to see that WpfTest.exe now contains resources "WpfTest.de.resources.dll"
+Using tools like [JustDecompile](https://www.telerik.com/products/decompiler.aspx) it is possible to see that any project using this package contains resources "\<AssemblyName>.\<culture>.resources.dll"
 
 ### Configuration
 
