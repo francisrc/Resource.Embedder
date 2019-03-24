@@ -23,7 +23,7 @@ Supports: .Net Standard 2.0, .Net Core 2.0 and Net 4.6 and above.
     </Description>
     <Authors>MarcStan</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>http://github.com/MarcStan/Resource.Embedder</RepositoryUrl>
+    <RepositoryUrl>https://github.com/MarcStan/Resource.Embedder</RepositoryUrl>
     <PackageIconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</PackageIconUrl>
     <PackageTags>Embed, Resource, Satellite assemblies, Localization, Cecil</PackageTags>
     <NuspecProperties>version=$(Version)</NuspecProperties>

@@ -16,7 +16,7 @@ Also supports injecting code as module initializer (code is executed when the as
     </Description>
     <Authors>MarcStan</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>http://github.com/MarcStan/Resource.Embedder</RepositoryUrl>
+    <RepositoryUrl>https://github.com/MarcStan/Resource.Embedder</RepositoryUrl>
     <PackageIconUrl>https://github.com/MarcStan/Resource.Embedder/raw/master/ico/package.png</PackageIconUrl>
     <PackageTags>Embed, Resource, Satellite assemblies, Localization, Cecil</PackageTags>
     <NuspecProperties>version=$(Version)</NuspecProperties>
