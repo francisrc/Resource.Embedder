@@ -1,4 +1,5 @@
-﻿using Mono.Cecil;
+﻿using Microsoft.Build.Framework;
+using Mono.Cecil;
 using ResourceEmbedder.Core;
 using ResourceEmbedder.Core.Cecil;
 using System.Collections.Generic;
@@ -12,11 +13,12 @@ namespace ResourceEmbedder.MsBuild
 {
     /// <summary>
     /// Task to embed satellite assemblies into an existing .Net assembly.
-    /// Will also add code to the module initializer that will hook into AssemblyResolve event to load from emvbedded resources.
+    /// Will also add code to the module initializer that will hook into AssemblyResolve event to load from embedded resources.
     /// </summary>
     public class SatelliteAssemblyEmbedderTask : MsBuildTask
     {
-        #region Methods
+        [Output]
+        public string EmbeddedCultures { get; set; }
 
         public override bool Execute()
         {
@@ -31,10 +33,11 @@ namespace ResourceEmbedder.MsBuild
             // run in object dir (=AssemblyPath) as we will run just after satellite assembly generated and ms build will then copy the output to target dir
             string inputAssembly = Path.Combine(ProjectDirectory, AssemblyPath);
             var workingDir = new FileInfo(inputAssembly).DirectoryName;
-            if (IsOlderThanNet40(inputAssembly))
+            if (IsOlderThanNet46(inputAssembly))
             {
-                // resource embedder doesn't support these due to .Net not invoking resource assembly event prior to .Net 4: https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx
-                logger.Error("Versions prior to .Net 4.0 are not supported. Please either upgrade to .Net 4 or above or remove the Resource.Embedder NuGet package from this project. " +
+                // resource embedder doesn't support < .Net 4.0 due to .Net not invoking resource assembly event prior to .Net 4: https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx
+                // .Net 4.6 is also the new minimum target to ensure cross compile with .Net Standard works
+                logger.Error("Versions prior to .Net 4.6 are no longer supported. Verison 1.x supports all version from .Net 4 and above. Please either upgrade to .Net 4.6, downgrade this package to 1.0 or remove the Resource.Embedder NuGet package from this project. " +
                              "See https://github.com/MarcStan/Resource.Embedder/issues/3 and https://msdn.microsoft.com/en-us/library/system.appdomain.assemblyresolve.aspx for details.");
                 return false;
             }
@@ -124,8 +127,7 @@ namespace ResourceEmbedder.MsBuild
                 }
             }
             watch.Stop();
-            var tempFile = FileHelper.GetUniqueTempFileName(inputAssembly);
-            File.WriteAllText(tempFile, string.Join(";", usedCultures));
+            EmbeddedCultures = string.Join(";", usedCultures);
             logger.Info("Finished embedding cultures: {0} into {1} in {2}ms", string.Join(", ", usedCultures), Path.GetFileName(inputAssembly), watch.ElapsedMilliseconds);
             return true;
         }
@@ -137,7 +139,7 @@ namespace ResourceEmbedder.MsBuild
         /// <param name="rp"></param>
         /// <param name="logger"></param>
         /// <returns></returns>
-        private string GetSigningKeyPath(string inputAssemblyPath, ReaderParameters rp, ILogger logger)
+        private string GetSigningKeyPath(string inputAssemblyPath, ReaderParameters rp, Core.ILogger logger)
         {
             if (KeyFilePath != null)
             {
@@ -172,7 +174,7 @@ namespace ResourceEmbedder.MsBuild
         /// </summary>
         /// <param name="inputAssembly"></param>
         /// <returns></returns>
-        private bool IsOlderThanNet40(string inputAssembly)
+        private bool IsOlderThanNet46(string inputAssembly)
         {
             // easiest method would be to load the assembly and read out Assembly.ImageRuntimeVersion
             // but then we would lock the assembly file
@@ -206,6 +208,7 @@ namespace ResourceEmbedder.MsBuild
                 // Version        : v4.0...
                 // Version        : v2.0...
 
+                // TODO: detect .Net 4.6 by build number
                 // check if old format, all else is fine
                 if (m != null && m.Split(':')[1].Trim().StartsWith("v2"))
                 {
@@ -226,7 +229,5 @@ namespace ResourceEmbedder.MsBuild
             p.Dispose();
             return old;
         }
-
-        #endregion Methods
     }
 }

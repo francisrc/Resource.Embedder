@@ -79,7 +79,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore.Tests", "src\Dot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebFullFramework", "src\testmodules\WebFullFramework\WebFullFramework.csproj", "{275CDCD3-4EB3-49F2-A9DD-D977B38A3C0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDotNetCore", "src\testmodules\WebDotNetCore\WebDotNetCore.csproj", "{8699069C-0179-47AD-8D30-A137EFD94048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDotNetCore", "src\testmodules\WebDotNetCore\WebDotNetCore.csproj", "{8699069C-0179-47AD-8D30-A137EFD94048}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCoreCli", "src\testmodules\DotNetCoreCli\DotNetCoreCli.csproj", "{E4D748EB-2954-440A-B4E4-39D0FE6500C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -215,6 +217,10 @@ Global
 		{8699069C-0179-47AD-8D30-A137EFD94048}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8699069C-0179-47AD-8D30-A137EFD94048}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8699069C-0179-47AD-8D30-A137EFD94048}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D748EB-2954-440A-B4E4-39D0FE6500C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D748EB-2954-440A-B4E4-39D0FE6500C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D748EB-2954-440A-B4E4-39D0FE6500C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D748EB-2954-440A-B4E4-39D0FE6500C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -254,6 +260,7 @@ Global
 		{3BACF5EF-D69C-4904-9EEB-86DEA9FB09A8} = {EB37977C-AFED-40B7-A11E-1154E71EF21B}
 		{275CDCD3-4EB3-49F2-A9DD-D977B38A3C0E} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 		{8699069C-0179-47AD-8D30-A137EFD94048} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
+		{E4D748EB-2954-440A-B4E4-39D0FE6500C4} = {9B1C4DD1-C3AF-4647-8D00-F2E14A3873C6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A84AE46-B050-4F2F-8D4D-5B7DE2E2CABE}

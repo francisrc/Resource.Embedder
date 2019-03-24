@@ -141,6 +141,7 @@ namespace ResourceEmbedder.MsBuild.Tests
                 References = "."
             };
             task.Execute().Should().BeTrue();
+            task.EmbeddedCultures.Should().ContainAll("de;", "de-DE", "fr");
 
             File.Exists(de).Should().BeTrue();
             File.Exists(deDe).Should().BeTrue();
@@ -150,6 +151,7 @@ namespace ResourceEmbedder.MsBuild.Tests
                 ProjectDirectory = ".",
                 AssemblyPath = msBuild,
                 TargetPath = Path.GetFullPath(msBuild),
+                EmbeddedCultures = task.EmbeddedCultures,
                 BuildEngine = fakeEngine
             };
             cleanupTask.Execute().Should().BeTrue();

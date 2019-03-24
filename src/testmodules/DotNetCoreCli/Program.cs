@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace CoreConsole
+namespace DotNetCoreCli
 {
     class Program
     {

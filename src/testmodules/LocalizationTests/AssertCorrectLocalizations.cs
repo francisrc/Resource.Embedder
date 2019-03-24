@@ -29,13 +29,13 @@ namespace LocalizationTests
 
             p.WaitForExit(2000).Should().Be(true);
             p.ExitCode.Should().Be(0);
-            Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
-            Directory.Exists("de").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("es").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("ja").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("pl").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("ru").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("up-BR").Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "en")).Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "de")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "es")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "ja")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "pl")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "ru")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "up-BR")).Should().BeFalse("because we embedded the culture and deleted the directory.");
         }
 
         [Test]
@@ -45,9 +45,9 @@ namespace LocalizationTests
 
             p.WaitForExit(2000).Should().Be(true);
             p.ExitCode.Should().Be(0);
-            Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
-            Directory.Exists("de").Should().BeFalse("because we embedded the culture and deleted the directory.");
-            Directory.Exists("pl").Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "en")).Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "de")).Should().BeFalse("because we embedded the culture and deleted the directory.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "pl")).Should().BeFalse("because we embedded the culture and deleted the directory.");
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace LocalizationTests
 
             p.WaitForExit(2000).Should().Be(true);
             p.ExitCode.Should().Be(0);
-            Directory.Exists("en").Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "en")).Should().BeFalse("because C# embedds the default culture and doesn't generate satellite assemblies.");
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace LocalizationTests
 
             p.WaitForExit(2000).Should().Be(true);
             p.ExitCode.Should().Be(0);
-            Directory.Exists("en").Should().BeFalse("because there are no localizations.");
+            Directory.Exists(Path.Combine(AssemblyDirectory(), "en")).Should().BeFalse("because there are no localizations.");
         }
 
         [Test]
